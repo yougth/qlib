@@ -1,0 +1,88 @@
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+[99139:MainThread](2026-07-29 17:09:55,856) INFO - qlib.Initialization - [config.py:473] - default_conf: client.
+[99139:MainThread](2026-07-29 17:09:56,678) INFO - qlib.Initialization - [__init__.py:82] - qlib successfully initialized based on client settings.
+[99139:MainThread](2026-07-29 17:09:56,679) INFO - qlib.Initialization - [__init__.py:84] - data_path={'__DEFAULT_FREQ': PosixPath('/Users/11164591/.qlib/qlib_data/cn_data')}
+============================================================================================
+  上线体检 preflight  2026-07-29 17:09
+============================================================================================
+
+--- A. 口径常量锁 ---
+  [PASS] 流动性阈值: 50000 (期望50000=真实500万/100, qlib volume单位为手)
+  [PASS] 往返成本: 0.004 (期望0.004)
+  [PASS] 持仓只数: Top20 等权 (期望Top20)
+  [PASS] 回测末端: 2026-07-31 (期望2026-07-31; 改它=换基线, 须重建 golden/)
+  [PASS] 月度换仓日规则: 2025=12期(期望12) 2026=7期(随数据增长) 信号日严格早于执行日=True
+  [PASS] 下一换仓点可定位: 信号日 2026-07-31 收盘后出清单 → 执行日 2026-08-03 尾盘换仓 (未来日期按工作日近似, 长假会偏早)
+
+--- B. 代码指纹锁 (core/ + 入口脚本, 文件级) ---
+  [FAIL] 指纹锁: 改动=[] 新增=['core/__init__.py', 'core/backtest.py', 'core/calendar_rules.py', 'core/config.py', 'core/market.py', 'core/selection.py', 'core/signal.py', 'core/universe.py', 'core/valuation.py', 'gen_holdings.py', 'monthly_update.py', 'run_backtest.py'] 缺失=['v14_ablation.build_liquidity_table', 'v14_ablation.portfolio_backtest', 'v16_value_rules.load_raw_valuation', 'v17_residual_model.compute_value_comp', 'v18_full_stack.monthly_signal_exec_dates', 'v5_xgb_turnover_comparative.build_dynamic_universe'] → 若为有意改动, 必须先跑 run_backtest.py 再 --relock
+
+--- C. 上游隔离 (上线目录必须自包含) ---
+  [PASS] 无上游 vXX 依赖: core/ 与入口脚本均不 import 任何 vXX 实验脚本
+  [PASS] 上游快照留档: frozen_src/ 保留7个上游原始文件 (只作对照, 代码不引用)
+
+--- D. 数据鲜度 ---
+  [PASS] 行情截止日: 2026-07-29 (距今0天, 需<=10)
+  [PASS] 估值截止日: 2026-07-29 (距今0天, 需<=10)
+  [PASS] 信号日可用: 信号日=2026-07-29 = min(行情,估值)
+  [PASS] 池子规模: 303只 (正常250~350; <150须暂停)
+  [估值原始表] (2079, 472)
+  [PASS] 估值截面覆盖率: 100.0% (303/303只有value_comp, 需>=95%)
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+  [PASS] 行情覆盖率: 303/303只近15日有行情 (需>=95%)
+
+--- E. 黄金回归 (重算2026年月度Top20) ---
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+  [PASS] 黄金回归: 锁定的7期×Top20 与锁定文件完全一致
+
+============================================================================================
+  体检结论: 1/16 项 FAIL → 【禁止交易】, 先排查以下项:
+    - 指纹锁: 改动=[] 新增=['core/__init__.py', 'core/backtest.py', 'core/calendar_rules.py', 'core/config.py', 'core/market.py', 'core/selection.py', 'core/signal.py', 'core/universe.py', 'core/valuation.py', 'gen_holdings.py', 'monthly_update.py', 'run_backtest.py'] 缺失=['v14_ablation.build_liquidity_table', 'v14_ablation.portfolio_backtest', 'v16_value_rules.load_raw_valuation', 'v17_residual_model.compute_value_comp', 'v18_full_stack.monthly_signal_exec_dates', 'v5_xgb_turnover_comparative.build_dynamic_universe'] → 若为有意改动, 必须先跑 run_backtest.py 再 --relock
+============================================================================================

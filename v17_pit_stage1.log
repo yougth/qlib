@@ -1,0 +1,54 @@
+============================================================
+  PIT阶段1: 退市股财务补齐 (存活偏差修正)
+============================================================
+  深市退市 208
+  沪市原始列映射 {'公司代码': 'code', '公司简称': 'name', '上市日期': 'list_date', '暂停上市日期': 'delist_date'}
+  沪市退市 159 列['code', 'name', 'list_date', 'delist_date']
+
+2018年后退市: 254 只
+  新浪财报拉取 254 只...
+    20/254 (有财务20)
+    40/254 (有财务40)
+    60/254 (有财务60)
+    80/254 (有财务80)
+    100/254 (有财务100)
+    120/254 (有财务120)
+    140/254 (有财务140)
+    160/254 (有财务160)
+    180/254 (有财务180)
+    200/254 (有财务200)
+    220/254 (有财务220)
+    240/254 (有财务240)
+    254/254 (有财务254)
+  退市股有财务 254 只, 5531 行
+
+增广缓存: fcf 5200→5454只, profit 5196→5448只
+Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.
+Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.
+Users of this version of Gym should be able to simply replace 'import gym' with 'import gymnasium as gym' in the vast majority of cases.
+See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
+
+============================================================
+  各年【本应进池但被存活偏差剔除】的退市股
+============================================================
+
+[2019] 存量池86 → PIT池含退市候选1只:
+    SZ002308 *ST威创  (退市日 2024-09-27)
+
+[2021] 存量池166 → PIT池含退市候选2只:
+    SH600317 营口港  (退市日 2021-01-29)
+    SZ200771 杭汽轮Ｂ  (退市日 2025-12-22)
+
+[2022] 存量池199 → PIT池含退市候选1只:
+    SZ200771 杭汽轮Ｂ  (退市日 2025-12-22)
+
+[2023] 存量池226 → PIT池含退市候选0只:
+
+[2024] 存量池228 → PIT池含退市候选0只:
+
+[2025] 存量池274 → PIT池含退市候选0只:
+
+[2026] 存量池303 → PIT池含退市候选0只:
+
+>>> 全期共 3 只退市股本应进入历史池, 之前被系统性剔除
+[+] 已存 fcf_cache_pit.csv / profit_cache_pit.csv

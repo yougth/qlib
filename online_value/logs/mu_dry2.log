@@ -1,0 +1,41 @@
+==========================================================================================
+  月度数据更新  2026-07-29 15:34  [DRY-RUN 只读]
+==========================================================================================
+Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.
+Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.
+Users of this version of Gym should be able to simply replace 'import gym' with 'import gymnasium as gym' in the vast majority of cases.
+See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
+  当前股票池: 303只
+  qlib日历: 1999-11-10 ~ 2026-07-23 (6351天)
+
+--- Step0 预检: bin 结构一致性 ---
+  池内 303 只: 结构异常 0 只, qlib中不存在 0 只
+
+  待补交易日: 4天 ['2026-07-24', '2026-07-27', '2026-07-28']...
+
+--- Step2 抓行情 20260703 ~ 20260729 (303只, 8线程) ---
+  进度 60/303
+  进度 120/303
+  进度 180/303
+  进度 240/303
+  进度 300/303
+  进度 303/303
+  成功 303只, 失败 0只 []
+
+--- Step3 追加行情 ---
+  dry: 303只
+  复权scale分布: 中位1.0000 最小0.5272 最大1.6955; 偏离1超5%的46只(近期除权所致, 正常)
+    scale应接近1(无除权)或明显偏离(有除权); 若绝大多数都轻微偏离(1~5%), 说明基准算错了 → 立即停止并检查
+
+--- Step4 校验 ---
+
+--- Step5 估值更新 (303只) ---
+  旧表: 883240行 472只 至 2026-07-28
+  [dry-run] 只抽测前15只验证接口连通性与字段, 不写入
+  进度 15/15
+  新表: 883255行 472只 至 2026-07-29 (失败0只)
+  [dry-run] 不写入
+
+==========================================================================================
+  更新完成。下一步: 1) python3 preflight_check.py  2) python3 gen_holdings.py  3) 按清单交易
+==========================================================================================

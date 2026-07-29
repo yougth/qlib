@@ -1,0 +1,61 @@
+==========================================================================================
+  月度数据更新  2026-07-29 15:57  [正式写入]
+==========================================================================================
+Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.
+Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.
+Users of this version of Gym should be able to simply replace 'import gym' with 'import gymnasium as gym' in the vast majority of cases.
+See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
+  当前股票池: 303只
+  qlib日历: 1999-11-10 ~ 2026-07-23 (6351天)
+
+--- Step0 预检: bin 结构一致性 ---
+  池内 303 只: 结构异常 0 只, qlib中不存在 0 只
+
+  待补交易日: 4天 ['2026-07-24', '2026-07-27', '2026-07-28']...
+
+--- Step1 备份 ---
+  已备份 日历 + 303只features + 估值表 → /Users/11164591/Documents/Qoder目录/qlib/online_value/backup/20260729_1557 (96MB)
+
+--- Step2 抓行情 20260703 ~ 20260729 (303只, 8线程) ---
+  进度 60/303
+  进度 120/303
+  进度 180/303
+  进度 240/303
+  进度 300/303
+  进度 303/303
+  成功 303只, 失败 0只 []
+  日历已追加 4天 → 末尾 2026-07-29
+
+--- Step3 追加行情 ---
+  ok: 303只
+  复权scale分布: 中位1.0000 最小0.5272 最大1.6955; 偏离1超5%的46只(近期除权所致, 正常)
+    scale应接近1(无除权)或明显偏离(有除权); 若绝大多数都轻微偏离(1~5%), 说明基准算错了 → 立即停止并检查
+
+--- Step4 校验 ---
+[71363:MainThread](2026-07-29 15:58:00,194) INFO - qlib.Initialization - [config.py:473] - default_conf: client.
+[71363:MainThread](2026-07-29 15:58:00,198) INFO - qlib.Initialization - [__init__.py:82] - qlib successfully initialized based on client settings.
+[71363:MainThread](2026-07-29 15:58:00,198) INFO - qlib.Initialization - [__init__.py:84] - data_path={'__DEFAULT_FREQ': PosixPath('/Users/11164591/.qlib/qlib_data/cn_data')}
+  SZ000538 qlib末值87.98 vs akshare51.89 相对差69.55% <<< 异常!
+  SZ000333 qlib末值87.01 vs akshare87.01 相对差0.00% (复权基准差异, 属正常)
+  SZ000513 qlib末值27.59 vs akshare30.92 相对差10.78% (复权基准差异, 属正常)
+  抽样3/3只可读
+
+--- Step5 估值更新 (303只) ---
+  旧表: 883240行 472只 至 2026-07-28
+  进度 60/303
+  进度 120/303
+  进度 180/303
+  进度 240/303
+  进度 300/303
+  进度 303/303
+  新表: 883543行 472只 至 2026-07-29 (失败0只)
+  [OK] 已原子替换 valuation_cache.csv (旧表已在 backup 中)
+
+==========================================================================================
+  更新完成。下一步: 1) python3 preflight_check.py  2) python3 gen_holdings.py  3) 按清单交易
+
+  如需回滚:
+    cp /Users/11164591/Documents/Qoder目录/qlib/online_value/backup/20260729_1557/day.txt /Users/11164591/.qlib/qlib_data/cn_data/calendars/day.txt
+    cp -R /Users/11164591/Documents/Qoder目录/qlib/online_value/backup/20260729_1557/features/* /Users/11164591/.qlib/qlib_data/cn_data/features/
+    cp /Users/11164591/Documents/Qoder目录/qlib/online_value/backup/20260729_1557/valuation_cache.csv /Users/11164591/Documents/Qoder目录/valuation_cache.csv
+==========================================================================================

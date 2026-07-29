@@ -1,0 +1,26 @@
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+[+] 2018年后退市A股: 239只
+  进度 20/239
+  进度 40/239
+  进度 60/239
+  进度 80/239
+  进度 100/239
+  进度 120/239
+  进度 140/239
+  进度 160/239
+  进度 180/239
+  进度 200/239
+  进度 220/239
+
+======================================================================
+存活偏差定量检查结果 (本应入池但被fcf_cache遗漏的退市股):
+  2019年池: 1只  ['002308(*ST威创)']
+  2021年池: 1只  ['600317(营口港)']
+  2022年池: 0只  []
+  2023年池: 0只  []
+  2024年池: 0只  []
+  2025年池: 0只  []
+  2026年池: 0只  []
+======================================================================
+[+] 已保存 survivorship_check.csv

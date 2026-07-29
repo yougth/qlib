@@ -107,13 +107,12 @@ def load_fundamental_features_fixed(universe, cal):
         return None
     fdf = pd.DataFrame(rows).set_index(["datetime", "instrument"])
     fdf = fdf[~fdf.index.duplicated(keep="last")]
-    # 去极值+标准化
+    # 去极值+标准化: 截面归一化(按日期), 避免全局归一化的时间泄露
     for col in fdf.columns:
-        med = fdf[col].median()
-        mad = (fdf[col] - med).abs().median()
-        if mad > 0:
-            fdf[col] = ((fdf[col] - med) / (1.4826 * mad)).clip(-3, 3)
-        fdf[col] = fdf[col].fillna(0)
+        grp = fdf[col].groupby(level=0)  # level=0 = datetime
+        median = grp.transform("median")
+        mad = grp.transform(lambda x: (x - x.median()).abs().median()).replace(0, np.nan)
+        fdf[col] = ((fdf[col] - median) / (1.4826 * mad)).clip(-3, 3).fillna(0)
     print(f"  基本面特征: {fdf.shape}, {len(fdf.index.get_level_values(1).unique())}只股票")
     return fdf
 
@@ -223,6 +222,57 @@ def filter_by_fundamental_deterioration(pred, fcf_df, profit_df, threshold=0.30,
         for inst, reason in excluded[:5]:
             print(f"    {inst}: {reason}")
     return pred_filtered
+
+
+# ==================== 流动性过滤器 ====================
+def filter_pred_by_liquidity(pred, universe, threshold_wan=2000):
+    """过滤掉日均成交额低于threshold_wan(万元)的股票
+    使用每个调仓日前20个交易日的日均成交额
+    防止微盘股流动性陷阱: 回测假设可按收盘价成交, 但实盘微盘股可能无法全额买卖
+    """
+    dates = sorted(pred.index.get_level_values(0).unique())
+    if len(dates) == 0:
+        return pred, 0
+
+    # 一次性获取所有需要的数据
+    lookback = pd.Timedelta(days=60)  # 日历日60天, 确保有20个交易日
+    start = dates[0] - lookback
+    end = dates[-1]
+
+    try:
+        vol_data = D.features(list(universe), ["$close", "$volume"],
+                               start_time=start, end_time=end)
+    except Exception as e:
+        print(f"  [WARNING] 流动性数据获取失败: {e}")
+        return pred, 0
+
+    if vol_data is None or len(vol_data) == 0:
+        return pred, 0
+
+    vol_data = vol_data.reset_index()
+    vol_data.columns = ["instrument", "datetime", "close", "volume"]
+    vol_data["amount"] = vol_data["close"] * vol_data["volume"]
+    vol_data = vol_data.sort_values(["instrument", "datetime"])
+    vol_data["avg_amount_20d"] = vol_data.groupby("instrument")["amount"].transform(
+        lambda x: x.rolling(20, min_periods=10).mean())
+    vol_data = vol_data.set_index(["datetime", "instrument"])
+
+    filtered = pred.copy()
+    n_excluded = 0
+    threshold = threshold_wan * 1e4  # 转为元
+
+    for dt in dates:
+        if dt not in vol_data.index.get_level_values(0):
+            continue
+        day_liq = vol_data.loc[dt, "avg_amount_20d"]
+        illiquid_stocks = day_liq[day_liq < threshold].index
+        for inst in illiquid_stocks:
+            if (dt, inst) in filtered.index:
+                filtered.loc[(dt, inst), "score"] = -999
+                n_excluded += 1
+
+    print(f"  流动性过滤: 剔除{n_excluded}条 (阈值{threshold_wan}万/日)")
+    return filtered, n_excluded
 
 
 # ==================== 宏观200日均线阀门 ====================

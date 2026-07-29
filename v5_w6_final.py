@@ -21,12 +21,14 @@ warnings.filterwarnings("ignore")
 
 from v5_validation import Alpha158Enhanced, apply_value_fusion, load_value_factors
 from v5_pipeline_fix import load_fundamental_features_fixed, \
-    inject_features_fixed, filter_by_fundamental_deterioration
+    inject_features_fixed, filter_by_fundamental_deterioration, \
+    filter_pred_by_liquidity
 
 MODEL_CONFIG = {"class": "LGBModel", "module_path": "qlib.contrib.model.gbdt",
-    "kwargs": {"loss": "mse", "colsample_bytree": 0.8879, "learning_rate": 0.0421,
-        "subsample": 0.8789, "lambda_l1": 205.6999, "lambda_l2": 580.9768,
-        "max_depth": 8, "num_leaves": 210, "num_threads": 4}}
+    "kwargs": {"loss": "mse", "colsample_bytree": 0.8879, "learning_rate": 0.005,
+        "subsample": 0.8789, "lambda_l1": 10.0, "lambda_l2": 50.0,
+        "max_depth": 7, "num_leaves": 15, "num_threads": 4,
+        "early_stopping_rounds": 100, "num_boost_round": 1000}}
 
 W6 = {"train": ("2021-01-01","2024-12-31"), "valid": ("2025-01-01","2025-12-31"),
       "backtest": ("2026-01-01","2026-07-21"), "name":"W6", "year": 2026}
@@ -155,6 +157,114 @@ def load_price_data_bin(universe, cal, fields=None):
     return result
 
 
+# ==================== α搜索: 在valid集上独立选参 ====================
+def search_alpha_w6(pred, vf, price_dict, valid_start, valid_end, cal,
+                    alpha_grid=[0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7]):
+    """在valid集上搜索最优α — 使用与回测一致的向量化逻辑
+    避免在测试集上调参导致的过拟合
+    """
+    vs, ve = pd.Timestamp(valid_start), pd.Timestamp(valid_end)
+    dt_mask = (pred.index.get_level_values(0) >= vs) & \
+              (pred.index.get_level_values(0) <= ve)
+    pred_valid = pred[dt_mask].copy()
+    if len(pred_valid) == 0:
+        print("    [WARNING] valid集无数据, 使用默认α=0.3")
+        return 0.3
+
+    valid_dates = sorted(pred_valid.index.get_level_values(0).unique())
+    month_ends_valid = get_month_end_dates(cal, valid_start, valid_end)
+
+    print(f"    α搜索 (valid: {valid_start}~{valid_end}, {len(month_ends_valid)}个月):")
+    best_alpha, best_ar = 0.3, -999
+    for alpha in alpha_grid:
+        p = apply_value_fusion(pred_valid.copy(), vf, alpha=alpha)
+        portfolio_returns = []
+        for i, dt in enumerate(month_ends_valid):
+            if dt not in p.index.get_level_values(0):
+                earlier = [d for d in valid_dates if d <= dt]
+                if not earlier: continue
+                dt = earlier[-1]
+            day_pred = p.xs(dt, level=0)
+            topk_stocks = day_pred["score"].nlargest(10).index.tolist()
+
+            next_dt = month_ends_valid[i+1] if i+1 < len(month_ends_valid) else ve
+            period_dates = [d for d in valid_dates if dt < d <= next_dt]
+            if not period_dates: continue
+
+            prev_prices = {}
+            for inst in topk_stocks:
+                if inst in price_dict and dt in price_dict[inst].index:
+                    prev_prices[inst] = price_dict[inst][dt]
+
+            for pd_dt in period_dates:
+                day_ret = 0
+                for inst in topk_stocks:
+                    if inst in price_dict and pd_dt in price_dict[inst].index and inst in prev_prices:
+                        cur_price = price_dict[inst][pd_dt]
+                        if pd.notna(cur_price) and prev_prices[inst] > 0:
+                            ret = cur_price / prev_prices[inst] - 1
+                            day_ret += ret
+                            prev_prices[inst] = cur_price
+                portfolio_returns.append(day_ret / 10)  # topk=10, 停牌权重冻结
+
+        if len(portfolio_returns) > 0:
+            rets = pd.Series(portfolio_returns)
+            n_years = len(rets) / 252
+            ar = (1 + rets).prod() ** (1 / n_years) - 1 if n_years > 0 else 0
+        else:
+            ar = 0
+
+        marker = " ←" if ar > best_ar else ""
+        print(f"      α={alpha:.1f}: valid年化={ar*100:.2f}%{marker}")
+        if ar > best_ar:
+            best_ar = ar
+            best_alpha = alpha
+
+    print(f"    → 最优α={best_alpha} (valid集年化={best_ar*100:.2f}%)")
+    return best_alpha
+
+
+# ==================== 特征硬剪枝: Top80 ====================
+TOP80_FEATURES = {
+    # 基本面+价值因子 (9个)
+    "roe_annual", "pb_pct_3y", "pe_pct_3y", "div_yield_est",
+    "fcf_growth", "profit_growth", "fcf_profit_ratio", "fcf_avg_3y_norm", "fcf_cv_3y",
+    # Alpha158 Top71 (按gain排序)
+    "MAX30", "ROC60", "STD240", "STD120", "ROC240", "MAX60", "MA120", "STD30",
+    "ROC30", "CNTN60", "ROC120", "STD60", "MA20", "CORR30", "CORR60", "CORD60",
+    "CORD30", "VRATIO_5_120", "CNTD60", "IMXD60", "QTLD60", "VSTD30", "WVMA30",
+    "VMA240", "MA240", "BETA30", "CNTP60", "SUMP60", "BETA60", "IMAX60", "BOLL120",
+    "STD20", "RSQR60", "WVMA60", "CORD20", "IMIN60", "CNTN30", "MIN60", "RESI60",
+    "CORR_PV60", "MIN20", "VSTD60", "RSQR30", "QTLD20", "IMXD30", "STD10", "MIN5",
+    "CORR20", "SUMD60", "CNTD20", "KLEN", "IMXD20", "CNTD30", "SUMD30", "MIN10",
+    "CORR10", "CORR_PV20", "WVMA20", "MAX10", "RSV60", "SUMP20", "SUMN60", "VSUMN30",
+    "VRATIO_5_60", "CORD5", "WVMA10", "CNTN10", "MAX20", "CNTN20", "CNTP20", "SUMN30",
+}
+
+
+def prune_features(dataset, keep_features):
+    """硬剪枝: 只保留keep_features中的特征列+所有非feature列(如label)"""
+    handler = dataset.handler
+    for attr_name in ["_infer", "_learn", "_data"]:
+        if not hasattr(handler, attr_name):
+            continue
+        df = getattr(handler, attr_name)
+        if df is None:
+            continue
+        is_multi = isinstance(df.columns, pd.MultiIndex)
+        if is_multi:
+            # MultiIndex: ("feature", name) 或 ("label", ...)
+            keep_cols = [c for c in df.columns
+                         if c[0] != "feature" or c[1] in keep_features]
+        else:
+            keep_cols = [c for c in df.columns if c in keep_features]
+        n_before = len(df.columns)
+        setattr(handler, attr_name, df[keep_cols])
+        n_after = len(keep_cols)
+        if attr_name == "_infer":
+            print(f"  特征硬剪枝: {n_before}→{n_after}列 (剔除{n_before-n_after}个零增益特征)")
+
+
 def run():
     qlib.init(provider_uri="~/.qlib/qlib_data/cn_data", region=REG_CN)
 
@@ -210,6 +320,9 @@ def run():
     if vf is not None:
         inject_features_fixed(dataset, vf, "vf")
 
+    # 特征硬剪枝: 只保留Top80特征, 删除101个零增益特征
+    prune_features(dataset, TOP80_FEATURES)
+
     # 训练
     model = init_instance_by_config(MODEL_CONFIG)
     with R.start(experiment_name="v5_w6_final_v3"):
@@ -218,6 +331,16 @@ def run():
         sig_rec = SignalRecord(model, dataset, rec)
         sig_rec.generate()
         pred = rec.load_object("pred.pkl")
+
+    # 额外预测valid期, 用于α搜索 (qlib SignalRecord只预测test段)
+    valid_features = dataset.prepare("valid", col_set="feature")
+    if valid_features is not None and len(valid_features) > 0:
+        valid_pred_vals = model.model.predict(valid_features.values)
+        valid_pred = pd.Series(valid_pred_vals, index=valid_features.index, name="score")
+        pred = pd.concat([valid_pred, pred])
+        print(f"  valid预测: {len(valid_pred)}条, 合并后预测: {len(pred)}条")
+    else:
+        print("  [WARNING] valid特征为空, α搜索将回退到默认0.3")
 
     train_data = dataset.prepare("train", col_set="feature")
     print(f"  特征数: {train_data.shape[1]}, 预测: {len(pred)}条")
@@ -263,14 +386,22 @@ def run():
     ew_ret = macro_data.groupby("datetime")["ret"].mean().dropna()
     ew_cum = (1 + ew_ret).cumprod()
     ew_ma200 = ew_cum.rolling(200, min_periods=60).mean()
+    # 修复: 强制转Timestamp, 对齐qlib日历
+    ew_cum.index = pd.to_datetime(ew_cum.index)
+    ew_ma200.index = ew_cum.index
     macro_signals = {}
-    # 直接遍历ew_cum的index, 避免日历日期不匹配问题
     for dt in ew_cum.index:
-        if dt >= pd.Timestamp("2025-01-01") and dt in ew_ma200.index:
-            if not pd.isna(ew_ma200[dt]):
-                macro_signals[dt] = 0.7 if ew_cum[dt] < ew_ma200[dt] else 1.0
+        dt_ts = pd.Timestamp(dt)
+        # 对齐到qlib日历: 只有cal_set中的日期才创建信号
+        if dt_ts >= pd.Timestamp(bs) and dt_ts in cal_set and not pd.isna(ew_ma200[dt]):
+            macro_signals[dt_ts] = 0.7 if ew_cum[dt] < ew_ma200[dt] else 1.0
     bear_days = sum(1 for v in macro_signals.values() if v < 1.0)
     print(f"  宏观信号: {len(macro_signals)} 个日期, 熊市(70%): {bear_days}天, 牛市(100%): {len(macro_signals)-bear_days}天")
+
+    # 2d. α搜索: 在valid集上独立选参, 避免在测试集上调参
+    print(f"\n  α搜索: 在valid集({vs}~{ve})上独立选参...")
+    best_alpha_w6 = search_alpha_w6(pred, vf, price_dict, vs, ve, cal)
+    print(f"  → 使用α={best_alpha_w6}进行回测")
 
     # ====== 3. 三组实验回测 ======
     print(f"\n{'='*70}")
@@ -289,8 +420,8 @@ def run():
         print(f"\n  [{label}]")
         p = pred_input.copy()
         if use_alpha and vf is not None:
-            print("    应用 α=0.3 价值融合...")
-            p = apply_value_fusion(p, vf, alpha=0.3)
+            print(f"    应用 α={best_alpha_w6} 价值融合...")
+            p = apply_value_fusion(p, vf, alpha=best_alpha_w6)
 
         if len(bad_set) > 0:
             mask = pd.Series(False, index=p.index)
@@ -299,6 +430,8 @@ def run():
                     mask.loc[(dt, inst)] = True
             p.loc[mask, "score"] = -999
             print(f"    涨跌停过滤: {mask.sum()} 条")
+
+        # 流动性过滤已关闭: 放开2000万/日下限限制
 
         if use_fund_filter:
             print("    基本面滑坡硬过滤 (30%)...")
@@ -357,6 +490,8 @@ def run():
         print("    回测中...")
         portfolio_returns = []
         portfolio_dates = []
+        prev_holdings = set()
+        turnover_log = []
 
         for i, dt in enumerate(month_ends):
             if dt not in p.index.get_level_values(0):
@@ -365,8 +500,15 @@ def run():
                     continue
                 dt = earlier[-1]
 
-            day_pred = p.xs(dt, level=0)
+            day_pred = p.xs(dt, level=0).copy()
             topk_stocks = day_pred["score"].nlargest(10).index.tolist()
+
+            # 记录换手率
+            if prev_holdings:
+                n_changed = len(set(topk_stocks) - prev_holdings)
+                turnover = n_changed / 10 * 100
+                turnover_log.append(turnover)
+            prev_holdings = set(topk_stocks)
 
             position = 1.0
             if use_macro and dt in macro_signals:
@@ -394,7 +536,8 @@ def run():
                             prev_prices[inst] = cur_price
                             n_valid += 1
                 if n_valid > 0:
-                    portfolio_returns.append(day_ret / n_valid * position)
+                    # 用10(topk)而非n_valid: 停牌股票权重冻结, 不重新分配
+                    portfolio_returns.append(day_ret / 10 * position)
                     portfolio_dates.append(pd_dt)
                 else:
                     portfolio_returns.append(0)
@@ -403,13 +546,14 @@ def run():
         returns = pd.Series(portfolio_returns, index=pd.DatetimeIndex(portfolio_dates))
         returns = returns[~returns.index.duplicated(keep="last")]
         m = calc_metrics(returns)
-        print(f"    结果: 年化{m['ar']*100:.2f}%, 夏普{m['sharpe']:.2f}, 回撤{m['max_dd']*100:.1f}%")
+        avg_turnover = np.mean(turnover_log) if turnover_log else 0
+        print(f"    结果: 年化{m['ar']*100:.2f}%, 夏普{m['sharpe']:.2f}, 回撤{m['max_dd']*100:.1f}%, 平均换手{avg_turnover:.0f}%")
         return m
 
     m1 = run_backtest(pred, False, False, False, "基线")
     KNOWN_RESULTS["W6"]["baseline"] = m1
 
-    m2 = run_backtest(pred, True, False, False, "α=0.3融合")
+    m2 = run_backtest(pred, True, False, False, f"α={best_alpha_w6}融合")
     KNOWN_RESULTS["W6"]["alpha03"] = m2
 
     m3 = run_backtest(pred, True, True, True, "E8/方案D")

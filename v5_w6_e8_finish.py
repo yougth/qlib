@@ -230,7 +230,8 @@ def vectorized_backtest_fast(pred, universe, bt_start, bt_end, month_ends,
                         prev_prices[inst] = cur_price
                         n_valid += 1
             if n_valid > 0:
-                portfolio_returns.append(day_ret / n_valid * position)
+                # 用topk而非n_valid: 停牌股票权重冻结, 不重新分配
+                portfolio_returns.append(day_ret / topk * position)
                 portfolio_dates.append(pd_dt)
             else:
                 portfolio_returns.append(0)

@@ -1,0 +1,71 @@
+[95636:MainThread](2026-07-29 16:59:28,051) INFO - qlib.Initialization - [config.py:473] - default_conf: client.
+[95636:MainThread](2026-07-29 16:59:28,765) INFO - qlib.Initialization - [__init__.py:82] - qlib successfully initialized based on client settings.
+[95636:MainThread](2026-07-29 16:59:28,766) INFO - qlib.Initialization - [__init__.py:84] - data_path={'__DEFAULT_FREQ': PosixPath('/Users/11164591/.qlib/qlib_data/cn_data_fixed')}
+[CHECK] fcf_pit: (93640, 6), 5454只, 1996~2025 | profit_pit: (55675, 4), 5448只, 1998~2025
+[CHECK] 交易日历: 2014-01-02 ~ 2026-07-23 (3019天)
+[CHECK] 估值缓存: 2079日 × 472股, 2018-01-02~2026-07-29
+
+======================================================================
+[W2020] 池:2009~2018十年双正 | train 2015-01-01~2018-12-31 | valid 2019-01-01~2019-11-30(embargo) | 信号 2019-12-01~2020-11-30
+======================================================================
+  股票池: 137 只
+[95636:MainThread](2026-07-29 16:59:59,554) INFO - qlib.timer - [log.py:127] - Time cost: 24.622s | Loading data Done
+[95636:MainThread](2026-07-29 17:00:01,267) INFO - qlib.timer - [log.py:127] - Time cost: 1.647s | RobustZScoreNorm Done
+[95636:MainThread](2026-07-29 17:00:01,616) INFO - qlib.timer - [log.py:127] - Time cost: 0.348s | Fillna Done
+[95636:MainThread](2026-07-29 17:00:01,746) INFO - qlib.timer - [log.py:127] - Time cost: 0.057s | DropnaLabel Done
+[95636:MainThread](2026-07-29 17:00:04,168) INFO - qlib.timer - [log.py:127] - Time cost: 2.419s | CSZScoreNorm Done
+[95636:MainThread](2026-07-29 17:00:04,176) INFO - qlib.timer - [log.py:127] - Time cost: 4.621s | fit & process data Done
+[95636:MainThread](2026-07-29 17:00:04,180) INFO - qlib.timer - [log.py:127] - Time cost: 29.249s | Init data Done
+  [CHECK] 行情覆盖: 129/137 (94%)
+  特征矩阵: train (103649, 177), valid (28289, 177), test (29826, 177), NaN=0.00%
+    [W2020-XGB] best_iter=686, valid RankIC=0.0805 → OK
+    [W2020-LGB] best_iter=70, valid RankIC=0.0602 → OK
+    [流动性] 中位数20日均成交额=6.50亿, 一字涨停36条, 停牌34条
+
+======================================================================
+[W2021] 池:2010~2019十年双正 | train 2016-01-01~2019-12-31 | valid 2020-01-01~2020-11-30(embargo) | 信号 2020-12-01~2021-11-30
+======================================================================
+  股票池: 168 只
+[95636:MainThread](2026-07-29 17:02:30,050) INFO - qlib.timer - [log.py:127] - Time cost: 26.102s | Loading data Done
+[95636:MainThread](2026-07-29 17:02:31,828) INFO - qlib.timer - [log.py:127] - Time cost: 1.709s | RobustZScoreNorm Done
+[95636:MainThread](2026-07-29 17:02:32,275) INFO - qlib.timer - [log.py:127] - Time cost: 0.446s | Fillna Done
+[95636:MainThread](2026-07-29 17:02:32,575) INFO - qlib.timer - [log.py:127] - Time cost: 0.133s | DropnaLabel Done
+[95636:MainThread](2026-07-29 17:02:34,788) INFO - qlib.timer - [log.py:127] - Time cost: 2.212s | CSZScoreNorm Done
+[95636:MainThread](2026-07-29 17:02:34,795) INFO - qlib.timer - [log.py:127] - Time cost: 4.744s | fit & process data Done
+[95636:MainThread](2026-07-29 17:02:34,796) INFO - qlib.timer - [log.py:127] - Time cost: 30.849s | Init data Done
+  [CHECK] 行情覆盖: 161/168 (96%)
+  特征矩阵: train (133519, 177), valid (31446, 177), test (24031, 177), NaN=0.00%
+    [W2021-XGB] best_iter=998, valid RankIC=0.0789 → OK
+    [W2021-LGB] best_iter=241, valid RankIC=0.0930 → OK
+    [流动性] 中位数20日均成交额=1.10亿, 一字涨停11条, 停牌13条
+
+======================================================================
+[W2022] 池:2011~2020十年双正 | train 2017-01-01~2020-12-31 | valid 2021-01-01~2021-11-30(embargo) | 信号 2021-12-01~2022-11-30
+======================================================================
+  股票池: 201 只
+[95636:MainThread](2026-07-29 17:06:42,837) INFO - qlib.timer - [log.py:127] - Time cost: 29.205s | Loading data Done
+[95636:MainThread](2026-07-29 17:06:45,219) INFO - qlib.timer - [log.py:127] - Time cost: 2.226s | RobustZScoreNorm Done
+[95636:MainThread](2026-07-29 17:06:45,583) INFO - qlib.timer - [log.py:127] - Time cost: 0.364s | Fillna Done
+[95636:MainThread](2026-07-29 17:06:45,832) INFO - qlib.timer - [log.py:127] - Time cost: 0.112s | DropnaLabel Done
+[95636:MainThread](2026-07-29 17:06:47,641) INFO - qlib.timer - [log.py:127] - Time cost: 1.807s | CSZScoreNorm Done
+[95636:MainThread](2026-07-29 17:06:47,645) INFO - qlib.timer - [log.py:127] - Time cost: 4.805s | fit & process data Done
+[95636:MainThread](2026-07-29 17:06:47,646) INFO - qlib.timer - [log.py:127] - Time cost: 34.014s | Init data Done
+  [CHECK] 行情覆盖: 177/201 (88%)
+  特征矩阵: train (152706, 177), valid (25603, 177), test (28748, 177), NaN=0.00%
+    [XGB-fallback] {'learning_rate': 0.02, 'max_depth': 6, 'reg_lambda': 20.0} → best_iter=711, RankIC=0.0495
+    [W2022-XGB] best_iter=711, valid RankIC=0.0495 → OK
+    [W2022-LGB] best_iter=977, valid RankIC=0.0482 → OK
+    [流动性] 中位数20日均成交额=1.15亿, 一字涨停9条, 停牌16条
+
+======================================================================
+[W2023] 池:2012~2021十年双正 | train 2018-01-01~2021-12-31 | valid 2022-01-01~2022-11-30(embargo) | 信号 2022-12-01~2023-11-30
+======================================================================
+  股票池: 226 只
+[95636:MainThread](2026-07-29 17:16:47,941) INFO - qlib.timer - [log.py:127] - Time cost: 81.535s | Loading data Done
+[95636:MainThread](2026-07-29 17:16:54,898) INFO - qlib.timer - [log.py:127] - Time cost: 6.769s | RobustZScoreNorm Done
+[95636:MainThread](2026-07-29 17:16:56,368) INFO - qlib.timer - [log.py:127] - Time cost: 1.469s | Fillna Done
+[95636:MainThread](2026-07-29 17:16:57,103) INFO - qlib.timer - [log.py:127] - Time cost: 0.355s | DropnaLabel Done
+[95636:MainThread](2026-07-29 17:17:05,303) INFO - qlib.timer - [log.py:127] - Time cost: 8.196s | CSZScoreNorm Done
+[95636:MainThread](2026-07-29 17:17:05,323) INFO - qlib.timer - [log.py:127] - Time cost: 17.381s | fit & process data Done
+[95636:MainThread](2026-07-29 17:17:05,324) INFO - qlib.timer - [log.py:127] - Time cost: 98.921s | Init data Done
+  [CHECK] 行情覆盖: 208/226 (92%)

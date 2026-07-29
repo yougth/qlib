@@ -23,14 +23,16 @@ import warnings
 warnings.filterwarnings("ignore")
 
 from v5_validation import Alpha158Enhanced, apply_value_fusion, \
-    build_limit_up_set, filter_pred_by_tradability, load_value_factors
+    build_limit_up_set, filter_pred_by_tradability, load_value_factors, \
+    search_alpha_on_valid, MonthlyTopkStrategy
 from v5_pipeline_fix import load_fundamental_features_fixed, \
     inject_features_fixed, filter_by_fundamental_deterioration
 
 MODEL_CONFIG = {"class": "LGBModel", "module_path": "qlib.contrib.model.gbdt",
-    "kwargs": {"loss": "mse", "colsample_bytree": 0.8879, "learning_rate": 0.0421,
-        "subsample": 0.8789, "lambda_l1": 205.6999, "lambda_l2": 580.9768,
-        "max_depth": 8, "num_leaves": 210, "num_threads": 4}}
+    "kwargs": {"loss": "mse", "colsample_bytree": 0.8879, "learning_rate": 0.005,
+        "subsample": 0.8789, "lambda_l1": 10.0, "lambda_l2": 50.0,
+        "max_depth": 7, "num_leaves": 15, "num_threads": 4,
+        "early_stopping_rounds": 100, "num_boost_round": 1000}}
 
 # 7个窗口: W0(2019) + W1-W6(2021-2026H1), 排除2020
 WINDOWS = [
@@ -42,6 +44,46 @@ WINDOWS = [
     {"train": ("2020-01-01","2023-12-31"), "valid": ("2024-01-01","2024-12-31"), "backtest": ("2025-01-01","2025-12-31"), "name":"W5", "year": 2025},
     {"train": ("2021-01-01","2024-12-31"), "valid": ("2025-01-01","2025-12-31"), "backtest": ("2026-01-01","2026-07-21"), "name":"W6", "year": 2026},
 ]
+
+
+# ==================== 特征硬剪枝: Top80 ====================
+TOP80_FEATURES = {
+    # 基本面+价值因子 (9个)
+    "roe_annual", "pb_pct_3y", "pe_pct_3y", "div_yield_est",
+    "fcf_growth", "profit_growth", "fcf_profit_ratio", "fcf_avg_3y_norm", "fcf_cv_3y",
+    # Alpha158 Top71 (按gain排序)
+    "MAX30", "ROC60", "STD240", "STD120", "ROC240", "MAX60", "MA120", "STD30",
+    "ROC30", "CNTN60", "ROC120", "STD60", "MA20", "CORR30", "CORR60", "CORD60",
+    "CORD30", "VRATIO_5_120", "CNTD60", "IMXD60", "QTLD60", "VSTD30", "WVMA30",
+    "VMA240", "MA240", "BETA30", "CNTP60", "SUMP60", "BETA60", "IMAX60", "BOLL120",
+    "STD20", "RSQR60", "WVMA60", "CORD20", "IMIN60", "CNTN30", "MIN60", "RESI60",
+    "CORR_PV60", "MIN20", "VSTD60", "RSQR30", "QTLD20", "IMXD30", "STD10", "MIN5",
+    "CORR20", "SUMD60", "CNTD20", "KLEN", "IMXD20", "CNTD30", "SUMD30", "MIN10",
+    "CORR10", "CORR_PV20", "WVMA20", "MAX10", "RSV60", "SUMP20", "SUMN60", "VSUMN30",
+    "VRATIO_5_60", "CORD5", "WVMA10", "CNTN10", "MAX20", "CNTN20", "CNTP20", "SUMN30",
+}
+
+
+def prune_features(dataset, keep_features):
+    """硬剪枝: 只保留keep_features中的特征列+所有非feature列(如label)"""
+    handler = dataset.handler
+    for attr_name in ["_infer", "_learn", "_data"]:
+        if not hasattr(handler, attr_name):
+            continue
+        df = getattr(handler, attr_name)
+        if df is None:
+            continue
+        is_multi = isinstance(df.columns, pd.MultiIndex)
+        if is_multi:
+            keep_cols = [c for c in df.columns
+                         if c[0] != "feature" or c[1] in keep_features]
+        else:
+            keep_cols = [c for c in df.columns if c in keep_features]
+        n_before = len(df.columns)
+        setattr(handler, attr_name, df[keep_cols])
+        n_after = len(keep_cols)
+        if attr_name == "_infer":
+            print(f"    特征硬剪枝: {n_before}→{n_after}列 (剔除{n_before-n_after}个零增益特征)")
 
 
 def format_qlib_code(code):
@@ -98,6 +140,9 @@ def train_window(win, fcf_df, profit_df, cal, cal_set):
     if vf is not None:
         inject_features_fixed(dataset, vf, "vf")
 
+    # 特征硬剪枝: 只保留Top80特征
+    prune_features(dataset, TOP80_FEATURES)
+
     # 训练
     model = init_instance_by_config(MODEL_CONFIG)
     with R.start(experiment_name="v5_new_baseline"):
@@ -106,6 +151,14 @@ def train_window(win, fcf_df, profit_df, cal, cal_set):
         sig_rec = SignalRecord(model, dataset, rec)
         sig_rec.generate()
         pred = rec.load_object("pred.pkl")
+
+    # 额外预测valid期, 用于α搜索 (qlib SignalRecord只预测test段)
+    valid_features = dataset.prepare("valid", col_set="feature")
+    if valid_features is not None and len(valid_features) > 0:
+        valid_pred_vals = model.model.predict(valid_features.values)
+        valid_pred = pd.Series(valid_pred_vals, index=valid_features.index, name="score")
+        pred = pd.concat([valid_pred, pred])
+        print(f"    valid预测: {len(valid_pred)}条, 合并后预测: {len(pred)}条")
 
     # 验证特征数
     train_data = dataset.prepare("train", col_set="feature")
@@ -128,12 +181,15 @@ def compute_macro_signals_all(universe, cal, lookback=300):
     ew_ret = prices.groupby("datetime")["ret"].mean().dropna()
     ew_cum = (1 + ew_ret).cumprod()
     ew_ma200 = ew_cum.rolling(200, min_periods=60).mean()
+    # 修复: 强制转Timestamp, 对齐qlib日历
+    ew_cum.index = pd.to_datetime(ew_cum.index)
+    ew_ma200.index = ew_cum.index
 
     signals = {}
     for dt in cal:
-        if dt in ew_cum.index and dt in ew_ma200.index:
-            if not pd.isna(ew_ma200[dt]):
-                signals[dt] = 0.7 if ew_cum[dt] < ew_ma200[dt] else 1.0
+        dt_ts = pd.Timestamp(dt)
+        if dt_ts in ew_cum.index and not pd.isna(ew_ma200[dt_ts]):
+            signals[dt_ts] = 0.7 if ew_cum[dt_ts] < ew_ma200[dt_ts] else 1.0
     return signals
 
 
@@ -174,6 +230,8 @@ def vectorized_backtest(pred, universe, cal, prices_dict, month_ends,
     # 涨跌停过滤
     limit_up_set, suspension_set = build_limit_up_set(universe, cal)
     pred = filter_pred_by_tradability(pred, limit_up_set, suspension_set)
+
+    # 流动性过滤已关闭: 放开2000万/日下限限制
 
     # 基本面硬过滤
     if fund_filter_func is not None:
@@ -248,7 +306,8 @@ def vectorized_backtest(pred, universe, cal, prices_dict, month_ends,
                         prev_prices[inst] = cur_price
                         n_valid += 1
             if n_valid > 0:
-                daily_rets.append(day_ret / n_valid * position)
+                # 用topk而非n_valid: 停牌股票权重冻结(贡献0收益), 不重新分配给未停牌股票
+                daily_rets.append(day_ret / topk * position)
                 portfolio_dates.append(pd_dt)
             else:
                 daily_rets.append(0)
@@ -328,6 +387,11 @@ def run():
 
         print(f"\n  {name}: {bs}~{be}, 月末调仓日{len(month_ends)}个")
 
+        # α搜索: 在valid集上独立选参, 避免在测试集上调参
+        vs_w, ve_w = win["valid"]
+        best_alpha, best_ir, _ = search_alpha_on_valid(pred, vf, vs_w, ve_w)
+        print(f"    valid集α搜索: 最优α={best_alpha} (IR={best_ir:.4f})")
+
         # 基本面过滤函数
         def make_fund_filter(signal_date=None):
             return lambda p: filter_by_fundamental_deterioration(
@@ -342,20 +406,20 @@ def run():
         all_returns["baseline"].append(ret1)
         print(f"    基线: 年化{m1['ar']*100:.2f}%, 夏普{m1['sharpe']:.2f}, 回撤{m1['max_dd']*100:.1f}%")
 
-        # Exp2: Alpha=0.3融合 (无阀门, 无过滤)
+        # Exp2: α融合 (valid集选参, 无阀门, 无过滤)
         ret2, nav2 = vectorized_backtest(
             pred, universe, cal, {}, month_ends, topk=10,
-            macro_signals=None, fund_filter_func=None, alpha=0.3, vf=vf)
+            macro_signals=None, fund_filter_func=None, alpha=best_alpha, vf=vf)
         m2 = calc_metrics(ret2)
         results["alpha03"][name] = m2
         all_returns["alpha03"].append(ret2)
-        print(f"    α=0.3: 年化{m2['ar']*100:.2f}%, 夏普{m2['sharpe']:.2f}, 回撤{m2['max_dd']*100:.1f}%")
+        print(f"    α={best_alpha}: 年化{m2['ar']*100:.2f}%, 夏普{m2['sharpe']:.2f}, 回撤{m2['max_dd']*100:.1f}%")
 
-        # Exp3: E8 (α=0.3 + 方案D宏观阀门 + 基本面硬过滤)
+        # Exp3: E8 (α融合 + 方案D宏观阀门 + 基本面硬过滤)
         ret3, nav3 = vectorized_backtest(
             pred, universe, cal, {}, month_ends, topk=10,
             macro_signals=macro_signals, fund_filter_func=make_fund_filter(),
-            alpha=0.3, vf=vf)
+            alpha=best_alpha, vf=vf)
         m3 = calc_metrics(ret3)
         results["e8"][name] = m3
         all_returns["e8"].append(ret3)
@@ -372,7 +436,7 @@ def run():
         all_returns[exp_name] = all_returns[exp_name][~all_returns[exp_name].index.duplicated(keep="last")]
 
     # 逐年对比表
-    print(f"\n  {'窗口':<6} {'基线年化':>10} {'α=0.3年化':>10} {'E8年化':>10} {'基线夏普':>10} {'α=0.3夏普':>10} {'E8夏普':>10}")
+    print(f"\n  {'窗口':<6} {'基线年化':>10} {'α融合年化':>10} {'E8年化':>10} {'基线夏普':>10} {'α融合夏普':>10} {'E8夏普':>10}")
     print(f"  {'-'*66}")
     for win in WINDOWS:
         name = win["name"]
@@ -385,7 +449,7 @@ def run():
     print(f"\n  全期汇总 (排除2020):")
     print(f"  {'实验':<16} {'年化收益':>10} {'夏普':>8} {'最大回撤':>10} {'波动率':>10} {'交易日':>8}")
     print(f"  {'-'*64}")
-    for exp_name, label in [("baseline", "新V5基线"), ("alpha03", "α=0.3融合"), ("e8", "E8/方案D")]:
+    for exp_name, label in [("baseline", "新V5基线"), ("alpha03", "α融合(valid)"), ("e8", "E8/方案D")]:
         m = calc_metrics(all_returns[exp_name])
         print(f"  {label:<16} {m['ar']*100:>9.2f}% {m['sharpe']:>8.2f} {m['max_dd']*100:>9.1f}% {m['vol']*100:>9.2f}% {m['n_days']:>8}")
 
@@ -401,7 +465,7 @@ def run():
     e_ar = calc_metrics(all_returns["e8"])["ar"]
     print(f"\n  Alpha权重检查:")
     print(f"    直接输出:     年化{b_ar*100:.2f}%")
-    print(f"    α=0.3融合:    年化{a_ar*100:.2f}%")
+    print(f"    α融合(valid): 年化{a_ar*100:.2f}%")
     if a_ar > b_ar:
         print(f"    结论: 后置融合锦上添花 (+{(a_ar-b_ar)*100:.2f}%), 保留")
     else:
@@ -415,7 +479,7 @@ def run():
     summary_data = []
     for win in WINDOWS:
         name = win["name"]
-        for exp, label in [("baseline","基线"), ("alpha03","α=0.3"), ("e8","E8")]:
+        for exp, label in [("baseline","基线"), ("alpha03","α融合"), ("e8","E8")]:
             m = results[exp][name]
             summary_data.append({"window": name, "experiment": label,
                 "ar": m["ar"], "sharpe": m["sharpe"], "max_dd": m["max_dd"]})

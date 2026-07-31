@@ -1,0 +1,1 @@
+{"model": "LSTM", "status": "ok", "oos_rankic": 0.0601, "oos_ic": 0.0478, "ar": 0.1985, "vol": 0.2427, "sharpe": 0.818, "mdd": -0.2794, "calmar": 0.71, "excess_ar": 0.1401, "turnover": 0.9243, "n_buys": 401, "n_signals": 43, "yearly": {"2023": 0.0048, "2024": 0.5129, "2025": 0.0649, "2026": 0.1692}, "seconds": 1574.5}

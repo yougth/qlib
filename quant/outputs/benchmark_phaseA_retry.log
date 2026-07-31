@@ -1,0 +1,743 @@
+
+========================================================================
+[Phase A] GRU  (wall-clock 预算 5400s)
+========================================================================
+[85105:MainThread](2026-07-30 14:47:30,396) INFO - qlib.Initialization - [config.py:473] - default_conf: client.
+[85105:MainThread](2026-07-30 14:47:30,889) INFO - qlib.Initialization - [__init__.py:82] - qlib successfully initialized based on client settings.
+[85105:MainThread](2026-07-30 14:47:30,889) INFO - qlib.Initialization - [__init__.py:84] - data_path={'__DEFAULT_FREQ': PosixPath('/Users/11164591/.qlib/qlib_data/cn_data_fixed')}
+[CHECK] fcf_pit: (93640, 6), 5454只, 1996~2025 | profit_pit: (55675, 4), 5448只, 1998~2025
+[CHECK] 交易日历: 2014-01-02 ~ 2026-07-23 (3019天)
+[CHECK] 估值缓存: 2079日 × 472股, 2018-01-02~2026-07-29
+[worker GRU] 冻结股票池 226 只 | train('2016-01-01', '2021-12-31') valid('2022-01-01', '2022-11-30')(embargo) 信号('2022-12-01', '2026-06-30')
+[85105:MainThread](2026-07-30 14:47:47,938) INFO - qlib.timer - [log.py:127] - Time cost: 13.876s | Loading data Done
+[85105:MainThread](2026-07-30 14:47:50,012) INFO - qlib.timer - [log.py:127] - Time cost: 1.945s | RobustZScoreNorm Done
+[85105:MainThread](2026-07-30 14:47:50,301) INFO - qlib.timer - [log.py:127] - Time cost: 0.289s | Fillna Done
+[85105:MainThread](2026-07-30 14:47:50,619) INFO - qlib.timer - [log.py:127] - Time cost: 0.096s | DropnaLabel Done
+[85105:MainThread](2026-07-30 14:47:51,731) INFO - qlib.timer - [log.py:127] - Time cost: 1.111s | CSZScoreNorm Done
+[85105:MainThread](2026-07-30 14:47:51,736) INFO - qlib.timer - [log.py:127] - Time cost: 3.797s | fit & process data Done
+[85105:MainThread](2026-07-30 14:47:51,736) INFO - qlib.timer - [log.py:127] - Time cost: 17.674s | Init data Done
+    [GRU] 注入特征维度 = 172
+[85105:MainThread](2026-07-30 14:47:53,625) INFO - qlib.GRU - [pytorch_gru_ts.py:61] - GRU pytorch version...
+[85105:MainThread](2026-07-30 14:47:53,625) INFO - qlib.GRU - [pytorch_gru_ts.py:79] - GRU parameters setting:
+d_feat : 172
+hidden_size : 64
+num_layers : 2
+dropout : 0.0
+n_epochs : 200
+lr : 0.0002
+metric : loss
+batch_size : 800
+early_stop : 10
+optimizer : adam
+loss_type : mse
+device : cpu
+n_jobs : 4
+use_GPU : False
+seed : None
+[85105:MainThread](2026-07-30 14:47:53,631) INFO - qlib.GRU - [pytorch_gru_ts.py:124] - model:
+GRUModel(
+  (rnn): GRU(172, 64, num_layers=2, batch_first=True)
+  (fc_out): Linear(in_features=64, out_features=1, bias=True)
+)
+[85105:MainThread](2026-07-30 14:47:53,632) INFO - qlib.GRU - [pytorch_gru_ts.py:125] - model size: 0.0674 MB
+[85105:MainThread](2026-07-30 14:47:55,555) INFO - qlib.GRU - [pytorch_gru_ts.py:249] - training...
+[85105:MainThread](2026-07-30 14:47:55,556) INFO - qlib.GRU - [pytorch_gru_ts.py:253] - Epoch0:
+[85105:MainThread](2026-07-30 14:47:55,556) INFO - qlib.GRU - [pytorch_gru_ts.py:254] - training...
+[85105:MainThread](2026-07-30 14:48:52,341) INFO - qlib.GRU - [pytorch_gru_ts.py:256] - evaluating...
+[85105:MainThread](2026-07-30 14:50:26,775) INFO - qlib.GRU - [pytorch_gru_ts.py:259] - train -0.949461, valid -0.991593
+[85105:MainThread](2026-07-30 14:50:26,780) INFO - qlib.GRU - [pytorch_gru_ts.py:253] - Epoch1:
+[85105:MainThread](2026-07-30 14:50:26,781) INFO - qlib.GRU - [pytorch_gru_ts.py:254] - training...
+[85105:MainThread](2026-07-30 14:51:18,120) INFO - qlib.GRU - [pytorch_gru_ts.py:256] - evaluating...
+[85105:MainThread](2026-07-30 14:52:34,306) INFO - qlib.GRU - [pytorch_gru_ts.py:259] - train -0.911296, valid -1.007195
+[85105:MainThread](2026-07-30 14:52:34,308) INFO - qlib.GRU - [pytorch_gru_ts.py:253] - Epoch2:
+[85105:MainThread](2026-07-30 14:52:34,308) INFO - qlib.GRU - [pytorch_gru_ts.py:254] - training...
+[85105:MainThread](2026-07-30 14:53:28,387) INFO - qlib.GRU - [pytorch_gru_ts.py:256] - evaluating...
+[85105:MainThread](2026-07-30 14:54:38,030) INFO - qlib.GRU - [pytorch_gru_ts.py:259] - train -0.847833, valid -1.040881
+[85105:MainThread](2026-07-30 14:54:38,031) INFO - qlib.GRU - [pytorch_gru_ts.py:253] - Epoch3:
+[85105:MainThread](2026-07-30 14:54:38,032) INFO - qlib.GRU - [pytorch_gru_ts.py:254] - training...
+[85105:MainThread](2026-07-30 14:55:31,663) INFO - qlib.GRU - [pytorch_gru_ts.py:256] - evaluating...
+[85105:MainThread](2026-07-30 14:56:42,703) INFO - qlib.GRU - [pytorch_gru_ts.py:259] - train -0.790000, valid -1.086827
+[85105:MainThread](2026-07-30 14:56:42,705) INFO - qlib.GRU - [pytorch_gru_ts.py:253] - Epoch4:
+[85105:MainThread](2026-07-30 14:56:42,705) INFO - qlib.GRU - [pytorch_gru_ts.py:254] - training...
+[85105:MainThread](2026-07-30 14:57:36,339) INFO - qlib.GRU - [pytorch_gru_ts.py:256] - evaluating...
+[85105:MainThread](2026-07-30 14:58:51,692) INFO - qlib.GRU - [pytorch_gru_ts.py:259] - train -0.748462, valid -1.111561
+[85105:MainThread](2026-07-30 14:58:51,695) INFO - qlib.GRU - [pytorch_gru_ts.py:253] - Epoch5:
+[85105:MainThread](2026-07-30 14:58:51,696) INFO - qlib.GRU - [pytorch_gru_ts.py:254] - training...
+[85105:MainThread](2026-07-30 14:59:44,729) INFO - qlib.GRU - [pytorch_gru_ts.py:256] - evaluating...
+[85105:MainThread](2026-07-30 15:00:55,575) INFO - qlib.GRU - [pytorch_gru_ts.py:259] - train -0.696696, valid -1.170458
+[85105:MainThread](2026-07-30 15:00:55,576) INFO - qlib.GRU - [pytorch_gru_ts.py:253] - Epoch6:
+[85105:MainThread](2026-07-30 15:00:55,576) INFO - qlib.GRU - [pytorch_gru_ts.py:254] - training...
+[85105:MainThread](2026-07-30 15:01:50,720) INFO - qlib.GRU - [pytorch_gru_ts.py:256] - evaluating...
+[85105:MainThread](2026-07-30 15:03:02,197) INFO - qlib.GRU - [pytorch_gru_ts.py:259] - train -0.663793, valid -1.142632
+[85105:MainThread](2026-07-30 15:03:02,199) INFO - qlib.GRU - [pytorch_gru_ts.py:253] - Epoch7:
+[85105:MainThread](2026-07-30 15:03:02,199) INFO - qlib.GRU - [pytorch_gru_ts.py:254] - training...
+[85105:MainThread](2026-07-30 15:03:55,056) INFO - qlib.GRU - [pytorch_gru_ts.py:256] - evaluating...
+[85105:MainThread](2026-07-30 15:05:08,839) INFO - qlib.GRU - [pytorch_gru_ts.py:259] - train -0.639813, valid -1.182919
+[85105:MainThread](2026-07-30 15:05:08,841) INFO - qlib.GRU - [pytorch_gru_ts.py:253] - Epoch8:
+[85105:MainThread](2026-07-30 15:05:08,841) INFO - qlib.GRU - [pytorch_gru_ts.py:254] - training...
+[85105:MainThread](2026-07-30 15:06:02,005) INFO - qlib.GRU - [pytorch_gru_ts.py:256] - evaluating...
+[85105:MainThread](2026-07-30 15:07:13,304) INFO - qlib.GRU - [pytorch_gru_ts.py:259] - train -0.618102, valid -1.195636
+[85105:MainThread](2026-07-30 15:07:13,305) INFO - qlib.GRU - [pytorch_gru_ts.py:253] - Epoch9:
+[85105:MainThread](2026-07-30 15:07:13,305) INFO - qlib.GRU - [pytorch_gru_ts.py:254] - training...
+[85105:MainThread](2026-07-30 15:08:06,836) INFO - qlib.GRU - [pytorch_gru_ts.py:256] - evaluating...
+[85105:MainThread](2026-07-30 15:09:17,094) INFO - qlib.GRU - [pytorch_gru_ts.py:259] - train -0.593254, valid -1.191691
+[85105:MainThread](2026-07-30 15:09:17,097) INFO - qlib.GRU - [pytorch_gru_ts.py:253] - Epoch10:
+[85105:MainThread](2026-07-30 15:09:17,098) INFO - qlib.GRU - [pytorch_gru_ts.py:254] - training...
+[85105:MainThread](2026-07-30 15:10:10,137) INFO - qlib.GRU - [pytorch_gru_ts.py:256] - evaluating...
+[85105:MainThread](2026-07-30 15:11:19,321) INFO - qlib.GRU - [pytorch_gru_ts.py:259] - train -0.576591, valid -1.317965
+[85105:MainThread](2026-07-30 15:11:19,323) INFO - qlib.GRU - [pytorch_gru_ts.py:271] - early stop
+[85105:MainThread](2026-07-30 15:11:19,324) INFO - qlib.GRU - [pytorch_gru_ts.py:274] - best score: -0.991593 @ 0
+    [流动性] 中位数20日均成交额=1.26亿, 一字涨停59条, 停牌130条
+[CHECK] 沪深300基准(csi300_cache): 2019-01-02 ~ 2026-07-28 (1835天)
+[worker GRU] status=ok 用时1474.2s
+
+========================================================================
+[Phase A] LSTM  (wall-clock 预算 5400s)
+========================================================================
+[99635:MainThread](2026-07-30 15:12:06,333) INFO - qlib.Initialization - [config.py:473] - default_conf: client.
+[99635:MainThread](2026-07-30 15:12:06,590) INFO - qlib.Initialization - [__init__.py:82] - qlib successfully initialized based on client settings.
+[99635:MainThread](2026-07-30 15:12:06,590) INFO - qlib.Initialization - [__init__.py:84] - data_path={'__DEFAULT_FREQ': PosixPath('/Users/11164591/.qlib/qlib_data/cn_data_fixed')}
+[CHECK] fcf_pit: (93640, 6), 5454只, 1996~2025 | profit_pit: (55675, 4), 5448只, 1998~2025
+[CHECK] 交易日历: 2014-01-02 ~ 2026-07-23 (3019天)
+[CHECK] 估值缓存: 2079日 × 472股, 2018-01-02~2026-07-29
+[worker LSTM] 冻结股票池 226 只 | train('2016-01-01', '2021-12-31') valid('2022-01-01', '2022-11-30')(embargo) 信号('2022-12-01', '2026-06-30')
+[99635:MainThread](2026-07-30 15:12:36,600) INFO - qlib.timer - [log.py:127] - Time cost: 12.850s | Loading data Done
+[99635:MainThread](2026-07-30 15:12:38,241) INFO - qlib.timer - [log.py:127] - Time cost: 1.525s | RobustZScoreNorm Done
+[99635:MainThread](2026-07-30 15:12:38,516) INFO - qlib.timer - [log.py:127] - Time cost: 0.274s | Fillna Done
+[99635:MainThread](2026-07-30 15:12:38,734) INFO - qlib.timer - [log.py:127] - Time cost: 0.098s | DropnaLabel Done
+[99635:MainThread](2026-07-30 15:12:39,798) INFO - qlib.timer - [log.py:127] - Time cost: 1.064s | CSZScoreNorm Done
+[99635:MainThread](2026-07-30 15:12:39,803) INFO - qlib.timer - [log.py:127] - Time cost: 3.203s | fit & process data Done
+[99635:MainThread](2026-07-30 15:12:39,803) INFO - qlib.timer - [log.py:127] - Time cost: 16.054s | Init data Done
+    [LSTM] 注入特征维度 = 172
+[99635:MainThread](2026-07-30 15:12:41,468) INFO - qlib.LSTM - [pytorch_lstm_ts.py:60] - LSTM pytorch version...
+[99635:MainThread](2026-07-30 15:12:41,468) INFO - qlib.LSTM - [pytorch_lstm_ts.py:78] - LSTM parameters setting:
+d_feat : 172
+hidden_size : 64
+num_layers : 2
+dropout : 0.0
+n_epochs : 200
+lr : 0.001
+metric : loss
+batch_size : 800
+early_stop : 10
+optimizer : adam
+loss_type : mse
+device : cpu
+n_jobs : 4
+use_GPU : False
+seed : None
+[99635:MainThread](2026-07-30 15:12:43,107) INFO - qlib.LSTM - [pytorch_lstm_ts.py:244] - training...
+[99635:MainThread](2026-07-30 15:12:43,108) INFO - qlib.LSTM - [pytorch_lstm_ts.py:248] - Epoch0:
+[99635:MainThread](2026-07-30 15:12:43,109) INFO - qlib.LSTM - [pytorch_lstm_ts.py:249] - training...
+[99635:MainThread](2026-07-30 15:13:39,420) INFO - qlib.LSTM - [pytorch_lstm_ts.py:251] - evaluating...
+[99635:MainThread](2026-07-30 15:14:55,540) INFO - qlib.LSTM - [pytorch_lstm_ts.py:254] - train -0.820160, valid -1.041722
+[99635:MainThread](2026-07-30 15:14:55,543) INFO - qlib.LSTM - [pytorch_lstm_ts.py:248] - Epoch1:
+[99635:MainThread](2026-07-30 15:14:55,544) INFO - qlib.LSTM - [pytorch_lstm_ts.py:249] - training...
+[99635:MainThread](2026-07-30 15:15:53,009) INFO - qlib.LSTM - [pytorch_lstm_ts.py:251] - evaluating...
+[99635:MainThread](2026-07-30 15:17:08,054) INFO - qlib.LSTM - [pytorch_lstm_ts.py:254] - train -0.674657, valid -1.104792
+[99635:MainThread](2026-07-30 15:17:08,055) INFO - qlib.LSTM - [pytorch_lstm_ts.py:248] - Epoch2:
+[99635:MainThread](2026-07-30 15:17:08,056) INFO - qlib.LSTM - [pytorch_lstm_ts.py:249] - training...
+[99635:MainThread](2026-07-30 15:18:13,828) INFO - qlib.LSTM - [pytorch_lstm_ts.py:251] - evaluating...
+[99635:MainThread](2026-07-30 15:19:28,959) INFO - qlib.LSTM - [pytorch_lstm_ts.py:254] - train -0.551695, valid -1.232683
+[99635:MainThread](2026-07-30 15:19:28,960) INFO - qlib.LSTM - [pytorch_lstm_ts.py:248] - Epoch3:
+[99635:MainThread](2026-07-30 15:19:28,961) INFO - qlib.LSTM - [pytorch_lstm_ts.py:249] - training...
+[99635:MainThread](2026-07-30 15:20:35,201) INFO - qlib.LSTM - [pytorch_lstm_ts.py:251] - evaluating...
+[99635:MainThread](2026-07-30 15:21:57,202) INFO - qlib.LSTM - [pytorch_lstm_ts.py:254] - train -0.481157, valid -1.280980
+[99635:MainThread](2026-07-30 15:21:57,203) INFO - qlib.LSTM - [pytorch_lstm_ts.py:248] - Epoch4:
+[99635:MainThread](2026-07-30 15:21:57,204) INFO - qlib.LSTM - [pytorch_lstm_ts.py:249] - training...
+[99635:MainThread](2026-07-30 15:22:51,995) INFO - qlib.LSTM - [pytorch_lstm_ts.py:251] - evaluating...
+[99635:MainThread](2026-07-30 15:24:05,594) INFO - qlib.LSTM - [pytorch_lstm_ts.py:254] - train -0.415605, valid -1.347619
+[99635:MainThread](2026-07-30 15:24:05,596) INFO - qlib.LSTM - [pytorch_lstm_ts.py:248] - Epoch5:
+[99635:MainThread](2026-07-30 15:24:05,597) INFO - qlib.LSTM - [pytorch_lstm_ts.py:249] - training...
+[99635:MainThread](2026-07-30 15:25:01,629) INFO - qlib.LSTM - [pytorch_lstm_ts.py:251] - evaluating...
+[99635:MainThread](2026-07-30 15:26:15,530) INFO - qlib.LSTM - [pytorch_lstm_ts.py:254] - train -0.361809, valid -1.352654
+[99635:MainThread](2026-07-30 15:26:15,532) INFO - qlib.LSTM - [pytorch_lstm_ts.py:248] - Epoch6:
+[99635:MainThread](2026-07-30 15:26:15,533) INFO - qlib.LSTM - [pytorch_lstm_ts.py:249] - training...
+[99635:MainThread](2026-07-30 15:27:12,504) INFO - qlib.LSTM - [pytorch_lstm_ts.py:251] - evaluating...
+[99635:MainThread](2026-07-30 15:28:35,173) INFO - qlib.LSTM - [pytorch_lstm_ts.py:254] - train -0.334766, valid -1.372175
+[99635:MainThread](2026-07-30 15:28:35,173) INFO - qlib.LSTM - [pytorch_lstm_ts.py:248] - Epoch7:
+[99635:MainThread](2026-07-30 15:28:35,174) INFO - qlib.LSTM - [pytorch_lstm_ts.py:249] - training...
+[99635:MainThread](2026-07-30 15:29:30,647) INFO - qlib.LSTM - [pytorch_lstm_ts.py:251] - evaluating...
+[99635:MainThread](2026-07-30 15:30:45,663) INFO - qlib.LSTM - [pytorch_lstm_ts.py:254] - train -0.299766, valid -1.474150
+[99635:MainThread](2026-07-30 15:30:45,664) INFO - qlib.LSTM - [pytorch_lstm_ts.py:248] - Epoch8:
+[99635:MainThread](2026-07-30 15:30:45,665) INFO - qlib.LSTM - [pytorch_lstm_ts.py:249] - training...
+[99635:MainThread](2026-07-30 15:31:42,003) INFO - qlib.LSTM - [pytorch_lstm_ts.py:251] - evaluating...
+[99635:MainThread](2026-07-30 15:32:55,863) INFO - qlib.LSTM - [pytorch_lstm_ts.py:254] - train -0.279499, valid -1.488748
+[99635:MainThread](2026-07-30 15:32:55,864) INFO - qlib.LSTM - [pytorch_lstm_ts.py:248] - Epoch9:
+[99635:MainThread](2026-07-30 15:32:55,865) INFO - qlib.LSTM - [pytorch_lstm_ts.py:249] - training...
+[99635:MainThread](2026-07-30 15:33:52,199) INFO - qlib.LSTM - [pytorch_lstm_ts.py:251] - evaluating...
+[99635:MainThread](2026-07-30 15:35:22,738) INFO - qlib.LSTM - [pytorch_lstm_ts.py:254] - train -0.249608, valid -1.507740
+[99635:MainThread](2026-07-30 15:35:22,740) INFO - qlib.LSTM - [pytorch_lstm_ts.py:248] - Epoch10:
+[99635:MainThread](2026-07-30 15:35:22,740) INFO - qlib.LSTM - [pytorch_lstm_ts.py:249] - training...
+[99635:MainThread](2026-07-30 15:36:22,762) INFO - qlib.LSTM - [pytorch_lstm_ts.py:251] - evaluating...
+[99635:MainThread](2026-07-30 15:37:35,504) INFO - qlib.LSTM - [pytorch_lstm_ts.py:254] - train -0.235881, valid -1.567309
+[99635:MainThread](2026-07-30 15:37:35,505) INFO - qlib.LSTM - [pytorch_lstm_ts.py:266] - early stop
+[99635:MainThread](2026-07-30 15:37:35,506) INFO - qlib.LSTM - [pytorch_lstm_ts.py:269] - best score: -1.041722 @ 0
+    [流动性] 中位数20日均成交额=1.26亿, 一字涨停59条, 停牌130条
+[CHECK] 沪深300基准(csi300_cache): 2019-01-02 ~ 2026-07-28 (1835天)
+[worker LSTM] status=ok 用时1574.5s
+
+========================================================================
+[Phase A] ALSTM  (wall-clock 预算 5400s)
+========================================================================
+[13019:MainThread](2026-07-30 15:38:22,409) INFO - qlib.Initialization - [config.py:473] - default_conf: client.
+[13019:MainThread](2026-07-30 15:38:22,640) INFO - qlib.Initialization - [__init__.py:82] - qlib successfully initialized based on client settings.
+[13019:MainThread](2026-07-30 15:38:22,641) INFO - qlib.Initialization - [__init__.py:84] - data_path={'__DEFAULT_FREQ': PosixPath('/Users/11164591/.qlib/qlib_data/cn_data_fixed')}
+[CHECK] fcf_pit: (93640, 6), 5454只, 1996~2025 | profit_pit: (55675, 4), 5448只, 1998~2025
+[CHECK] 交易日历: 2014-01-02 ~ 2026-07-23 (3019天)
+[CHECK] 估值缓存: 2079日 × 472股, 2018-01-02~2026-07-29
+[worker ALSTM] 冻结股票池 226 只 | train('2016-01-01', '2021-12-31') valid('2022-01-01', '2022-11-30')(embargo) 信号('2022-12-01', '2026-06-30')
+[13019:MainThread](2026-07-30 15:38:46,488) INFO - qlib.timer - [log.py:127] - Time cost: 11.619s | Loading data Done
+[13019:MainThread](2026-07-30 15:38:48,109) INFO - qlib.timer - [log.py:127] - Time cost: 1.482s | RobustZScoreNorm Done
+[13019:MainThread](2026-07-30 15:38:48,403) INFO - qlib.timer - [log.py:127] - Time cost: 0.294s | Fillna Done
+[13019:MainThread](2026-07-30 15:38:48,610) INFO - qlib.timer - [log.py:127] - Time cost: 0.089s | DropnaLabel Done
+[13019:MainThread](2026-07-30 15:38:49,681) INFO - qlib.timer - [log.py:127] - Time cost: 1.071s | CSZScoreNorm Done
+[13019:MainThread](2026-07-30 15:38:49,686) INFO - qlib.timer - [log.py:127] - Time cost: 3.197s | fit & process data Done
+[13019:MainThread](2026-07-30 15:38:49,686) INFO - qlib.timer - [log.py:127] - Time cost: 14.817s | Init data Done
+    [ALSTM] 注入特征维度 = 172
+[13019:MainThread](2026-07-30 15:38:51,399) INFO - qlib.ALSTM - [pytorch_alstm_ts.py:63] - ALSTM pytorch version...
+[13019:MainThread](2026-07-30 15:38:51,399) INFO - qlib.ALSTM - [pytorch_alstm_ts.py:81] - ALSTM parameters setting:
+d_feat : 172
+hidden_size : 64
+num_layers : 2
+dropout : 0.0
+n_epochs : 200
+lr : 0.001
+metric : loss
+batch_size : 800
+early_stop : 10
+optimizer : adam
+loss_type : mse
+device : cpu
+n_jobs : 4
+use_GPU : False
+seed : None
+[13019:MainThread](2026-07-30 15:38:51,404) INFO - qlib.ALSTM - [pytorch_alstm_ts.py:126] - model:
+ALSTMModel(
+  (net): Sequential(
+    (fc_in): Linear(in_features=172, out_features=64, bias=True)
+    (act): Tanh()
+  )
+  (rnn): GRU(64, 64, num_layers=2, batch_first=True)
+  (fc_out): Linear(in_features=128, out_features=1, bias=True)
+  (att_net): Sequential(
+    (att_fc_in): Linear(in_features=64, out_features=32, bias=True)
+    (att_dropout): Dropout(p=0.0, inplace=False)
+    (att_act): Tanh()
+    (att_fc_out): Linear(in_features=32, out_features=1, bias=False)
+    (att_softmax): Softmax(dim=1)
+  )
+)
+[13019:MainThread](2026-07-30 15:38:51,404) INFO - qlib.ALSTM - [pytorch_alstm_ts.py:127] - model size: 0.0603 MB
+[13019:MainThread](2026-07-30 15:38:52,813) INFO - qlib.ALSTM - [pytorch_alstm_ts.py:255] - training...
+[13019:MainThread](2026-07-30 15:38:52,813) INFO - qlib.ALSTM - [pytorch_alstm_ts.py:259] - Epoch0:
+[13019:MainThread](2026-07-30 15:38:52,814) INFO - qlib.ALSTM - [pytorch_alstm_ts.py:260] - training...
+[13019:MainThread](2026-07-30 15:39:47,245) INFO - qlib.ALSTM - [pytorch_alstm_ts.py:262] - evaluating...
+[13019:MainThread](2026-07-30 15:40:57,013) INFO - qlib.ALSTM - [pytorch_alstm_ts.py:265] - train -0.924199, valid -0.999444
+[13019:MainThread](2026-07-30 15:40:57,016) INFO - qlib.ALSTM - [pytorch_alstm_ts.py:259] - Epoch1:
+[13019:MainThread](2026-07-30 15:40:57,017) INFO - qlib.ALSTM - [pytorch_alstm_ts.py:260] - training...
+[13019:MainThread](2026-07-30 15:41:51,562) INFO - qlib.ALSTM - [pytorch_alstm_ts.py:262] - evaluating...
+[13019:MainThread](2026-07-30 15:43:04,737) INFO - qlib.ALSTM - [pytorch_alstm_ts.py:265] - train -0.859684, valid -1.039186
+[13019:MainThread](2026-07-30 15:43:04,740) INFO - qlib.ALSTM - [pytorch_alstm_ts.py:259] - Epoch2:
+[13019:MainThread](2026-07-30 15:43:04,740) INFO - qlib.ALSTM - [pytorch_alstm_ts.py:260] - training...
+[13019:MainThread](2026-07-30 15:44:03,938) INFO - qlib.ALSTM - [pytorch_alstm_ts.py:262] - evaluating...
+[13019:MainThread](2026-07-30 15:45:13,257) INFO - qlib.ALSTM - [pytorch_alstm_ts.py:265] - train -0.765042, valid -1.084644
+[13019:MainThread](2026-07-30 15:45:13,259) INFO - qlib.ALSTM - [pytorch_alstm_ts.py:259] - Epoch3:
+[13019:MainThread](2026-07-30 15:45:13,260) INFO - qlib.ALSTM - [pytorch_alstm_ts.py:260] - training...
+[13019:MainThread](2026-07-30 15:46:09,206) INFO - qlib.ALSTM - [pytorch_alstm_ts.py:262] - evaluating...
+[13019:MainThread](2026-07-30 15:47:24,491) INFO - qlib.ALSTM - [pytorch_alstm_ts.py:265] - train -0.664133, valid -1.091276
+[13019:MainThread](2026-07-30 15:47:24,492) INFO - qlib.ALSTM - [pytorch_alstm_ts.py:259] - Epoch4:
+[13019:MainThread](2026-07-30 15:47:24,493) INFO - qlib.ALSTM - [pytorch_alstm_ts.py:260] - training...
+[13019:MainThread](2026-07-30 15:48:21,902) INFO - qlib.ALSTM - [pytorch_alstm_ts.py:262] - evaluating...
+[13019:MainThread](2026-07-30 15:49:42,482) INFO - qlib.ALSTM - [pytorch_alstm_ts.py:265] - train -0.577871, valid -1.149544
+[13019:MainThread](2026-07-30 15:49:42,483) INFO - qlib.ALSTM - [pytorch_alstm_ts.py:259] - Epoch5:
+[13019:MainThread](2026-07-30 15:49:42,484) INFO - qlib.ALSTM - [pytorch_alstm_ts.py:260] - training...
+[13019:MainThread](2026-07-30 15:50:48,046) INFO - qlib.ALSTM - [pytorch_alstm_ts.py:262] - evaluating...
+[13019:MainThread](2026-07-30 15:52:11,168) INFO - qlib.ALSTM - [pytorch_alstm_ts.py:265] - train -0.490835, valid -1.232906
+[13019:MainThread](2026-07-30 15:52:11,170) INFO - qlib.ALSTM - [pytorch_alstm_ts.py:259] - Epoch6:
+[13019:MainThread](2026-07-30 15:52:11,171) INFO - qlib.ALSTM - [pytorch_alstm_ts.py:260] - training...
+[13019:MainThread](2026-07-30 15:53:18,129) INFO - qlib.ALSTM - [pytorch_alstm_ts.py:262] - evaluating...
+[13019:MainThread](2026-07-30 15:54:41,731) INFO - qlib.ALSTM - [pytorch_alstm_ts.py:265] - train -0.440101, valid -1.258271
+[13019:MainThread](2026-07-30 15:54:41,733) INFO - qlib.ALSTM - [pytorch_alstm_ts.py:259] - Epoch7:
+[13019:MainThread](2026-07-30 15:54:41,733) INFO - qlib.ALSTM - [pytorch_alstm_ts.py:260] - training...
+[13019:MainThread](2026-07-30 15:55:46,880) INFO - qlib.ALSTM - [pytorch_alstm_ts.py:262] - evaluating...
+[13019:MainThread](2026-07-30 15:57:03,019) INFO - qlib.ALSTM - [pytorch_alstm_ts.py:265] - train -0.396271, valid -1.293519
+[13019:MainThread](2026-07-30 15:57:03,022) INFO - qlib.ALSTM - [pytorch_alstm_ts.py:259] - Epoch8:
+[13019:MainThread](2026-07-30 15:57:03,022) INFO - qlib.ALSTM - [pytorch_alstm_ts.py:260] - training...
+[13019:MainThread](2026-07-30 15:58:01,308) INFO - qlib.ALSTM - [pytorch_alstm_ts.py:262] - evaluating...
+[13019:MainThread](2026-07-30 15:59:25,590) INFO - qlib.ALSTM - [pytorch_alstm_ts.py:265] - train -0.353737, valid -1.339443
+[13019:MainThread](2026-07-30 15:59:25,591) INFO - qlib.ALSTM - [pytorch_alstm_ts.py:259] - Epoch9:
+[13019:MainThread](2026-07-30 15:59:25,592) INFO - qlib.ALSTM - [pytorch_alstm_ts.py:260] - training...
+[13019:MainThread](2026-07-30 16:00:29,553) INFO - qlib.ALSTM - [pytorch_alstm_ts.py:262] - evaluating...
+[13019:MainThread](2026-07-30 16:01:44,752) INFO - qlib.ALSTM - [pytorch_alstm_ts.py:265] - train -0.322550, valid -1.319657
+[13019:MainThread](2026-07-30 16:01:44,754) INFO - qlib.ALSTM - [pytorch_alstm_ts.py:259] - Epoch10:
+[13019:MainThread](2026-07-30 16:01:44,754) INFO - qlib.ALSTM - [pytorch_alstm_ts.py:260] - training...
+[13019:MainThread](2026-07-30 16:02:48,501) INFO - qlib.ALSTM - [pytorch_alstm_ts.py:262] - evaluating...
+[13019:MainThread](2026-07-30 16:04:08,198) INFO - qlib.ALSTM - [pytorch_alstm_ts.py:265] - train -0.299563, valid -1.394798
+[13019:MainThread](2026-07-30 16:04:08,200) INFO - qlib.ALSTM - [pytorch_alstm_ts.py:277] - early stop
+[13019:MainThread](2026-07-30 16:04:08,201) INFO - qlib.ALSTM - [pytorch_alstm_ts.py:280] - best score: -0.999444 @ 0
+    [流动性] 中位数20日均成交额=1.26亿, 一字涨停59条, 停牌130条
+[CHECK] 沪深300基准(csi300_cache): 2019-01-02 ~ 2026-07-28 (1835天)
+[worker ALSTM] status=ok 用时1597.4s
+
+========================================================================
+[Phase A] GATs  (wall-clock 预算 5400s)
+========================================================================
+[28050:MainThread](2026-07-30 16:05:01,727) INFO - qlib.Initialization - [config.py:473] - default_conf: client.
+[28050:MainThread](2026-07-30 16:05:01,998) INFO - qlib.Initialization - [__init__.py:82] - qlib successfully initialized based on client settings.
+[28050:MainThread](2026-07-30 16:05:01,998) INFO - qlib.Initialization - [__init__.py:84] - data_path={'__DEFAULT_FREQ': PosixPath('/Users/11164591/.qlib/qlib_data/cn_data_fixed')}
+[CHECK] fcf_pit: (93640, 6), 5454只, 1996~2025 | profit_pit: (55675, 4), 5448只, 1998~2025
+[CHECK] 交易日历: 2014-01-02 ~ 2026-07-23 (3019天)
+[CHECK] 估值缓存: 2079日 × 472股, 2018-01-02~2026-07-29
+[worker GATs] 冻结股票池 226 只 | train('2016-01-01', '2021-12-31') valid('2022-01-01', '2022-11-30')(embargo) 信号('2022-12-01', '2026-06-30')
+[28050:MainThread](2026-07-30 16:05:46,219) INFO - qlib.timer - [log.py:127] - Time cost: 21.390s | Loading data Done
+[28050:MainThread](2026-07-30 16:05:50,607) INFO - qlib.timer - [log.py:127] - Time cost: 3.046s | RobustZScoreNorm Done
+[28050:MainThread](2026-07-30 16:05:51,005) INFO - qlib.timer - [log.py:127] - Time cost: 0.398s | Fillna Done
+[28050:MainThread](2026-07-30 16:05:51,351) INFO - qlib.timer - [log.py:127] - Time cost: 0.109s | DropnaLabel Done
+[28050:MainThread](2026-07-30 16:05:52,666) INFO - qlib.timer - [log.py:127] - Time cost: 1.315s | CSZScoreNorm Done
+[28050:MainThread](2026-07-30 16:05:52,673) INFO - qlib.timer - [log.py:127] - Time cost: 6.452s | fit & process data Done
+[28050:MainThread](2026-07-30 16:05:52,673) INFO - qlib.timer - [log.py:127] - Time cost: 27.846s | Init data Done
+    [GATs] 注入特征维度 = 172
+[28050:MainThread](2026-07-30 16:05:54,754) INFO - qlib.GATs - [pytorch_gats_ts.py:82] - GATs pytorch version...
+[28050:MainThread](2026-07-30 16:05:54,754) INFO - qlib.GATs - [pytorch_gats_ts.py:101] - GATs parameters setting:
+d_feat : 172
+hidden_size : 64
+num_layers : 2
+dropout : 0.7
+n_epochs : 200
+lr : 0.0001
+metric : loss
+early_stop : 10
+optimizer : adam
+loss_type : mse
+base_model : LSTM
+model_path : None
+visible_GPU : -1
+use_GPU : False
+seed : None
+[28050:MainThread](2026-07-30 16:05:54,762) INFO - qlib.GATs - [pytorch_gats_ts.py:147] - model:
+GATModel(
+  (rnn): LSTM(172, 64, num_layers=2, batch_first=True, dropout=0.7)
+  (transformation): Linear(in_features=64, out_features=64, bias=True)
+  (fc): Linear(in_features=64, out_features=64, bias=True)
+  (fc_out): Linear(in_features=64, out_features=1, bias=True)
+  (leaky_relu): LeakyReLU(negative_slope=0.01)
+  (softmax): Softmax(dim=1)
+)
+[28050:MainThread](2026-07-30 16:05:54,764) INFO - qlib.GATs - [pytorch_gats_ts.py:148] - model size: 0.0980 MB
+[28050:MainThread](2026-07-30 16:05:57,874) INFO - qlib.GATs - [pytorch_gats_ts.py:280] - Loading pretrained model Done...
+[28050:MainThread](2026-07-30 16:05:57,875) INFO - qlib.GATs - [pytorch_gats_ts.py:283] - training...
+[28050:MainThread](2026-07-30 16:05:57,875) INFO - qlib.GATs - [pytorch_gats_ts.py:287] - Epoch0:
+[28050:MainThread](2026-07-30 16:05:57,876) INFO - qlib.GATs - [pytorch_gats_ts.py:288] - training...
+[28050:MainThread](2026-07-30 16:07:44,518) INFO - qlib.GATs - [pytorch_gats_ts.py:290] - evaluating...
+[28050:MainThread](2026-07-30 16:09:14,838) INFO - qlib.GATs - [pytorch_gats_ts.py:293] - train -0.961959, valid -0.995706
+[28050:MainThread](2026-07-30 16:09:14,843) INFO - qlib.GATs - [pytorch_gats_ts.py:287] - Epoch1:
+[28050:MainThread](2026-07-30 16:09:14,843) INFO - qlib.GATs - [pytorch_gats_ts.py:288] - training...
+[28050:MainThread](2026-07-30 16:10:36,131) INFO - qlib.GATs - [pytorch_gats_ts.py:290] - evaluating...
+[28050:MainThread](2026-07-30 16:12:25,373) INFO - qlib.GATs - [pytorch_gats_ts.py:293] - train -0.943723, valid -0.979518
+[28050:MainThread](2026-07-30 16:12:25,380) INFO - qlib.GATs - [pytorch_gats_ts.py:287] - Epoch2:
+[28050:MainThread](2026-07-30 16:12:25,382) INFO - qlib.GATs - [pytorch_gats_ts.py:288] - training...
+[28050:MainThread](2026-07-30 16:14:12,593) INFO - qlib.GATs - [pytorch_gats_ts.py:290] - evaluating...
+[28050:MainThread](2026-07-30 16:15:55,865) INFO - qlib.GATs - [pytorch_gats_ts.py:293] - train -0.929560, valid -0.974633
+[28050:MainThread](2026-07-30 16:15:55,872) INFO - qlib.GATs - [pytorch_gats_ts.py:287] - Epoch3:
+[28050:MainThread](2026-07-30 16:15:55,873) INFO - qlib.GATs - [pytorch_gats_ts.py:288] - training...
+[28050:MainThread](2026-07-30 16:17:17,338) INFO - qlib.GATs - [pytorch_gats_ts.py:290] - evaluating...
+[28050:MainThread](2026-07-30 16:18:39,152) INFO - qlib.GATs - [pytorch_gats_ts.py:293] - train -0.907970, valid -0.978869
+[28050:MainThread](2026-07-30 16:18:39,155) INFO - qlib.GATs - [pytorch_gats_ts.py:287] - Epoch4:
+[28050:MainThread](2026-07-30 16:18:39,156) INFO - qlib.GATs - [pytorch_gats_ts.py:288] - training...
+[28050:MainThread](2026-07-30 16:19:52,491) INFO - qlib.GATs - [pytorch_gats_ts.py:290] - evaluating...
+[28050:MainThread](2026-07-30 16:21:10,260) INFO - qlib.GATs - [pytorch_gats_ts.py:293] - train -0.902335, valid -0.976856
+[28050:MainThread](2026-07-30 16:21:10,262) INFO - qlib.GATs - [pytorch_gats_ts.py:287] - Epoch5:
+[28050:MainThread](2026-07-30 16:21:10,263) INFO - qlib.GATs - [pytorch_gats_ts.py:288] - training...
+[28050:MainThread](2026-07-30 16:22:18,284) INFO - qlib.GATs - [pytorch_gats_ts.py:290] - evaluating...
+[28050:MainThread](2026-07-30 16:23:36,651) INFO - qlib.GATs - [pytorch_gats_ts.py:293] - train -0.879827, valid -0.980746
+[28050:MainThread](2026-07-30 16:23:36,654) INFO - qlib.GATs - [pytorch_gats_ts.py:287] - Epoch6:
+[28050:MainThread](2026-07-30 16:23:36,656) INFO - qlib.GATs - [pytorch_gats_ts.py:288] - training...
+[28050:MainThread](2026-07-30 16:24:46,938) INFO - qlib.GATs - [pytorch_gats_ts.py:290] - evaluating...
+[28050:MainThread](2026-07-30 16:26:06,183) INFO - qlib.GATs - [pytorch_gats_ts.py:293] - train -0.863041, valid -0.991018
+[28050:MainThread](2026-07-30 16:26:06,186) INFO - qlib.GATs - [pytorch_gats_ts.py:287] - Epoch7:
+[28050:MainThread](2026-07-30 16:26:06,186) INFO - qlib.GATs - [pytorch_gats_ts.py:288] - training...
+[28050:MainThread](2026-07-30 16:27:32,671) INFO - qlib.GATs - [pytorch_gats_ts.py:290] - evaluating...
+[28050:MainThread](2026-07-30 16:28:55,652) INFO - qlib.GATs - [pytorch_gats_ts.py:293] - train -0.854397, valid -1.008009
+[28050:MainThread](2026-07-30 16:28:55,656) INFO - qlib.GATs - [pytorch_gats_ts.py:287] - Epoch8:
+[28050:MainThread](2026-07-30 16:28:55,657) INFO - qlib.GATs - [pytorch_gats_ts.py:288] - training...
+[28050:MainThread](2026-07-30 16:30:04,519) INFO - qlib.GATs - [pytorch_gats_ts.py:290] - evaluating...
+[28050:MainThread](2026-07-30 16:31:27,526) INFO - qlib.GATs - [pytorch_gats_ts.py:293] - train -0.845449, valid -1.021271
+[28050:MainThread](2026-07-30 16:31:27,528) INFO - qlib.GATs - [pytorch_gats_ts.py:287] - Epoch9:
+[28050:MainThread](2026-07-30 16:31:27,529) INFO - qlib.GATs - [pytorch_gats_ts.py:288] - training...
+[28050:MainThread](2026-07-30 16:32:45,542) INFO - qlib.GATs - [pytorch_gats_ts.py:290] - evaluating...
+[28050:MainThread](2026-07-30 16:34:05,993) INFO - qlib.GATs - [pytorch_gats_ts.py:293] - train -0.838860, valid -1.034393
+[28050:MainThread](2026-07-30 16:34:05,994) INFO - qlib.GATs - [pytorch_gats_ts.py:287] - Epoch10:
+[28050:MainThread](2026-07-30 16:34:05,995) INFO - qlib.GATs - [pytorch_gats_ts.py:288] - training...
+[28050:MainThread](2026-07-30 16:35:16,037) INFO - qlib.GATs - [pytorch_gats_ts.py:290] - evaluating...
+[28050:MainThread](2026-07-30 16:36:37,965) INFO - qlib.GATs - [pytorch_gats_ts.py:293] - train -0.827156, valid -1.063300
+[28050:MainThread](2026-07-30 16:36:37,967) INFO - qlib.GATs - [pytorch_gats_ts.py:287] - Epoch11:
+[28050:MainThread](2026-07-30 16:36:37,969) INFO - qlib.GATs - [pytorch_gats_ts.py:288] - training...
+[28050:MainThread](2026-07-30 16:37:58,245) INFO - qlib.GATs - [pytorch_gats_ts.py:290] - evaluating...
+[28050:MainThread](2026-07-30 16:39:22,360) INFO - qlib.GATs - [pytorch_gats_ts.py:293] - train -0.821301, valid -1.065513
+[28050:MainThread](2026-07-30 16:39:22,362) INFO - qlib.GATs - [pytorch_gats_ts.py:287] - Epoch12:
+[28050:MainThread](2026-07-30 16:39:22,362) INFO - qlib.GATs - [pytorch_gats_ts.py:288] - training...
+[28050:MainThread](2026-07-30 16:40:37,491) INFO - qlib.GATs - [pytorch_gats_ts.py:290] - evaluating...
+[28050:MainThread](2026-07-30 16:42:01,919) INFO - qlib.GATs - [pytorch_gats_ts.py:293] - train -0.804231, valid -1.061632
+[28050:MainThread](2026-07-30 16:42:01,922) INFO - qlib.GATs - [pytorch_gats_ts.py:305] - early stop
+[28050:MainThread](2026-07-30 16:42:01,923) INFO - qlib.GATs - [pytorch_gats_ts.py:308] - best score: -0.974633 @ 2
+    [流动性] 中位数20日均成交额=1.26亿, 一字涨停59条, 停牌130条
+[CHECK] 沪深300基准(csi300_cache): 2019-01-02 ~ 2026-07-28 (1835天)
+[worker GATs] status=ok 用时2277.1s
+
+========================================================================
+[Phase A] TCN  (wall-clock 预算 5400s)
+========================================================================
+[46792:MainThread](2026-07-30 16:43:00,613) INFO - qlib.Initialization - [config.py:473] - default_conf: client.
+[46792:MainThread](2026-07-30 16:43:00,889) INFO - qlib.Initialization - [__init__.py:82] - qlib successfully initialized based on client settings.
+[46792:MainThread](2026-07-30 16:43:00,890) INFO - qlib.Initialization - [__init__.py:84] - data_path={'__DEFAULT_FREQ': PosixPath('/Users/11164591/.qlib/qlib_data/cn_data_fixed')}
+[CHECK] fcf_pit: (93640, 6), 5454只, 1996~2025 | profit_pit: (55675, 4), 5448只, 1998~2025
+[CHECK] 交易日历: 2014-01-02 ~ 2026-07-23 (3019天)
+[CHECK] 估值缓存: 2079日 × 472股, 2018-01-02~2026-07-29
+[worker TCN] 冻结股票池 226 只 | train('2016-01-01', '2021-12-31') valid('2022-01-01', '2022-11-30')(embargo) 信号('2022-12-01', '2026-06-30')
+[46792:MainThread](2026-07-30 16:43:52,340) INFO - qlib.timer - [log.py:127] - Time cost: 16.449s | Loading data Done
+[46792:MainThread](2026-07-30 16:43:54,277) INFO - qlib.timer - [log.py:127] - Time cost: 1.811s | RobustZScoreNorm Done
+[46792:MainThread](2026-07-30 16:43:54,581) INFO - qlib.timer - [log.py:127] - Time cost: 0.303s | Fillna Done
+[46792:MainThread](2026-07-30 16:43:54,835) INFO - qlib.timer - [log.py:127] - Time cost: 0.107s | DropnaLabel Done
+[46792:MainThread](2026-07-30 16:43:56,369) INFO - qlib.timer - [log.py:127] - Time cost: 1.533s | CSZScoreNorm Done
+[46792:MainThread](2026-07-30 16:43:56,375) INFO - qlib.timer - [log.py:127] - Time cost: 4.033s | fit & process data Done
+[46792:MainThread](2026-07-30 16:43:56,375) INFO - qlib.timer - [log.py:127] - Time cost: 20.484s | Init data Done
+    [TCN] 注入特征维度 = 172
+[46792:MainThread](2026-07-30 16:43:58,451) INFO - qlib.TCN - [pytorch_tcn_ts.py:61] - TCN pytorch version...
+[46792:MainThread](2026-07-30 16:43:58,451) INFO - qlib.TCN - [pytorch_tcn_ts.py:80] - TCN parameters setting:
+d_feat : 172
+n_chans : 32
+kernel_size : 7
+num_layers : 5
+dropout : 0.5
+n_epochs : 200
+lr : 0.0001
+metric : loss
+batch_size : 2000
+early_stop : 20
+optimizer : adam
+loss_type : mse
+device : cpu
+n_jobs : 4
+use_GPU : False
+seed : None
+[46792:MainThread](2026-07-30 16:43:58,466) INFO - qlib.TCN - [pytorch_tcn_ts.py:128] - model:
+TCNModel(
+  (tcn): TemporalConvNet(
+    (network): Sequential(
+      (0): TemporalBlock(
+        (conv1): Conv1d(172, 32, kernel_size=(7,), stride=(1,), padding=(6,))
+        (chomp1): Chomp1d()
+        (relu1): ReLU()
+        (dropout1): Dropout(p=0.5, inplace=False)
+        (conv2): Conv1d(32, 32, kernel_size=(7,), stride=(1,), padding=(6,))
+        (chomp2): Chomp1d()
+        (relu2): ReLU()
+        (dropout2): Dropout(p=0.5, inplace=False)
+        (net): Sequential(
+          (0): Conv1d(172, 32, kernel_size=(7,), stride=(1,), padding=(6,))
+          (1): Chomp1d()
+          (2): ReLU()
+          (3): Dropout(p=0.5, inplace=False)
+          (4): Conv1d(32, 32, kernel_size=(7,), stride=(1,), padding=(6,))
+          (5): Chomp1d()
+          (6): ReLU()
+          (7): Dropout(p=0.5, inplace=False)
+        )
+        (downsample): Conv1d(172, 32, kernel_size=(1,), stride=(1,))
+        (relu): ReLU()
+      )
+      (1): TemporalBlock(
+        (conv1): Conv1d(32, 32, kernel_size=(7,), stride=(1,), padding=(12,), dilation=(2,))
+        (chomp1): Chomp1d()
+        (relu1): ReLU()
+        (dropout1): Dropout(p=0.5, inplace=False)
+        (conv2): Conv1d(32, 32, kernel_size=(7,), stride=(1,), padding=(12,), dilation=(2,))
+        (chomp2): Chomp1d()
+        (relu2): ReLU()
+        (dropout2): Dropout(p=0.5, inplace=False)
+        (net): Sequential(
+          (0): Conv1d(32, 32, kernel_size=(7,), stride=(1,), padding=(12,), dilation=(2,))
+          (1): Chomp1d()
+          (2): ReLU()
+          (3): Dropout(p=0.5, inplace=False)
+          (4): Conv1d(32, 32, kernel_size=(7,), stride=(1,), padding=(12,), dilation=(2,))
+          (5): Chomp1d()
+          (6): ReLU()
+          (7): Dropout(p=0.5, inplace=False)
+        )
+        (relu): ReLU()
+      )
+      (2): TemporalBlock(
+        (conv1): Conv1d(32, 32, kernel_size=(7,), stride=(1,), padding=(24,), dilation=(4,))
+        (chomp1): Chomp1d()
+        (relu1): ReLU()
+        (dropout1): Dropout(p=0.5, inplace=False)
+        (conv2): Conv1d(32, 32, kernel_size=(7,), stride=(1,), padding=(24,), dilation=(4,))
+        (chomp2): Chomp1d()
+        (relu2): ReLU()
+        (dropout2): Dropout(p=0.5, inplace=False)
+        (net): Sequential(
+          (0): Conv1d(32, 32, kernel_size=(7,), stride=(1,), padding=(24,), dilation=(4,))
+          (1): Chomp1d()
+          (2): ReLU()
+          (3): Dropout(p=0.5, inplace=False)
+          (4): Conv1d(32, 32, kernel_size=(7,), stride=(1,), padding=(24,), dilation=(4,))
+          (5): Chomp1d()
+          (6): ReLU()
+          (7): Dropout(p=0.5, inplace=False)
+        )
+        (relu): ReLU()
+      )
+      (3): TemporalBlock(
+        (conv1): Conv1d(32, 32, kernel_size=(7,), stride=(1,), padding=(48,), dilation=(8,))
+        (chomp1): Chomp1d()
+        (relu1): ReLU()
+        (dropout1): Dropout(p=0.5, inplace=False)
+        (conv2): Conv1d(32, 32, kernel_size=(7,), stride=(1,), padding=(48,), dilation=(8,))
+        (chomp2): Chomp1d()
+        (relu2): ReLU()
+        (dropout2): Dropout(p=0.5, inplace=False)
+        (net): Sequential(
+          (0): Conv1d(32, 32, kernel_size=(7,), stride=(1,), padding=(48,), dilation=(8,))
+          (1): Chomp1d()
+          (2): ReLU()
+          (3): Dropout(p=0.5, inplace=False)
+          (4): Conv1d(32, 32, kernel_size=(7,), stride=(1,), padding=(48,), dilation=(8,))
+          (5): Chomp1d()
+          (6): ReLU()
+          (7): Dropout(p=0.5, inplace=False)
+        )
+        (relu): ReLU()
+      )
+      (4): TemporalBlock(
+        (conv1): Conv1d(32, 32, kernel_size=(7,), stride=(1,), padding=(96,), dilation=(16,))
+        (chomp1): Chomp1d()
+        (relu1): ReLU()
+        (dropout1): Dropout(p=0.5, inplace=False)
+        (conv2): Conv1d(32, 32, kernel_size=(7,), stride=(1,), padding=(96,), dilation=(16,))
+        (chomp2): Chomp1d()
+        (relu2): ReLU()
+        (dropout2): Dropout(p=0.5, inplace=False)
+        (net): Sequential(
+          (0): Conv1d(32, 32, kernel_size=(7,), stride=(1,), padding=(96,), dilation=(16,))
+          (1): Chomp1d()
+          (2): ReLU()
+          (3): Dropout(p=0.5, inplace=False)
+          (4): Conv1d(32, 32, kernel_size=(7,), stride=(1,), padding=(96,), dilation=(16,))
+          (5): Chomp1d()
+          (6): ReLU()
+          (7): Dropout(p=0.5, inplace=False)
+        )
+        (relu): ReLU()
+      )
+    )
+  )
+  (linear): Linear(in_features=32, out_features=1, bias=True)
+)
+[46792:MainThread](2026-07-30 16:43:58,466) INFO - qlib.TCN - [pytorch_tcn_ts.py:129] - model size: 0.1042 MB
+[46792:MainThread](2026-07-30 16:44:00,065) INFO - qlib.TCN - [pytorch_tcn_ts.py:234] - training...
+[46792:MainThread](2026-07-30 16:44:00,066) INFO - qlib.TCN - [pytorch_tcn_ts.py:238] - Epoch0:
+[46792:MainThread](2026-07-30 16:44:00,066) INFO - qlib.TCN - [pytorch_tcn_ts.py:239] - training...
+[46792:MainThread](2026-07-30 16:53:19,658) INFO - qlib.TCN - [pytorch_tcn_ts.py:241] - evaluating...
+[46792:MainThread](2026-07-30 17:00:49,722) INFO - qlib.TCN - [pytorch_tcn_ts.py:244] - train -0.978135, valid -0.987714
+[46792:MainThread](2026-07-30 17:00:49,729) INFO - qlib.TCN - [pytorch_tcn_ts.py:238] - Epoch1:
+[46792:MainThread](2026-07-30 17:00:49,730) INFO - qlib.TCN - [pytorch_tcn_ts.py:239] - training...
+[46792:MainThread](2026-07-30 17:09:06,170) INFO - qlib.TCN - [pytorch_tcn_ts.py:241] - evaluating...
+[46792:MainThread](2026-07-30 17:16:30,464) INFO - qlib.TCN - [pytorch_tcn_ts.py:244] - train -0.964397, valid -0.982703
+[46792:MainThread](2026-07-30 17:16:30,472) INFO - qlib.TCN - [pytorch_tcn_ts.py:238] - Epoch2:
+[46792:MainThread](2026-07-30 17:16:30,473) INFO - qlib.TCN - [pytorch_tcn_ts.py:239] - training...
+[46792:MainThread](2026-07-30 17:25:21,170) INFO - qlib.TCN - [pytorch_tcn_ts.py:241] - evaluating...
+[46792:MainThread](2026-07-30 17:32:29,814) INFO - qlib.TCN - [pytorch_tcn_ts.py:244] - train -0.954818, valid -0.983486
+[46792:MainThread](2026-07-30 17:32:29,818) INFO - qlib.TCN - [pytorch_tcn_ts.py:238] - Epoch3:
+[46792:MainThread](2026-07-30 17:32:29,819) INFO - qlib.TCN - [pytorch_tcn_ts.py:239] - training...
+[46792:MainThread](2026-07-30 17:40:33,946) INFO - qlib.TCN - [pytorch_tcn_ts.py:241] - evaluating...
+[46792:MainThread](2026-07-30 17:47:42,904) INFO - qlib.TCN - [pytorch_tcn_ts.py:244] - train -0.948139, valid -0.984666
+[46792:MainThread](2026-07-30 17:47:42,905) INFO - qlib.TCN - [pytorch_tcn_ts.py:238] - Epoch4:
+[46792:MainThread](2026-07-30 17:47:42,905) INFO - qlib.TCN - [pytorch_tcn_ts.py:239] - training...
+[46792:MainThread](2026-07-30 17:56:25,488) INFO - qlib.TCN - [pytorch_tcn_ts.py:241] - evaluating...
+[46792:MainThread](2026-07-30 18:04:24,759) INFO - qlib.TCN - [pytorch_tcn_ts.py:244] - train -0.941536, valid -0.986712
+[46792:MainThread](2026-07-30 18:04:24,761) INFO - qlib.TCN - [pytorch_tcn_ts.py:238] - Epoch5:
+[46792:MainThread](2026-07-30 18:04:24,763) INFO - qlib.TCN - [pytorch_tcn_ts.py:239] - training...
+[Phase A] TCN TIMEOUT >5400s → 记 timeout, 继续下一个
+
+========================================================================
+[Phase A] Localformer  (wall-clock 预算 5400s)
+========================================================================
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/joblib/externals/loky/backend/resource_tracker.py:359: UserWarning: resource_tracker: There appear to be 2 leaked folder objects to clean up at shutdown
+  warnings.warn(
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/joblib/externals/loky/backend/resource_tracker.py:375: UserWarning: resource_tracker: /var/folders/g3/k9jmnbnx6xv37wjjzpv4mxjswf966k/T/joblib_memmapping_folder_46792_d5dd76a61eb34150a0929e2a095b05e4_0cf40674decd4c5eb44cfdd189245d13: FileNotFoundError(2, 'No such file or directory')
+  warnings.warn(f"resource_tracker: {name}: {e!r}")
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/joblib/externals/loky/backend/resource_tracker.py:375: UserWarning: resource_tracker: /var/folders/g3/k9jmnbnx6xv37wjjzpv4mxjswf966k/T/joblib_memmapping_folder_46792_54bec968542e48ddab6abd6709ab1de7_b4f9481e8e41425e80afe2ecb91abd05: FileNotFoundError(2, 'No such file or directory')
+  warnings.warn(f"resource_tracker: {name}: {e!r}")
+[92199:MainThread](2026-07-30 18:13:01,255) INFO - qlib.Initialization - [config.py:473] - default_conf: client.
+[92199:MainThread](2026-07-30 18:13:01,562) INFO - qlib.Initialization - [__init__.py:82] - qlib successfully initialized based on client settings.
+[92199:MainThread](2026-07-30 18:13:01,562) INFO - qlib.Initialization - [__init__.py:84] - data_path={'__DEFAULT_FREQ': PosixPath('/Users/11164591/.qlib/qlib_data/cn_data_fixed')}
+[CHECK] fcf_pit: (93640, 6), 5454只, 1996~2025 | profit_pit: (55675, 4), 5448只, 1998~2025
+[CHECK] 交易日历: 2014-01-02 ~ 2026-07-23 (3019天)
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/multiprocessing/resource_tracker.py:216: UserWarning: resource_tracker: There appear to be 20 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '
+[CHECK] 估值缓存: 2079日 × 472股, 2018-01-02~2026-07-29
+[worker Localformer] 冻结股票池 226 只 | train('2016-01-01', '2021-12-31') valid('2022-01-01', '2022-11-30')(embargo) 信号('2022-12-01', '2026-06-30')
+[92199:MainThread](2026-07-30 18:13:19,109) INFO - qlib.timer - [log.py:127] - Time cost: 13.716s | Loading data Done
+[92199:MainThread](2026-07-30 18:13:21,443) INFO - qlib.timer - [log.py:127] - Time cost: 2.201s | RobustZScoreNorm Done
+[92199:MainThread](2026-07-30 18:13:21,747) INFO - qlib.timer - [log.py:127] - Time cost: 0.303s | Fillna Done
+[92199:MainThread](2026-07-30 18:13:21,987) INFO - qlib.timer - [log.py:127] - Time cost: 0.082s | DropnaLabel Done
+[92199:MainThread](2026-07-30 18:13:23,043) INFO - qlib.timer - [log.py:127] - Time cost: 1.056s | CSZScoreNorm Done
+[92199:MainThread](2026-07-30 18:13:23,050) INFO - qlib.timer - [log.py:127] - Time cost: 3.939s | fit & process data Done
+[92199:MainThread](2026-07-30 18:13:23,050) INFO - qlib.timer - [log.py:127] - Time cost: 17.658s | Init data Done
+    [Localformer] 注入特征维度 = 172
+[92199:MainThread](2026-07-30 18:13:24,788) INFO - qlib.TransformerModel - [pytorch_localformer_ts.py:62] - Improved Transformer:
+batch_size : 8192
+device : cpu
+[92199:MainThread](2026-07-30 18:13:26,442) INFO - qlib.TransformerModel - [pytorch_localformer_ts.py:171] - training...
+[92199:MainThread](2026-07-30 18:13:26,442) INFO - qlib.TransformerModel - [pytorch_localformer_ts.py:175] - Epoch0:
+[92199:MainThread](2026-07-30 18:13:26,443) INFO - qlib.TransformerModel - [pytorch_localformer_ts.py:176] - training...
+[92199:MainThread](2026-07-30 18:19:14,789) INFO - qlib.TransformerModel - [pytorch_localformer_ts.py:178] - evaluating...
+[92199:MainThread](2026-07-30 18:23:01,082) INFO - qlib.TransformerModel - [pytorch_localformer_ts.py:181] - train -0.983856, valid -0.984891
+[92199:MainThread](2026-07-30 18:23:01,099) INFO - qlib.TransformerModel - [pytorch_localformer_ts.py:175] - Epoch1:
+[92199:MainThread](2026-07-30 18:23:01,100) INFO - qlib.TransformerModel - [pytorch_localformer_ts.py:176] - training...
+[92199:MainThread](2026-07-30 18:28:29,249) INFO - qlib.TransformerModel - [pytorch_localformer_ts.py:178] - evaluating...
+[92199:MainThread](2026-07-30 18:31:48,530) INFO - qlib.TransformerModel - [pytorch_localformer_ts.py:181] - train -0.971367, valid -0.982252
+[92199:MainThread](2026-07-30 18:31:48,540) INFO - qlib.TransformerModel - [pytorch_localformer_ts.py:175] - Epoch2:
+[92199:MainThread](2026-07-30 18:31:48,541) INFO - qlib.TransformerModel - [pytorch_localformer_ts.py:176] - training...
+[92199:MainThread](2026-07-30 18:37:14,298) INFO - qlib.TransformerModel - [pytorch_localformer_ts.py:178] - evaluating...
+[92199:MainThread](2026-07-30 18:40:33,181) INFO - qlib.TransformerModel - [pytorch_localformer_ts.py:181] - train -0.965202, valid -0.983605
+[92199:MainThread](2026-07-30 18:40:33,183) INFO - qlib.TransformerModel - [pytorch_localformer_ts.py:175] - Epoch3:
+[92199:MainThread](2026-07-30 18:40:33,184) INFO - qlib.TransformerModel - [pytorch_localformer_ts.py:176] - training...
+[92199:MainThread](2026-07-30 18:45:52,888) INFO - qlib.TransformerModel - [pytorch_localformer_ts.py:178] - evaluating...
+[92199:MainThread](2026-07-30 18:49:19,813) INFO - qlib.TransformerModel - [pytorch_localformer_ts.py:181] - train -0.956922, valid -0.986744
+[92199:MainThread](2026-07-30 18:49:19,816) INFO - qlib.TransformerModel - [pytorch_localformer_ts.py:175] - Epoch4:
+[92199:MainThread](2026-07-30 18:49:19,817) INFO - qlib.TransformerModel - [pytorch_localformer_ts.py:176] - training...
+[92199:MainThread](2026-07-30 18:54:37,323) INFO - qlib.TransformerModel - [pytorch_localformer_ts.py:178] - evaluating...
+[92199:MainThread](2026-07-30 18:57:55,367) INFO - qlib.TransformerModel - [pytorch_localformer_ts.py:181] - train -0.949131, valid -0.986521
+[92199:MainThread](2026-07-30 18:57:55,370) INFO - qlib.TransformerModel - [pytorch_localformer_ts.py:175] - Epoch5:
+[92199:MainThread](2026-07-30 18:57:55,371) INFO - qlib.TransformerModel - [pytorch_localformer_ts.py:176] - training...
+[92199:MainThread](2026-07-30 19:03:55,723) INFO - qlib.TransformerModel - [pytorch_localformer_ts.py:178] - evaluating...
+[92199:MainThread](2026-07-30 19:08:14,492) INFO - qlib.TransformerModel - [pytorch_localformer_ts.py:181] - train -0.943004, valid -0.987678
+[92199:MainThread](2026-07-30 19:08:14,494) INFO - qlib.TransformerModel - [pytorch_localformer_ts.py:175] - Epoch6:
+[92199:MainThread](2026-07-30 19:08:14,496) INFO - qlib.TransformerModel - [pytorch_localformer_ts.py:176] - training...
+[92199:MainThread](2026-07-30 19:14:37,905) INFO - qlib.TransformerModel - [pytorch_localformer_ts.py:178] - evaluating...
+[92199:MainThread](2026-07-30 19:18:41,423) INFO - qlib.TransformerModel - [pytorch_localformer_ts.py:181] - train -0.936402, valid -0.985919
+[92199:MainThread](2026-07-30 19:18:41,424) INFO - qlib.TransformerModel - [pytorch_localformer_ts.py:193] - early stop
+[92199:MainThread](2026-07-30 19:18:41,425) INFO - qlib.TransformerModel - [pytorch_localformer_ts.py:196] - best score: -0.982252 @ 1
+    [流动性] 中位数20日均成交额=1.26亿, 一字涨停59条, 停牌130条
+[CHECK] 沪深300基准(csi300_cache): 2019-01-02 ~ 2026-07-28 (1835天)
+[worker Localformer] status=ok 用时4079.9s
+
+========================================================================
+[Phase A] Transformer  (wall-clock 预算 5400s)
+========================================================================
+[25183:MainThread](2026-07-30 19:21:02,855) INFO - qlib.Initialization - [config.py:473] - default_conf: client.
+[25183:MainThread](2026-07-30 19:21:03,080) INFO - qlib.Initialization - [__init__.py:82] - qlib successfully initialized based on client settings.
+[25183:MainThread](2026-07-30 19:21:03,081) INFO - qlib.Initialization - [__init__.py:84] - data_path={'__DEFAULT_FREQ': PosixPath('/Users/11164591/.qlib/qlib_data/cn_data_fixed')}
+[CHECK] fcf_pit: (93640, 6), 5454只, 1996~2025 | profit_pit: (55675, 4), 5448只, 1998~2025
+[CHECK] 交易日历: 2014-01-02 ~ 2026-07-23 (3019天)
+[CHECK] 估值缓存: 2079日 × 472股, 2018-01-02~2026-07-29
+[worker Transformer] 冻结股票池 226 只 | train('2016-01-01', '2021-12-31') valid('2022-01-01', '2022-11-30')(embargo) 信号('2022-12-01', '2026-06-30')
+[25183:MainThread](2026-07-30 19:21:24,092) INFO - qlib.timer - [log.py:127] - Time cost: 16.300s | Loading data Done
+[25183:MainThread](2026-07-30 19:21:25,799) INFO - qlib.timer - [log.py:127] - Time cost: 1.596s | RobustZScoreNorm Done
+[25183:MainThread](2026-07-30 19:21:26,127) INFO - qlib.timer - [log.py:127] - Time cost: 0.327s | Fillna Done
+[25183:MainThread](2026-07-30 19:21:26,403) INFO - qlib.timer - [log.py:127] - Time cost: 0.106s | DropnaLabel Done
+[25183:MainThread](2026-07-30 19:21:27,437) INFO - qlib.timer - [log.py:127] - Time cost: 1.033s | CSZScoreNorm Done
+[25183:MainThread](2026-07-30 19:21:27,441) INFO - qlib.timer - [log.py:127] - Time cost: 3.349s | fit & process data Done
+[25183:MainThread](2026-07-30 19:21:27,442) INFO - qlib.timer - [log.py:127] - Time cost: 19.650s | Init data Done
+    [Transformer] 注入特征维度 = 172
+[25183:MainThread](2026-07-30 19:21:29,084) INFO - qlib.TransformerModel - [pytorch_transformer_ts.py:61] - Naive Transformer:
+batch_size : 8192
+device : cpu
+[25183:MainThread](2026-07-30 19:21:30,544) INFO - qlib.TransformerModel - [pytorch_transformer_ts.py:169] - training...
+[25183:MainThread](2026-07-30 19:21:30,544) INFO - qlib.TransformerModel - [pytorch_transformer_ts.py:173] - Epoch0:
+[25183:MainThread](2026-07-30 19:21:30,545) INFO - qlib.TransformerModel - [pytorch_transformer_ts.py:174] - training...
+[25183:MainThread](2026-07-30 19:25:40,919) INFO - qlib.TransformerModel - [pytorch_transformer_ts.py:176] - evaluating...
+[25183:MainThread](2026-07-30 19:27:49,723) INFO - qlib.TransformerModel - [pytorch_transformer_ts.py:179] - train -0.991683, valid -0.993533
+[25183:MainThread](2026-07-30 19:27:49,738) INFO - qlib.TransformerModel - [pytorch_transformer_ts.py:173] - Epoch1:
+[25183:MainThread](2026-07-30 19:27:49,739) INFO - qlib.TransformerModel - [pytorch_transformer_ts.py:174] - training...
+[25183:MainThread](2026-07-30 19:31:43,581) INFO - qlib.TransformerModel - [pytorch_transformer_ts.py:176] - evaluating...
+[25183:MainThread](2026-07-30 19:33:36,344) INFO - qlib.TransformerModel - [pytorch_transformer_ts.py:179] - train -0.983015, valid -0.989119
+[25183:MainThread](2026-07-30 19:33:36,358) INFO - qlib.TransformerModel - [pytorch_transformer_ts.py:173] - Epoch2:
+[25183:MainThread](2026-07-30 19:33:36,359) INFO - qlib.TransformerModel - [pytorch_transformer_ts.py:174] - training...
+[25183:MainThread](2026-07-30 19:37:31,790) INFO - qlib.TransformerModel - [pytorch_transformer_ts.py:176] - evaluating...
+[25183:MainThread](2026-07-30 19:39:46,265) INFO - qlib.TransformerModel - [pytorch_transformer_ts.py:179] - train -0.972643, valid -0.987313
+[25183:MainThread](2026-07-30 19:39:46,274) INFO - qlib.TransformerModel - [pytorch_transformer_ts.py:173] - Epoch3:
+[25183:MainThread](2026-07-30 19:39:46,275) INFO - qlib.TransformerModel - [pytorch_transformer_ts.py:174] - training...
+[25183:MainThread](2026-07-30 19:43:41,544) INFO - qlib.TransformerModel - [pytorch_transformer_ts.py:176] - evaluating...
+[25183:MainThread](2026-07-30 19:46:15,922) INFO - qlib.TransformerModel - [pytorch_transformer_ts.py:179] - train -0.963784, valid -0.984883
+[25183:MainThread](2026-07-30 19:46:15,928) INFO - qlib.TransformerModel - [pytorch_transformer_ts.py:173] - Epoch4:
+[25183:MainThread](2026-07-30 19:46:15,928) INFO - qlib.TransformerModel - [pytorch_transformer_ts.py:174] - training...
+[25183:MainThread](2026-07-30 19:50:21,657) INFO - qlib.TransformerModel - [pytorch_transformer_ts.py:176] - evaluating...
+[25183:MainThread](2026-07-30 19:52:18,276) INFO - qlib.TransformerModel - [pytorch_transformer_ts.py:179] - train -0.954910, valid -0.983185
+[25183:MainThread](2026-07-30 19:52:18,285) INFO - qlib.TransformerModel - [pytorch_transformer_ts.py:173] - Epoch5:
+[25183:MainThread](2026-07-30 19:52:18,286) INFO - qlib.TransformerModel - [pytorch_transformer_ts.py:174] - training...
+[25183:MainThread](2026-07-30 19:56:18,847) INFO - qlib.TransformerModel - [pytorch_transformer_ts.py:176] - evaluating...
+[25183:MainThread](2026-07-30 19:58:22,693) INFO - qlib.TransformerModel - [pytorch_transformer_ts.py:179] - train -0.944771, valid -0.983055
+[25183:MainThread](2026-07-30 19:58:22,700) INFO - qlib.TransformerModel - [pytorch_transformer_ts.py:173] - Epoch6:
+[25183:MainThread](2026-07-30 19:58:22,702) INFO - qlib.TransformerModel - [pytorch_transformer_ts.py:174] - training...
+[25183:MainThread](2026-07-30 20:02:32,018) INFO - qlib.TransformerModel - [pytorch_transformer_ts.py:176] - evaluating...
+[25183:MainThread](2026-07-30 20:04:44,846) INFO - qlib.TransformerModel - [pytorch_transformer_ts.py:179] - train -0.940130, valid -0.985758
+[25183:MainThread](2026-07-30 20:04:44,848) INFO - qlib.TransformerModel - [pytorch_transformer_ts.py:173] - Epoch7:
+[25183:MainThread](2026-07-30 20:04:44,848) INFO - qlib.TransformerModel - [pytorch_transformer_ts.py:174] - training...
+[25183:MainThread](2026-07-30 20:09:03,084) INFO - qlib.TransformerModel - [pytorch_transformer_ts.py:176] - evaluating...
+[25183:MainThread](2026-07-30 20:11:19,712) INFO - qlib.TransformerModel - [pytorch_transformer_ts.py:179] - train -0.936044, valid -0.989509
+[25183:MainThread](2026-07-30 20:11:19,715) INFO - qlib.TransformerModel - [pytorch_transformer_ts.py:173] - Epoch8:
+[25183:MainThread](2026-07-30 20:11:19,717) INFO - qlib.TransformerModel - [pytorch_transformer_ts.py:174] - training...
+[25183:MainThread](2026-07-30 20:15:07,188) INFO - qlib.TransformerModel - [pytorch_transformer_ts.py:176] - evaluating...
+[25183:MainThread](2026-07-30 20:17:08,468) INFO - qlib.TransformerModel - [pytorch_transformer_ts.py:179] - train -0.931692, valid -0.993017
+[25183:MainThread](2026-07-30 20:17:08,469) INFO - qlib.TransformerModel - [pytorch_transformer_ts.py:173] - Epoch9:
+[25183:MainThread](2026-07-30 20:17:08,469) INFO - qlib.TransformerModel - [pytorch_transformer_ts.py:174] - training...
+[25183:MainThread](2026-07-30 20:20:48,000) INFO - qlib.TransformerModel - [pytorch_transformer_ts.py:176] - evaluating...
+[25183:MainThread](2026-07-30 20:22:43,365) INFO - qlib.TransformerModel - [pytorch_transformer_ts.py:179] - train -0.929284, valid -0.997788
+[25183:MainThread](2026-07-30 20:22:43,367) INFO - qlib.TransformerModel - [pytorch_transformer_ts.py:173] - Epoch10:
+[25183:MainThread](2026-07-30 20:22:43,367) INFO - qlib.TransformerModel - [pytorch_transformer_ts.py:174] - training...
+[25183:MainThread](2026-07-30 20:26:29,930) INFO - qlib.TransformerModel - [pytorch_transformer_ts.py:176] - evaluating...
+[25183:MainThread](2026-07-30 20:28:22,864) INFO - qlib.TransformerModel - [pytorch_transformer_ts.py:179] - train -0.921909, valid -0.991228
+[25183:MainThread](2026-07-30 20:28:22,867) INFO - qlib.TransformerModel - [pytorch_transformer_ts.py:191] - early stop
+[25183:MainThread](2026-07-30 20:28:22,868) INFO - qlib.TransformerModel - [pytorch_transformer_ts.py:194] - best score: -0.983055 @ 5
+    [流动性] 中位数20日均成交额=1.26亿, 一字涨停59条, 停牌130条
+[CHECK] 沪深300基准(csi300_cache): 2019-01-02 ~ 2026-07-28 (1835天)
+[worker Transformer] status=ok 用时4113.7s
+
+========================================================================
+[Phase A] VALUE20  (wall-clock 预算 5400s)
+========================================================================
+[58997:MainThread](2026-07-30 20:29:38,140) INFO - qlib.Initialization - [config.py:473] - default_conf: client.
+[58997:MainThread](2026-07-30 20:29:38,357) INFO - qlib.Initialization - [__init__.py:82] - qlib successfully initialized based on client settings.
+[58997:MainThread](2026-07-30 20:29:38,357) INFO - qlib.Initialization - [__init__.py:84] - data_path={'__DEFAULT_FREQ': PosixPath('/Users/11164591/.qlib/qlib_data/cn_data_fixed')}
+[CHECK] fcf_pit: (93640, 6), 5454只, 1996~2025 | profit_pit: (55675, 4), 5448只, 1998~2025
+[CHECK] 交易日历: 2014-01-02 ~ 2026-07-23 (3019天)
+[CHECK] 估值缓存: 2079日 × 472股, 2018-01-02~2026-07-29
+[worker VALUE20] 冻结股票池 226 只 | train('2016-01-01', '2021-12-31') valid('2022-01-01', '2022-11-30')(embargo) 信号('2022-12-01', '2026-06-30')
+    [流动性] 中位数20日均成交额=1.26亿, 一字涨停59条, 停牌130条
+[CHECK] 沪深300基准(csi300_cache): 2019-01-02 ~ 2026-07-28 (1835天)
+[worker VALUE20] status=ok 用时14.3s
+
+========================================================================
+[Phase A] POOL_EW  (wall-clock 预算 5400s)
+========================================================================
+[59192:MainThread](2026-07-30 20:29:53,707) INFO - qlib.Initialization - [config.py:473] - default_conf: client.
+[59192:MainThread](2026-07-30 20:29:53,939) INFO - qlib.Initialization - [__init__.py:82] - qlib successfully initialized based on client settings.
+[59192:MainThread](2026-07-30 20:29:53,939) INFO - qlib.Initialization - [__init__.py:84] - data_path={'__DEFAULT_FREQ': PosixPath('/Users/11164591/.qlib/qlib_data/cn_data_fixed')}
+[CHECK] fcf_pit: (93640, 6), 5454只, 1996~2025 | profit_pit: (55675, 4), 5448只, 1998~2025
+[CHECK] 交易日历: 2014-01-02 ~ 2026-07-23 (3019天)
+[CHECK] 估值缓存: 2079日 × 472股, 2018-01-02~2026-07-29
+[worker POOL_EW] 冻结股票池 226 只 | train('2016-01-01', '2021-12-31') valid('2022-01-01', '2022-11-30')(embargo) 信号('2022-12-01', '2026-06-30')
+    [流动性] 中位数20日均成交额=1.26亿, 一字涨停59条, 停牌130条
+[CHECK] 沪深300基准(csi300_cache): 2019-01-02 ~ 2026-07-28 (1835天)
+[worker POOL_EW] status=ok 用时10.7s
+
+================================================================================================
+  Phase A 全模型初筛排名 (单切分 test 2023~2026H1, 按 OOS RankIC 降序)
+================================================================================================
+模型              状态         RankIC      IC       年化  Sharpe       回撤  Calmar      换手     次数       秒
+GATs            ok         0.1841  0.1887   41.9%    2.40  -14.3%    2.94   49.7%  213.0  2277.1
+VALUE20         ok         0.0965  0.0545   26.6%    1.42  -14.1%    1.89   14.5%  113.0    14.3
+POOL_EW         ok         0.0965  0.0545    6.8%    0.34  -26.8%    0.26    6.7%  301.0    10.7
+Transformer     ok         0.0811  0.0467   10.5%    0.47  -35.9%    0.29   86.8%  377.0  4113.7
+LSTM            ok         0.0601  0.0478   19.9%    0.82  -27.9%    0.71   92.4%  401.0  1574.5
+Localformer     ok         0.0580  0.0238    7.0%    0.39  -21.7%    0.32   79.6%  345.0  4079.9
+ALSTM           ok         0.0540  0.0303   17.7%    0.79  -26.5%    0.67   81.4%  353.0  1597.4
+GRU             ok         0.0518  0.0345   12.4%    0.61  -24.1%    0.52   80.5%  349.0  1474.2
+TCN             timeout         -       -       -       -       -       -       -    nan  5400.0
+
+[+] Phase A 排名已存 /Users/11164591/Documents/Qoder目录/qlib/quant/outputs/benchmark_phaseA.csv
+[+] Phase A 前 4 名 (进入 Phase B 建议): ['GATs', 'VALUE20', 'POOL_EW', 'Transformer']

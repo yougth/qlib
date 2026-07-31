@@ -1,0 +1,1 @@
+{"model": "LightGBM", "status": "ok", "oos_rankic": 0.0647, "oos_ic": 0.0545, "ar": 0.2008, "vol": 0.2297, "sharpe": 0.874, "mdd": -0.2839, "calmar": 0.707, "excess_ar": 0.1424, "turnover": 0.8116, "n_buys": 351, "n_signals": 43, "yearly": {"2023": 0.0719, "2024": 0.4582, "2025": 0.1777, "2026": 0.0353}, "seconds": 131.0}

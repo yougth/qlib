@@ -1,8 +1,16 @@
 {
-  "v5_xgb_turnover_comparative.build_dynamic_universe": "e478027700ea",
-  "v17_residual_model.compute_value_comp": "d1d9522b27a7",
-  "v16_value_rules.load_raw_valuation": "58ac9f3d5080",
-  "v14_ablation.build_liquidity_table": "6291196998f3",
-  "v14_ablation.portfolio_backtest": "ff48bbf182bd",
-  "v18_full_stack.monthly_signal_exec_dates": "ec971eb3799f"
+  "core/__init__.py": "89820405b887",
+  "core/backtest.py": "ba8afdcaf195",
+  "core/calendar_rules.py": "45ec2fd470f9",
+  "core/config.py": "a77a0d5fe73e",
+  "core/market.py": "6c5b1452d4bf",
+  "core/selection.py": "882a0078ddf7",
+  "core/signal.py": "27cd0061d46b",
+  "core/universe.py": "575236694d56",
+  "core/valuation.py": "aae84fffa86d",
+  "gen_holdings.py": "57907757c42f",
+  "run_backtest.py": "0d65fa003353",
+  "monthly_update.py": "c3545fd2b7e8",
+  "golden/holdings_2026_locked.csv": "ca68dfec212f",
+  "golden/backtest_baseline.csv": "7f86bc7e4035"
 }

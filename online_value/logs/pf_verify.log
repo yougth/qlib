@@ -1,10 +1,10 @@
 /Users/11164591/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
   warnings.warn(
-[15011:MainThread](2026-07-29 17:56:59,217) INFO - qlib.Initialization - [config.py:473] - default_conf: client.
-[15011:MainThread](2026-07-29 17:56:59,910) INFO - qlib.Initialization - [__init__.py:82] - qlib successfully initialized based on client settings.
-[15011:MainThread](2026-07-29 17:56:59,911) INFO - qlib.Initialization - [__init__.py:84] - data_path={'__DEFAULT_FREQ': PosixPath('/Users/11164591/.qlib/qlib_data/cn_data')}
+[8531:MainThread](2026-07-29 17:44:54,229) INFO - qlib.Initialization - [config.py:473] - default_conf: client.
+[8531:MainThread](2026-07-29 17:44:56,301) INFO - qlib.Initialization - [__init__.py:82] - qlib successfully initialized based on client settings.
+[8531:MainThread](2026-07-29 17:44:56,302) INFO - qlib.Initialization - [__init__.py:84] - data_path={'__DEFAULT_FREQ': PosixPath('/Users/11164591/.qlib/qlib_data/cn_data')}
 ============================================================================================
-  上线体检 preflight  2026-07-29 17:56
+  上线体检 preflight  2026-07-29 17:44
 ============================================================================================
 
 --- A. 口径常量锁 ---

@@ -1,0 +1,72 @@
+[50030:MainThread](2026-07-31 11:03:42,454) INFO - qlib.Initialization - [config.py:473] - default_conf: client.
+[50030:MainThread](2026-07-31 11:03:42,787) INFO - qlib.Initialization - [__init__.py:82] - qlib successfully initialized based on client settings.
+[50030:MainThread](2026-07-31 11:03:42,787) INFO - qlib.Initialization - [__init__.py:84] - data_path={'__DEFAULT_FREQ': PosixPath('/Users/11164591/.qlib/qlib_data/cn_data_fixed')}
+[CHECK] fcf_pit: (93640, 6), 5454只, 1996~2025 | profit_pit: (55675, 4), 5448只, 1998~2025
+[CHECK] 交易日历: 2014-01-02 ~ 2026-07-23 (3019天)
+[CHECK] 估值缓存: 2079日 × 472股, 2018-01-02~2026-07-29
+
+======================================================================
+[Phase B W2020] 池137只 | train('2015-01-01', '2018-12-31') valid('2019-01-01', '2019-11-30')(embargo) 信号2019-12-01~2020-11-30
+======================================================================
+    [流动性] 中位数20日均成交额=6.50亿, 一字涨停36条, 停牌34条
+[50030:MainThread](2026-07-31 11:04:06,364) INFO - qlib.timer - [log.py:127] - Time cost: 13.010s | Loading data Done
+[50030:MainThread](2026-07-31 11:04:07,147) INFO - qlib.timer - [log.py:127] - Time cost: 0.709s | RobustZScoreNorm Done
+[50030:MainThread](2026-07-31 11:04:07,525) INFO - qlib.timer - [log.py:127] - Time cost: 0.377s | Fillna Done
+[50030:MainThread](2026-07-31 11:04:07,699) INFO - qlib.timer - [log.py:127] - Time cost: 0.040s | DropnaLabel Done
+[50030:MainThread](2026-07-31 11:04:08,254) INFO - qlib.timer - [log.py:127] - Time cost: 0.551s | CSZScoreNorm Done
+[50030:MainThread](2026-07-31 11:04:08,258) INFO - qlib.timer - [log.py:127] - Time cost: 1.894s | fit & process data Done
+[50030:MainThread](2026-07-31 11:04:08,258) INFO - qlib.timer - [log.py:127] - Time cost: 14.906s | Init data Done
+    [LSTM] 注入特征维度 = 172
+[50030:MainThread](2026-07-31 11:04:10,243) INFO - qlib.LSTM - [pytorch_lstm_ts.py:60] - LSTM pytorch version...
+[50030:MainThread](2026-07-31 11:04:10,244) INFO - qlib.LSTM - [pytorch_lstm_ts.py:78] - LSTM parameters setting:
+d_feat : 172
+hidden_size : 64
+num_layers : 2
+dropout : 0.0
+n_epochs : 200
+lr : 0.001
+metric : loss
+batch_size : 800
+early_stop : 10
+optimizer : adam
+loss_type : mse
+device : cpu
+n_jobs : 4
+use_GPU : False
+seed : None
+[50030:MainThread](2026-07-31 11:04:11,540) INFO - qlib.LSTM - [pytorch_lstm_ts.py:244] - training...
+[50030:MainThread](2026-07-31 11:04:11,540) INFO - qlib.LSTM - [pytorch_lstm_ts.py:248] - Epoch0:
+[50030:MainThread](2026-07-31 11:04:11,541) INFO - qlib.LSTM - [pytorch_lstm_ts.py:249] - training...
+[50030:MainThread](2026-07-31 11:04:57,351) INFO - qlib.LSTM - [pytorch_lstm_ts.py:251] - evaluating...
+[50030:MainThread](2026-07-31 11:06:13,477) INFO - qlib.LSTM - [pytorch_lstm_ts.py:254] - train -0.743021, valid -1.032904
+[50030:MainThread](2026-07-31 11:06:13,483) INFO - qlib.LSTM - [pytorch_lstm_ts.py:248] - Epoch1:
+[50030:MainThread](2026-07-31 11:06:13,484) INFO - qlib.LSTM - [pytorch_lstm_ts.py:249] - training...
+[50030:MainThread](2026-07-31 11:06:58,242) INFO - qlib.LSTM - [pytorch_lstm_ts.py:251] - evaluating...
+[50030:MainThread](2026-07-31 11:08:27,373) INFO - qlib.LSTM - [pytorch_lstm_ts.py:254] - train -0.594075, valid -1.197022
+[50030:MainThread](2026-07-31 11:08:27,374) INFO - qlib.LSTM - [pytorch_lstm_ts.py:248] - Epoch2:
+[50030:MainThread](2026-07-31 11:08:27,375) INFO - qlib.LSTM - [pytorch_lstm_ts.py:249] - training...
+[50030:MainThread](2026-07-31 11:09:18,357) INFO - qlib.LSTM - [pytorch_lstm_ts.py:251] - evaluating...
+[50030:MainThread](2026-07-31 11:10:41,056) INFO - qlib.LSTM - [pytorch_lstm_ts.py:254] - train -0.441959, valid -1.294547
+[50030:MainThread](2026-07-31 11:10:41,057) INFO - qlib.LSTM - [pytorch_lstm_ts.py:248] - Epoch3:
+[50030:MainThread](2026-07-31 11:10:41,059) INFO - qlib.LSTM - [pytorch_lstm_ts.py:249] - training...
+[50030:MainThread](2026-07-31 11:11:34,087) INFO - qlib.LSTM - [pytorch_lstm_ts.py:251] - evaluating...
+[50030:MainThread](2026-07-31 11:12:47,446) INFO - qlib.LSTM - [pytorch_lstm_ts.py:254] - train -0.359140, valid -1.347256
+[50030:MainThread](2026-07-31 11:12:47,447) INFO - qlib.LSTM - [pytorch_lstm_ts.py:248] - Epoch4:
+[50030:MainThread](2026-07-31 11:12:47,448) INFO - qlib.LSTM - [pytorch_lstm_ts.py:249] - training...
+[50030:MainThread](2026-07-31 11:13:35,611) INFO - qlib.LSTM - [pytorch_lstm_ts.py:251] - evaluating...
+[50030:MainThread](2026-07-31 11:15:01,284) INFO - qlib.LSTM - [pytorch_lstm_ts.py:254] - train -0.309119, valid -1.375236
+[50030:MainThread](2026-07-31 11:15:01,285) INFO - qlib.LSTM - [pytorch_lstm_ts.py:248] - Epoch5:
+[50030:MainThread](2026-07-31 11:15:01,286) INFO - qlib.LSTM - [pytorch_lstm_ts.py:249] - training...
+[50030:MainThread](2026-07-31 11:15:46,214) INFO - qlib.LSTM - [pytorch_lstm_ts.py:251] - evaluating...
+[50030:MainThread](2026-07-31 11:16:57,009) INFO - qlib.LSTM - [pytorch_lstm_ts.py:254] - train -0.273620, valid -1.379396
+[50030:MainThread](2026-07-31 11:16:57,010) INFO - qlib.LSTM - [pytorch_lstm_ts.py:248] - Epoch6:
+[50030:MainThread](2026-07-31 11:16:57,010) INFO - qlib.LSTM - [pytorch_lstm_ts.py:249] - training...
+[50030:MainThread](2026-07-31 11:17:47,122) INFO - qlib.LSTM - [pytorch_lstm_ts.py:251] - evaluating...
+[50030:MainThread](2026-07-31 11:19:08,053) INFO - qlib.LSTM - [pytorch_lstm_ts.py:254] - train -0.240707, valid -1.396900
+[50030:MainThread](2026-07-31 11:19:08,053) INFO - qlib.LSTM - [pytorch_lstm_ts.py:248] - Epoch7:
+[50030:MainThread](2026-07-31 11:19:08,054) INFO - qlib.LSTM - [pytorch_lstm_ts.py:249] - training...
+[50030:MainThread](2026-07-31 11:19:54,361) INFO - qlib.LSTM - [pytorch_lstm_ts.py:251] - evaluating...
+[50030:MainThread](2026-07-31 11:21:08,398) INFO - qlib.LSTM - [pytorch_lstm_ts.py:254] - train -0.215716, valid -1.461734
+[50030:MainThread](2026-07-31 11:21:08,400) INFO - qlib.LSTM - [pytorch_lstm_ts.py:248] - Epoch8:
+[50030:MainThread](2026-07-31 11:21:08,400) INFO - qlib.LSTM - [pytorch_lstm_ts.py:249] - training...
+[50030:MainThread](2026-07-31 11:22:05,765) INFO - qlib.LSTM - [pytorch_lstm_ts.py:251] - evaluating...

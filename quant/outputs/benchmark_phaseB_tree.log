@@ -1,0 +1,295 @@
+[50393:MainThread](2026-07-31 11:04:22,755) INFO - qlib.Initialization - [config.py:473] - default_conf: client.
+[50393:MainThread](2026-07-31 11:04:23,158) INFO - qlib.Initialization - [__init__.py:82] - qlib successfully initialized based on client settings.
+[50393:MainThread](2026-07-31 11:04:23,158) INFO - qlib.Initialization - [__init__.py:84] - data_path={'__DEFAULT_FREQ': PosixPath('/Users/11164591/.qlib/qlib_data/cn_data_fixed')}
+[CHECK] fcf_pit: (93640, 6), 5454只, 1996~2025 | profit_pit: (55675, 4), 5448只, 1998~2025
+[CHECK] 交易日历: 2014-01-02 ~ 2026-07-23 (3019天)
+[CHECK] 估值缓存: 2079日 × 472股, 2018-01-02~2026-07-29
+
+======================================================================
+[Phase B W2020] 池137只 | train('2015-01-01', '2018-12-31') valid('2019-01-01', '2019-11-30')(embargo) 信号2019-12-01~2020-11-30
+======================================================================
+    [流动性] 中位数20日均成交额=6.50亿, 一字涨停36条, 停牌34条
+[50393:MainThread](2026-07-31 11:04:44,220) INFO - qlib.timer - [log.py:127] - Time cost: 10.639s | Loading data Done
+[50393:MainThread](2026-07-31 11:04:44,977) INFO - qlib.timer - [log.py:127] - Time cost: 0.684s | RobustZScoreNorm Done
+[50393:MainThread](2026-07-31 11:04:45,127) INFO - qlib.timer - [log.py:127] - Time cost: 0.149s | Fillna Done
+[50393:MainThread](2026-07-31 11:04:45,215) INFO - qlib.timer - [log.py:127] - Time cost: 0.038s | DropnaLabel Done
+[50393:MainThread](2026-07-31 11:04:45,777) INFO - qlib.timer - [log.py:127] - Time cost: 0.562s | CSZScoreNorm Done
+[50393:MainThread](2026-07-31 11:04:45,779) INFO - qlib.timer - [log.py:127] - Time cost: 1.558s | fit & process data Done
+[50393:MainThread](2026-07-31 11:04:45,779) INFO - qlib.timer - [log.py:127] - Time cost: 12.199s | Init data Done
+[50393:MainThread](2026-07-31 11:04:50,188) INFO - qlib.workflow - [exp.py:258] - Experiment 409026787405336840 starts running ...
+[50393:MainThread](2026-07-31 11:04:50,369) INFO - qlib.workflow - [recorder.py:345] - Recorder af6d4f3bc606491da003e28201cf9881 starts running under Experiment 409026787405336840 ...
+Training until validation scores don't improve for 50 rounds
+[20]	train's l2: 0.824868	valid's l2: 0.982822
+[40]	train's l2: 0.773376	valid's l2: 0.992653
+[60]	train's l2: 0.736945	valid's l2: 1.00112
+Early stopping, best iteration is:
+[11]	train's l2: 0.86402	valid's l2: 0.980409
+[50393:MainThread](2026-07-31 11:05:01,659) INFO - qlib.timer - [log.py:127] - Time cost: 10.768s | Loading data Done
+[50393:MainThread](2026-07-31 11:05:02,385) INFO - qlib.timer - [log.py:127] - Time cost: 0.662s | RobustZScoreNorm Done
+[50393:MainThread](2026-07-31 11:05:02,566) INFO - qlib.timer - [log.py:127] - Time cost: 0.180s | Fillna Done
+[50393:MainThread](2026-07-31 11:05:02,646) INFO - qlib.timer - [log.py:127] - Time cost: 0.035s | DropnaLabel Done
+[50393:MainThread](2026-07-31 11:05:03,198) INFO - qlib.timer - [log.py:127] - Time cost: 0.552s | CSZScoreNorm Done
+[50393:MainThread](2026-07-31 11:05:03,200) INFO - qlib.timer - [log.py:127] - Time cost: 1.541s | fit & process data Done
+[50393:MainThread](2026-07-31 11:05:03,201) INFO - qlib.timer - [log.py:127] - Time cost: 12.311s | Init data Done
+[0]	train-rmse:0.98801	valid-rmse:0.99493
+[20]	train-rmse:0.90406	valid-rmse:0.98704
+[40]	train-rmse:0.86405	valid-rmse:0.98849
+[60]	train-rmse:0.83846	valid-rmse:0.99100
+[68]	train-rmse:0.82820	valid-rmse:0.99216
+[50393:MainThread](2026-07-31 11:05:18,596) INFO - qlib.timer - [log.py:127] - Time cost: 11.320s | Loading data Done
+[50393:MainThread](2026-07-31 11:05:19,528) INFO - qlib.timer - [log.py:127] - Time cost: 0.849s | RobustZScoreNorm Done
+[50393:MainThread](2026-07-31 11:05:19,690) INFO - qlib.timer - [log.py:127] - Time cost: 0.161s | Fillna Done
+[50393:MainThread](2026-07-31 11:05:19,785) INFO - qlib.timer - [log.py:127] - Time cost: 0.041s | DropnaLabel Done
+[50393:MainThread](2026-07-31 11:05:20,486) INFO - qlib.timer - [log.py:127] - Time cost: 0.700s | CSZScoreNorm Done
+[50393:MainThread](2026-07-31 11:05:20,489) INFO - qlib.timer - [log.py:127] - Time cost: 1.892s | fit & process data Done
+[50393:MainThread](2026-07-31 11:05:20,489) INFO - qlib.timer - [log.py:127] - Time cost: 13.216s | Init data Done
+[50393:MainThread](2026-07-31 11:05:20,490) INFO - qlib.DEnsembleModel - [double_ensemble.py:57] - Double Ensemble Model...
+[50393:MainThread](2026-07-31 11:05:20,620) INFO - qlib.DEnsembleModel - [double_ensemble.py:81] - Training sub-model: (1/3)
+[50393:MainThread](2026-07-31 11:05:23,007) INFO - qlib.DEnsembleModel - [double_ensemble.py:88] - Retrieving loss curve and loss values...
+[50393:MainThread](2026-07-31 11:05:23,652) INFO - qlib.DEnsembleModel - [double_ensemble.py:98] - Sample re-weighting...
+[50393:MainThread](2026-07-31 11:05:24,144) INFO - qlib.DEnsembleModel - [double_ensemble.py:102] - Feature selection...
+[50393:MainThread](2026-07-31 11:06:02,388) INFO - qlib.DEnsembleModel - [double_ensemble.py:81] - Training sub-model: (2/3)
+[50393:MainThread](2026-07-31 11:06:03,258) INFO - qlib.DEnsembleModel - [double_ensemble.py:88] - Retrieving loss curve and loss values...
+[50393:MainThread](2026-07-31 11:06:03,725) INFO - qlib.DEnsembleModel - [double_ensemble.py:98] - Sample re-weighting...
+[50393:MainThread](2026-07-31 11:06:04,190) INFO - qlib.DEnsembleModel - [double_ensemble.py:102] - Feature selection...
+[50393:MainThread](2026-07-31 11:06:54,924) INFO - qlib.DEnsembleModel - [double_ensemble.py:81] - Training sub-model: (3/3)
+[20]	train's l2: 0.824868	valid's l2: 0.982822
+[20]	train's l2: 1.0239	valid's l2: 1.0165
+[20]	train's l2: 0.95938	valid's l2: 1.0139
+
+======================================================================
+[Phase B W2021] 池168只 | train('2016-01-01', '2019-12-31') valid('2020-01-01', '2020-11-30')(embargo) 信号2020-12-01~2021-11-30
+======================================================================
+    [流动性] 中位数20日均成交额=1.10亿, 一字涨停11条, 停牌13条
+[50393:MainThread](2026-07-31 11:07:16,608) INFO - qlib.timer - [log.py:127] - Time cost: 12.724s | Loading data Done
+[50393:MainThread](2026-07-31 11:07:18,063) INFO - qlib.timer - [log.py:127] - Time cost: 1.377s | RobustZScoreNorm Done
+[50393:MainThread](2026-07-31 11:07:18,336) INFO - qlib.timer - [log.py:127] - Time cost: 0.273s | Fillna Done
+[50393:MainThread](2026-07-31 11:07:18,752) INFO - qlib.timer - [log.py:127] - Time cost: 0.186s | DropnaLabel Done
+[50393:MainThread](2026-07-31 11:07:19,851) INFO - qlib.timer - [log.py:127] - Time cost: 1.097s | CSZScoreNorm Done
+[50393:MainThread](2026-07-31 11:07:19,855) INFO - qlib.timer - [log.py:127] - Time cost: 3.245s | fit & process data Done
+[50393:MainThread](2026-07-31 11:07:19,856) INFO - qlib.timer - [log.py:127] - Time cost: 15.973s | Init data Done
+Training until validation scores don't improve for 50 rounds
+[20]	train's l2: 0.848674	valid's l2: 0.994494
+[40]	train's l2: 0.802167	valid's l2: 1.00584
+Early stopping, best iteration is:
+[4]	train's l2: 0.935883	valid's l2: 0.991654
+[50393:MainThread](2026-07-31 11:07:36,165) INFO - qlib.timer - [log.py:127] - Time cost: 12.678s | Loading data Done
+[50393:MainThread](2026-07-31 11:07:37,343) INFO - qlib.timer - [log.py:127] - Time cost: 1.107s | RobustZScoreNorm Done
+[50393:MainThread](2026-07-31 11:07:37,477) INFO - qlib.timer - [log.py:127] - Time cost: 0.134s | Fillna Done
+[50393:MainThread](2026-07-31 11:07:37,581) INFO - qlib.timer - [log.py:127] - Time cost: 0.043s | DropnaLabel Done
+[50393:MainThread](2026-07-31 11:07:38,083) INFO - qlib.timer - [log.py:127] - Time cost: 0.501s | CSZScoreNorm Done
+[50393:MainThread](2026-07-31 11:07:38,086) INFO - qlib.timer - [log.py:127] - Time cost: 1.920s | fit & process data Done
+[50393:MainThread](2026-07-31 11:07:38,086) INFO - qlib.timer - [log.py:127] - Time cost: 14.600s | Init data Done
+[0]	train-rmse:0.99000	valid-rmse:0.99621
+[20]	train-rmse:0.91283	valid-rmse:0.99640
+[40]	train-rmse:0.87614	valid-rmse:0.99860
+[55]	train-rmse:0.85679	valid-rmse:1.00033
+[50393:MainThread](2026-07-31 11:07:53,282) INFO - qlib.timer - [log.py:127] - Time cost: 11.231s | Loading data Done
+[50393:MainThread](2026-07-31 11:07:54,644) INFO - qlib.timer - [log.py:127] - Time cost: 1.274s | RobustZScoreNorm Done
+[50393:MainThread](2026-07-31 11:07:55,072) INFO - qlib.timer - [log.py:127] - Time cost: 0.426s | Fillna Done
+[50393:MainThread](2026-07-31 11:07:55,214) INFO - qlib.timer - [log.py:127] - Time cost: 0.055s | DropnaLabel Done
+[50393:MainThread](2026-07-31 11:07:56,013) INFO - qlib.timer - [log.py:127] - Time cost: 0.798s | CSZScoreNorm Done
+[50393:MainThread](2026-07-31 11:07:56,017) INFO - qlib.timer - [log.py:127] - Time cost: 2.734s | fit & process data Done
+[50393:MainThread](2026-07-31 11:07:56,018) INFO - qlib.timer - [log.py:127] - Time cost: 13.968s | Init data Done
+[50393:MainThread](2026-07-31 11:07:56,019) INFO - qlib.DEnsembleModel - [double_ensemble.py:57] - Double Ensemble Model...
+[50393:MainThread](2026-07-31 11:07:56,151) INFO - qlib.DEnsembleModel - [double_ensemble.py:81] - Training sub-model: (1/3)
+[50393:MainThread](2026-07-31 11:07:59,432) INFO - qlib.DEnsembleModel - [double_ensemble.py:88] - Retrieving loss curve and loss values...
+[50393:MainThread](2026-07-31 11:08:00,571) INFO - qlib.DEnsembleModel - [double_ensemble.py:98] - Sample re-weighting...
+[50393:MainThread](2026-07-31 11:08:01,696) INFO - qlib.DEnsembleModel - [double_ensemble.py:102] - Feature selection...
+[50393:MainThread](2026-07-31 11:09:01,057) INFO - qlib.DEnsembleModel - [double_ensemble.py:81] - Training sub-model: (2/3)
+[50393:MainThread](2026-07-31 11:09:02,254) INFO - qlib.DEnsembleModel - [double_ensemble.py:88] - Retrieving loss curve and loss values...
+[50393:MainThread](2026-07-31 11:09:02,815) INFO - qlib.DEnsembleModel - [double_ensemble.py:98] - Sample re-weighting...
+[50393:MainThread](2026-07-31 11:09:03,409) INFO - qlib.DEnsembleModel - [double_ensemble.py:102] - Feature selection...
+[50393:MainThread](2026-07-31 11:10:23,500) INFO - qlib.DEnsembleModel - [double_ensemble.py:81] - Training sub-model: (3/3)
+[20]	train's l2: 0.848674	valid's l2: 0.994494
+[20]	train's l2: 1.06728	valid's l2: 1.02714
+[20]	train's l2: 1.0359	valid's l2: 1.02563
+
+======================================================================
+[Phase B W2022] 池201只 | train('2017-01-01', '2020-12-31') valid('2021-01-01', '2021-11-30')(embargo) 信号2021-12-01~2022-11-30
+======================================================================
+    [流动性] 中位数20日均成交额=1.15亿, 一字涨停9条, 停牌16条
+[50393:MainThread](2026-07-31 11:10:44,151) INFO - qlib.timer - [log.py:127] - Time cost: 12.331s | Loading data Done
+[50393:MainThread](2026-07-31 11:10:45,579) INFO - qlib.timer - [log.py:127] - Time cost: 1.373s | RobustZScoreNorm Done
+[50393:MainThread](2026-07-31 11:10:45,810) INFO - qlib.timer - [log.py:127] - Time cost: 0.230s | Fillna Done
+[50393:MainThread](2026-07-31 11:10:45,956) INFO - qlib.timer - [log.py:127] - Time cost: 0.059s | DropnaLabel Done
+[50393:MainThread](2026-07-31 11:10:46,757) INFO - qlib.timer - [log.py:127] - Time cost: 0.799s | CSZScoreNorm Done
+[50393:MainThread](2026-07-31 11:10:46,761) INFO - qlib.timer - [log.py:127] - Time cost: 2.609s | fit & process data Done
+[50393:MainThread](2026-07-31 11:10:46,761) INFO - qlib.timer - [log.py:127] - Time cost: 14.942s | Init data Done
+Training until validation scores don't improve for 50 rounds
+[20]	train's l2: 0.891118	valid's l2: 1.00358
+[40]	train's l2: 0.849851	valid's l2: 1.01259
+Early stopping, best iteration is:
+[1]	train's l2: 0.980887	valid's l2: 0.992168
+[50393:MainThread](2026-07-31 11:11:05,491) INFO - qlib.timer - [log.py:127] - Time cost: 13.398s | Loading data Done
+[50393:MainThread](2026-07-31 11:11:06,601) INFO - qlib.timer - [log.py:127] - Time cost: 1.043s | RobustZScoreNorm Done
+[50393:MainThread](2026-07-31 11:11:06,769) INFO - qlib.timer - [log.py:127] - Time cost: 0.167s | Fillna Done
+[50393:MainThread](2026-07-31 11:11:06,919) INFO - qlib.timer - [log.py:127] - Time cost: 0.065s | DropnaLabel Done
+[50393:MainThread](2026-07-31 11:11:07,681) INFO - qlib.timer - [log.py:127] - Time cost: 0.761s | CSZScoreNorm Done
+[50393:MainThread](2026-07-31 11:11:07,684) INFO - qlib.timer - [log.py:127] - Time cost: 2.192s | fit & process data Done
+[50393:MainThread](2026-07-31 11:11:07,685) INFO - qlib.timer - [log.py:127] - Time cost: 15.592s | Init data Done
+[0]	train-rmse:0.99213	valid-rmse:0.99541
+[20]	train-rmse:0.93361	valid-rmse:0.99503
+[40]	train-rmse:0.90245	valid-rmse:0.99725
+[60]	train-rmse:0.88170	valid-rmse:0.99999
+[63]	train-rmse:0.87930	valid-rmse:1.00040
+[50393:MainThread](2026-07-31 11:11:24,791) INFO - qlib.timer - [log.py:127] - Time cost: 11.913s | Loading data Done
+[50393:MainThread](2026-07-31 11:11:25,817) INFO - qlib.timer - [log.py:127] - Time cost: 0.964s | RobustZScoreNorm Done
+[50393:MainThread](2026-07-31 11:11:25,979) INFO - qlib.timer - [log.py:127] - Time cost: 0.162s | Fillna Done
+[50393:MainThread](2026-07-31 11:11:26,123) INFO - qlib.timer - [log.py:127] - Time cost: 0.046s | DropnaLabel Done
+[50393:MainThread](2026-07-31 11:11:26,751) INFO - qlib.timer - [log.py:127] - Time cost: 0.627s | CSZScoreNorm Done
+[50393:MainThread](2026-07-31 11:11:26,754) INFO - qlib.timer - [log.py:127] - Time cost: 1.963s | fit & process data Done
+[50393:MainThread](2026-07-31 11:11:26,755) INFO - qlib.timer - [log.py:127] - Time cost: 13.877s | Init data Done
+[50393:MainThread](2026-07-31 11:11:26,755) INFO - qlib.DEnsembleModel - [double_ensemble.py:57] - Double Ensemble Model...
+[50393:MainThread](2026-07-31 11:11:26,846) INFO - qlib.DEnsembleModel - [double_ensemble.py:81] - Training sub-model: (1/3)
+[50393:MainThread](2026-07-31 11:11:29,056) INFO - qlib.DEnsembleModel - [double_ensemble.py:88] - Retrieving loss curve and loss values...
+[50393:MainThread](2026-07-31 11:11:30,355) INFO - qlib.DEnsembleModel - [double_ensemble.py:98] - Sample re-weighting...
+[50393:MainThread](2026-07-31 11:11:31,280) INFO - qlib.DEnsembleModel - [double_ensemble.py:102] - Feature selection...
+[50393:MainThread](2026-07-31 11:12:30,187) INFO - qlib.DEnsembleModel - [double_ensemble.py:81] - Training sub-model: (2/3)
+[50393:MainThread](2026-07-31 11:12:31,402) INFO - qlib.DEnsembleModel - [double_ensemble.py:88] - Retrieving loss curve and loss values...
+[50393:MainThread](2026-07-31 11:12:31,952) INFO - qlib.DEnsembleModel - [double_ensemble.py:98] - Sample re-weighting...
+[50393:MainThread](2026-07-31 11:12:32,576) INFO - qlib.DEnsembleModel - [double_ensemble.py:102] - Feature selection...
+[50393:MainThread](2026-07-31 11:13:38,534) INFO - qlib.DEnsembleModel - [double_ensemble.py:81] - Training sub-model: (3/3)
+[20]	train's l2: 0.891118	valid's l2: 1.00358
+[20]	train's l2: 1.13664	valid's l2: 1.03178
+[20]	train's l2: 1.06321	valid's l2: 1.02817
+
+======================================================================
+[Phase B W2023] 池226只 | train('2018-01-01', '2021-12-31') valid('2022-01-01', '2022-11-30')(embargo) 信号2022-12-01~2023-11-30
+======================================================================
+    [流动性] 中位数20日均成交额=0.96亿, 一字涨停11条, 停牌34条
+[50393:MainThread](2026-07-31 11:14:04,337) INFO - qlib.timer - [log.py:127] - Time cost: 16.356s | Loading data Done
+[50393:MainThread](2026-07-31 11:14:05,297) INFO - qlib.timer - [log.py:127] - Time cost: 0.910s | RobustZScoreNorm Done
+[50393:MainThread](2026-07-31 11:14:05,461) INFO - qlib.timer - [log.py:127] - Time cost: 0.164s | Fillna Done
+[50393:MainThread](2026-07-31 11:14:05,564) INFO - qlib.timer - [log.py:127] - Time cost: 0.046s | DropnaLabel Done
+[50393:MainThread](2026-07-31 11:14:06,084) INFO - qlib.timer - [log.py:127] - Time cost: 0.519s | CSZScoreNorm Done
+[50393:MainThread](2026-07-31 11:14:06,087) INFO - qlib.timer - [log.py:127] - Time cost: 1.749s | fit & process data Done
+[50393:MainThread](2026-07-31 11:14:06,088) INFO - qlib.timer - [log.py:127] - Time cost: 18.107s | Init data Done
+Training until validation scores don't improve for 50 rounds
+[20]	train's l2: 0.923608	valid's l2: 0.984228
+[40]	train's l2: 0.883339	valid's l2: 0.987547
+[60]	train's l2: 0.846872	valid's l2: 0.990587
+Early stopping, best iteration is:
+[20]	train's l2: 0.923608	valid's l2: 0.984228
+[50393:MainThread](2026-07-31 11:14:21,152) INFO - qlib.timer - [log.py:127] - Time cost: 11.121s | Loading data Done
+[50393:MainThread](2026-07-31 11:14:22,310) INFO - qlib.timer - [log.py:127] - Time cost: 1.081s | RobustZScoreNorm Done
+[50393:MainThread](2026-07-31 11:14:22,487) INFO - qlib.timer - [log.py:127] - Time cost: 0.177s | Fillna Done
+[50393:MainThread](2026-07-31 11:14:22,624) INFO - qlib.timer - [log.py:127] - Time cost: 0.054s | DropnaLabel Done
+[50393:MainThread](2026-07-31 11:14:23,241) INFO - qlib.timer - [log.py:127] - Time cost: 0.617s | CSZScoreNorm Done
+[50393:MainThread](2026-07-31 11:14:23,245) INFO - qlib.timer - [log.py:127] - Time cost: 2.092s | fit & process data Done
+[50393:MainThread](2026-07-31 11:14:23,245) INFO - qlib.timer - [log.py:127] - Time cost: 13.215s | Init data Done
+[0]	train-rmse:0.99394	valid-rmse:0.99657
+[20]	train-rmse:0.95261	valid-rmse:0.99125
+[40]	train-rmse:0.92791	valid-rmse:0.98992
+[60]	train-rmse:0.90671	valid-rmse:0.99063
+[80]	train-rmse:0.88625	valid-rmse:0.99132
+[92]	train-rmse:0.87393	valid-rmse:0.99220
+[50393:MainThread](2026-07-31 11:14:46,847) INFO - qlib.timer - [log.py:127] - Time cost: 15.151s | Loading data Done
+[50393:MainThread](2026-07-31 11:14:48,087) INFO - qlib.timer - [log.py:127] - Time cost: 1.155s | RobustZScoreNorm Done
+[50393:MainThread](2026-07-31 11:14:48,296) INFO - qlib.timer - [log.py:127] - Time cost: 0.208s | Fillna Done
+[50393:MainThread](2026-07-31 11:14:48,438) INFO - qlib.timer - [log.py:127] - Time cost: 0.054s | DropnaLabel Done
+[50393:MainThread](2026-07-31 11:14:49,109) INFO - qlib.timer - [log.py:127] - Time cost: 0.671s | CSZScoreNorm Done
+[50393:MainThread](2026-07-31 11:14:49,113) INFO - qlib.timer - [log.py:127] - Time cost: 2.265s | fit & process data Done
+[50393:MainThread](2026-07-31 11:14:49,114) INFO - qlib.timer - [log.py:127] - Time cost: 17.419s | Init data Done
+[50393:MainThread](2026-07-31 11:14:49,115) INFO - qlib.DEnsembleModel - [double_ensemble.py:57] - Double Ensemble Model...
+[50393:MainThread](2026-07-31 11:14:49,243) INFO - qlib.DEnsembleModel - [double_ensemble.py:81] - Training sub-model: (1/3)
+[50393:MainThread](2026-07-31 11:14:51,793) INFO - qlib.DEnsembleModel - [double_ensemble.py:88] - Retrieving loss curve and loss values...
+[50393:MainThread](2026-07-31 11:14:52,896) INFO - qlib.DEnsembleModel - [double_ensemble.py:98] - Sample re-weighting...
+[50393:MainThread](2026-07-31 11:14:53,768) INFO - qlib.DEnsembleModel - [double_ensemble.py:102] - Feature selection...
+[50393:MainThread](2026-07-31 11:15:57,603) INFO - qlib.DEnsembleModel - [double_ensemble.py:81] - Training sub-model: (2/3)
+[50393:MainThread](2026-07-31 11:15:59,206) INFO - qlib.DEnsembleModel - [double_ensemble.py:88] - Retrieving loss curve and loss values...
+[50393:MainThread](2026-07-31 11:16:00,003) INFO - qlib.DEnsembleModel - [double_ensemble.py:98] - Sample re-weighting...
+[50393:MainThread](2026-07-31 11:16:00,966) INFO - qlib.DEnsembleModel - [double_ensemble.py:102] - Feature selection...
+[50393:MainThread](2026-07-31 11:17:18,915) INFO - qlib.DEnsembleModel - [double_ensemble.py:81] - Training sub-model: (3/3)
+[20]	train's l2: 0.923608	valid's l2: 0.984228
+[20]	train's l2: 1.18553	valid's l2: 1.01345
+[20]	train's l2: 1.1168	valid's l2: 0.999291
+
+======================================================================
+[Phase B W2024] 池228只 | train('2019-01-01', '2022-12-31') valid('2023-01-01', '2023-11-30')(embargo) 信号2023-12-01~2024-11-30
+======================================================================
+    [流动性] 中位数20日均成交额=0.99亿, 一字涨停24条, 停牌15条
+[50393:MainThread](2026-07-31 11:17:39,908) INFO - qlib.timer - [log.py:127] - Time cost: 11.697s | Loading data Done
+[50393:MainThread](2026-07-31 11:17:41,224) INFO - qlib.timer - [log.py:127] - Time cost: 1.235s | RobustZScoreNorm Done
+[50393:MainThread](2026-07-31 11:17:41,417) INFO - qlib.timer - [log.py:127] - Time cost: 0.193s | Fillna Done
+[50393:MainThread](2026-07-31 11:17:41,575) INFO - qlib.timer - [log.py:127] - Time cost: 0.057s | DropnaLabel Done
+[50393:MainThread](2026-07-31 11:17:42,226) INFO - qlib.timer - [log.py:127] - Time cost: 0.650s | CSZScoreNorm Done
+[50393:MainThread](2026-07-31 11:17:42,231) INFO - qlib.timer - [log.py:127] - Time cost: 2.322s | fit & process data Done
+[50393:MainThread](2026-07-31 11:17:42,231) INFO - qlib.timer - [log.py:127] - Time cost: 14.022s | Init data Done
+Training until validation scores don't improve for 50 rounds
+[20]	train's l2: 0.925379	valid's l2: 0.999405
+[40]	train's l2: 0.884609	valid's l2: 1.00503
+Early stopping, best iteration is:
+[4]	train's l2: 0.972639	valid's l2: 0.99285
+[50393:MainThread](2026-07-31 11:18:01,192) INFO - qlib.timer - [log.py:127] - Time cost: 14.641s | Loading data Done
+[50393:MainThread](2026-07-31 11:18:03,001) INFO - qlib.timer - [log.py:127] - Time cost: 1.634s | RobustZScoreNorm Done
+[50393:MainThread](2026-07-31 11:18:03,239) INFO - qlib.timer - [log.py:127] - Time cost: 0.238s | Fillna Done
+[50393:MainThread](2026-07-31 11:18:03,425) INFO - qlib.timer - [log.py:127] - Time cost: 0.070s | DropnaLabel Done
+[50393:MainThread](2026-07-31 11:18:04,364) INFO - qlib.timer - [log.py:127] - Time cost: 0.938s | CSZScoreNorm Done
+[50393:MainThread](2026-07-31 11:18:04,367) INFO - qlib.timer - [log.py:127] - Time cost: 3.174s | fit & process data Done
+[50393:MainThread](2026-07-31 11:18:04,368) INFO - qlib.timer - [log.py:127] - Time cost: 17.818s | Init data Done
+[0]	train-rmse:0.99401	valid-rmse:0.99755
+[20]	train-rmse:0.94963	valid-rmse:0.99877
+[40]	train-rmse:0.92241	valid-rmse:1.00061
+[55]	train-rmse:0.90580	valid-rmse:1.00226
+[50393:MainThread](2026-07-31 11:18:23,861) INFO - qlib.timer - [log.py:127] - Time cost: 12.179s | Loading data Done
+[50393:MainThread](2026-07-31 11:18:24,974) INFO - qlib.timer - [log.py:127] - Time cost: 1.044s | RobustZScoreNorm Done
+[50393:MainThread](2026-07-31 11:18:25,168) INFO - qlib.timer - [log.py:127] - Time cost: 0.193s | Fillna Done
+[50393:MainThread](2026-07-31 11:18:25,262) INFO - qlib.timer - [log.py:127] - Time cost: 0.043s | DropnaLabel Done
+[50393:MainThread](2026-07-31 11:18:25,774) INFO - qlib.timer - [log.py:127] - Time cost: 0.511s | CSZScoreNorm Done
+[50393:MainThread](2026-07-31 11:18:25,777) INFO - qlib.timer - [log.py:127] - Time cost: 1.915s | fit & process data Done
+[50393:MainThread](2026-07-31 11:18:25,777) INFO - qlib.timer - [log.py:127] - Time cost: 14.096s | Init data Done
+[50393:MainThread](2026-07-31 11:18:25,777) INFO - qlib.DEnsembleModel - [double_ensemble.py:57] - Double Ensemble Model...
+[50393:MainThread](2026-07-31 11:18:25,862) INFO - qlib.DEnsembleModel - [double_ensemble.py:81] - Training sub-model: (1/3)
+[50393:MainThread](2026-07-31 11:18:28,223) INFO - qlib.DEnsembleModel - [double_ensemble.py:88] - Retrieving loss curve and loss values...
+[50393:MainThread](2026-07-31 11:18:29,386) INFO - qlib.DEnsembleModel - [double_ensemble.py:98] - Sample re-weighting...
+[50393:MainThread](2026-07-31 11:18:30,287) INFO - qlib.DEnsembleModel - [double_ensemble.py:102] - Feature selection...
+[50393:MainThread](2026-07-31 11:19:40,758) INFO - qlib.DEnsembleModel - [double_ensemble.py:81] - Training sub-model: (2/3)
+[50393:MainThread](2026-07-31 11:19:42,216) INFO - qlib.DEnsembleModel - [double_ensemble.py:88] - Retrieving loss curve and loss values...
+[50393:MainThread](2026-07-31 11:19:42,991) INFO - qlib.DEnsembleModel - [double_ensemble.py:98] - Sample re-weighting...
+[50393:MainThread](2026-07-31 11:19:43,821) INFO - qlib.DEnsembleModel - [double_ensemble.py:102] - Feature selection...
+[50393:MainThread](2026-07-31 11:21:05,107) INFO - qlib.DEnsembleModel - [double_ensemble.py:81] - Training sub-model: (3/3)
+[20]	train's l2: 0.925379	valid's l2: 0.999405
+[20]	train's l2: 1.17212	valid's l2: 1.02267
+[20]	train's l2: 1.11212	valid's l2: 1.0193
+
+======================================================================
+[Phase B W2025] 池274只 | train('2020-01-01', '2023-12-31') valid('2024-01-01', '2024-11-30')(embargo) 信号2024-12-01~2025-11-30
+======================================================================
+    [流动性] 中位数20日均成交额=1.61亿, 一字涨停50条, 停牌64条
+[50393:MainThread](2026-07-31 11:21:32,407) INFO - qlib.timer - [log.py:127] - Time cost: 18.790s | Loading data Done
+[50393:MainThread](2026-07-31 11:21:35,384) INFO - qlib.timer - [log.py:127] - Time cost: 2.787s | RobustZScoreNorm Done
+[50393:MainThread](2026-07-31 11:21:35,829) INFO - qlib.timer - [log.py:127] - Time cost: 0.444s | Fillna Done
+[50393:MainThread](2026-07-31 11:21:36,223) INFO - qlib.timer - [log.py:127] - Time cost: 0.151s | DropnaLabel Done
+[50393:MainThread](2026-07-31 11:21:37,233) INFO - qlib.timer - [log.py:127] - Time cost: 1.008s | CSZScoreNorm Done
+[50393:MainThread](2026-07-31 11:21:37,237) INFO - qlib.timer - [log.py:127] - Time cost: 4.829s | fit & process data Done
+[50393:MainThread](2026-07-31 11:21:37,237) INFO - qlib.timer - [log.py:127] - Time cost: 23.622s | Init data Done
+Training until validation scores don't improve for 50 rounds
+[20]	train's l2: 0.928969	valid's l2: 0.991347
+[40]	train's l2: 0.889007	valid's l2: 0.99753
+Early stopping, best iteration is:
+[9]	train's l2: 0.957033	valid's l2: 0.988048
+[50393:MainThread](2026-07-31 11:22:05,371) INFO - qlib.timer - [log.py:127] - Time cost: 18.317s | Loading data Done
+[50393:MainThread](2026-07-31 11:22:07,452) INFO - qlib.timer - [log.py:127] - Time cost: 1.964s | RobustZScoreNorm Done
+[50393:MainThread](2026-07-31 11:22:07,796) INFO - qlib.timer - [log.py:127] - Time cost: 0.343s | Fillna Done
+[50393:MainThread](2026-07-31 11:22:08,066) INFO - qlib.timer - [log.py:127] - Time cost: 0.105s | DropnaLabel Done
+[50393:MainThread](2026-07-31 11:22:08,859) INFO - qlib.timer - [log.py:127] - Time cost: 0.793s | CSZScoreNorm Done
+[50393:MainThread](2026-07-31 11:22:08,866) INFO - qlib.timer - [log.py:127] - Time cost: 3.493s | fit & process data Done
+[50393:MainThread](2026-07-31 11:22:08,866) INFO - qlib.timer - [log.py:127] - Time cost: 21.814s | Init data Done
+[0]	train-rmse:0.99472	valid-rmse:0.99758
+[20]	train-rmse:0.95586	valid-rmse:0.99487
+[40]	train-rmse:0.93108	valid-rmse:0.99492
+[60]	train-rmse:0.91211	valid-rmse:0.99714
+[80]	train-rmse:0.89685	valid-rmse:0.99850
+[50393:MainThread](2026-07-31 11:22:39,148) INFO - qlib.timer - [log.py:127] - Time cost: 18.743s | Loading data Done
+[50393:MainThread](2026-07-31 11:22:40,756) INFO - qlib.timer - [log.py:127] - Time cost: 1.524s | RobustZScoreNorm Done
+[50393:MainThread](2026-07-31 11:22:41,058) INFO - qlib.timer - [log.py:127] - Time cost: 0.301s | Fillna Done
+[50393:MainThread](2026-07-31 11:22:41,265) INFO - qlib.timer - [log.py:127] - Time cost: 0.082s | DropnaLabel Done
+[50393:MainThread](2026-07-31 11:22:41,891) INFO - qlib.timer - [log.py:127] - Time cost: 0.625s | CSZScoreNorm Done
+[50393:MainThread](2026-07-31 11:22:41,896) INFO - qlib.timer - [log.py:127] - Time cost: 2.747s | fit & process data Done
+[50393:MainThread](2026-07-31 11:22:41,896) INFO - qlib.timer - [log.py:127] - Time cost: 21.493s | Init data Done
+[50393:MainThread](2026-07-31 11:22:41,897) INFO - qlib.DEnsembleModel - [double_ensemble.py:57] - Double Ensemble Model...
+[50393:MainThread](2026-07-31 11:22:42,075) INFO - qlib.DEnsembleModel - [double_ensemble.py:81] - Training sub-model: (1/3)
+[50393:MainThread](2026-07-31 11:22:46,242) INFO - qlib.DEnsembleModel - [double_ensemble.py:88] - Retrieving loss curve and loss values...
+[50393:MainThread](2026-07-31 11:22:48,358) INFO - qlib.DEnsembleModel - [double_ensemble.py:98] - Sample re-weighting...
+[50393:MainThread](2026-07-31 11:22:49,654) INFO - qlib.DEnsembleModel - [double_ensemble.py:102] - Feature selection...

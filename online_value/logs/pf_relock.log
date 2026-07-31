@@ -1,10 +1,11 @@
 /Users/11164591/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
   warnings.warn(
-[15011:MainThread](2026-07-29 17:56:59,217) INFO - qlib.Initialization - [config.py:473] - default_conf: client.
-[15011:MainThread](2026-07-29 17:56:59,910) INFO - qlib.Initialization - [__init__.py:82] - qlib successfully initialized based on client settings.
-[15011:MainThread](2026-07-29 17:56:59,911) INFO - qlib.Initialization - [__init__.py:84] - data_path={'__DEFAULT_FREQ': PosixPath('/Users/11164591/.qlib/qlib_data/cn_data')}
+!! --relock-code 模式: 只重建代码指纹锁, 黄金持仓锁不动。前提是 E 黄金回归必须 PASS —— 否则说明口径真的变了, 不该用这个开关。
+[2842:MainThread](2026-07-29 17:22:31,314) INFO - qlib.Initialization - [config.py:473] - default_conf: client.
+[2842:MainThread](2026-07-29 17:22:33,062) INFO - qlib.Initialization - [__init__.py:82] - qlib successfully initialized based on client settings.
+[2842:MainThread](2026-07-29 17:22:33,063) INFO - qlib.Initialization - [__init__.py:84] - data_path={'__DEFAULT_FREQ': PosixPath('/Users/11164591/.qlib/qlib_data/cn_data')}
 ============================================================================================
-  上线体检 preflight  2026-07-29 17:56
+  上线体检 preflight  2026-07-29 17:22
 ============================================================================================
 
 --- A. 口径常量锁 ---
@@ -15,8 +16,8 @@
   [PASS] 月度换仓日规则: 2025=12期(期望12) 2026=7期(随数据增长) 信号日严格早于执行日=True
   [PASS] 下一换仓点可定位: 信号日 2026-07-31 收盘后出清单 → 执行日 2026-08-03 尾盘换仓 (未来日期按工作日近似, 长假会偏早)
 
---- B. 指纹锁 (core/ + 入口脚本 + 判据文件, 文件级) ---
-  [PASS] 指纹锁: 14个文件未变动 (含2个判据文件)
+--- B. 代码指纹锁 (core/ + 入口脚本, 文件级) ---
+  [PASS] 指纹锁: 重建 12个文件指纹 → golden/code_lock.json
 
 --- C. 上游隔离 (上线目录必须自包含) ---
   [PASS] 无上游 vXX 依赖: core/ 与入口脚本均不 import 任何 vXX 实验脚本
@@ -82,22 +83,6 @@
   warnings.warn(
   [PASS] 黄金回归: 锁定的7期×Top20 与锁定文件完全一致
 
---- F. 历史不可变指纹 (界内一个数都不许变, 新数据只能追加) ---
-  [PASS] 历史估值指纹: 2026-07-29及之前 883543行 指纹10bd9a09ed23 与锁定值一致
-/Users/11164591/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
-  warnings.warn(
-/Users/11164591/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
-  warnings.warn(
-/Users/11164591/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
-  warnings.warn(
-/Users/11164591/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
-  warnings.warn(
-/Users/11164591/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
-  warnings.warn(
-/Users/11164591/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
-  warnings.warn(
-  [PASS] 历史行情指纹: 样本20只 × 2019年 4880行 指纹5843289178ab 与锁定值一致
-
 ============================================================================================
-  体检结论: 全部 18 项 PASS → 可以按 latest_buy 清单交易
+  体检结论: 全部 16 项 PASS → 可以按 latest_buy 清单交易
 ============================================================================================

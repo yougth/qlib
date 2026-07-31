@@ -1,0 +1,1 @@
+{"model": "ALSTM", "status": "ok", "oos_rankic": 0.054, "oos_ic": 0.0303, "ar": 0.1767, "vol": 0.2232, "sharpe": 0.792, "mdd": -0.2649, "calmar": 0.667, "excess_ar": 0.1184, "turnover": 0.8138, "n_buys": 353, "n_signals": 43, "yearly": {"2023": 0.1535, "2024": 0.3385, "2025": 0.1118, "2026": 0.0338}, "seconds": 1597.4}

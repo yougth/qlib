@@ -10,8 +10,10 @@
   回测锚 : golden/backtest_baseline.csv (run_backtest.py 复现)
 
 用法:
+  /usr/bin/python3 preflight_check.py             # 前置: 必须当天体检全 PASS, 否则本脚本拒绝运行
   /usr/bin/python3 gen_holdings.py                # 历史各月持仓 + 最新买入清单
   /usr/bin/python3 gen_holdings.py --years 2025 2026
+  /usr/bin/python3 gen_holdings.py --force        # 跳过体检校验, 产出仅供查看, 不可用于下单
 输出:
   holdings_YYYY.csv          # 该年各月 Top20 (与回测同一路径算出)
   latest_buy_YYYYMMDD.csv    # 最新买入清单 (Top20 + 5只备选, 含名称/收盘价)
@@ -21,6 +23,7 @@
   - 月度单边换手约15%: 每月实际只需买卖各2-4只
 """
 import os, sys, glob
+from datetime import datetime
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import numpy as np
@@ -129,7 +132,29 @@ def dump_latest(cal_list, val_piv, fcf_df, profit_df, nmap):
     print(out.to_string(index=False), flush=True)
 
 
+def require_preflight(argv):
+    """出清单前必须"当天"体检通过。
+    体检若可绕过就等于没有 —— 而最想绕过它的时候(赶收盘前出单), 恰恰是最需要它的时候。
+    数据每天都在变, 所以昨天的体检记录不算; --force 只用于查看, 产出不可用于下单。"""
+    p = f"{OUT_DIR}/preflight_last.csv"
+    if "--force" in argv:
+        print("[!] --force: 跳过体检校验, 本次产出仅供查看, 不可用于下单", flush=True)
+        return
+    if not os.path.exists(p):
+        sys.exit("[X] 没有体检记录 → 先跑: /usr/bin/python3 preflight_check.py")
+    d = pd.read_csv(p, sep='\t')
+    ok_col = d["pass"].astype(str).str.strip().str.lower().isin(["true", "1"])
+    day = pd.Timestamp(datetime.fromtimestamp(os.path.getmtime(p))).normalize()
+    if day != pd.Timestamp.now().normalize():
+        sys.exit(f"[X] 体检记录是 {day.date()} 的, 不是今天 → 数据每天在变, 请重跑 preflight_check.py")
+    if (~ok_col).any():
+        sys.exit(f"[X] 今天的体检有 {int((~ok_col).sum())} 项 FAIL: "
+                 f"{d.loc[~ok_col, 'check'].tolist()} → 禁止出清单, 先排查")
+    print(f"[✓] 体检 {day.date()} 全部 {len(d)} 项 PASS", flush=True)
+
+
 def main():
+    require_preflight(sys.argv)
     config.init_qlib()
     cal_list = get_calendar()          # 生产: 用数据自然末端
     val_piv = load_raw_valuation()

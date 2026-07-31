@@ -1,0 +1,817 @@
+
+========================================================================
+[Phase A] XGBoost  (wall-clock 预算 2700s)
+========================================================================
+[41934:MainThread](2026-07-30 09:32:29,738) INFO - qlib.Initialization - [config.py:473] - default_conf: client.
+[41934:MainThread](2026-07-30 09:32:30,817) INFO - qlib.Initialization - [__init__.py:82] - qlib successfully initialized based on client settings.
+[41934:MainThread](2026-07-30 09:32:30,817) INFO - qlib.Initialization - [__init__.py:84] - data_path={'__DEFAULT_FREQ': PosixPath('/Users/11164591/.qlib/qlib_data/cn_data_fixed')}
+[CHECK] fcf_pit: (93640, 6), 5454只, 1996~2025 | profit_pit: (55675, 4), 5448只, 1998~2025
+[CHECK] 交易日历: 2014-01-02 ~ 2026-07-23 (3019天)
+[CHECK] 估值缓存: 2079日 × 472股, 2018-01-02~2026-07-29
+[worker XGBoost] 冻结股票池 226 只 | train('2016-01-01', '2021-12-31') valid('2022-01-01', '2022-11-30')(embargo) 信号('2022-12-01', '2026-06-30')
+[41934:MainThread](2026-07-30 09:33:41,561) INFO - qlib.timer - [log.py:127] - Time cost: 62.794s | Loading data Done
+[41934:MainThread](2026-07-30 09:33:48,558) INFO - qlib.timer - [log.py:127] - Time cost: 6.740s | RobustZScoreNorm Done
+[41934:MainThread](2026-07-30 09:33:49,233) INFO - qlib.timer - [log.py:127] - Time cost: 0.674s | Fillna Done
+[41934:MainThread](2026-07-30 09:33:49,673) INFO - qlib.timer - [log.py:127] - Time cost: 0.199s | DropnaLabel Done
+[41934:MainThread](2026-07-30 09:33:53,543) INFO - qlib.timer - [log.py:127] - Time cost: 3.869s | CSZScoreNorm Done
+[41934:MainThread](2026-07-30 09:33:53,548) INFO - qlib.timer - [log.py:127] - Time cost: 11.986s | fit & process data Done
+[41934:MainThread](2026-07-30 09:33:53,549) INFO - qlib.timer - [log.py:127] - Time cost: 74.782s | Init data Done
+[0]	train-rmse:0.99304	valid-rmse:0.99635
+[20]	train-rmse:0.94169	valid-rmse:0.99053
+[40]	train-rmse:0.91796	valid-rmse:0.98966
+[60]	train-rmse:0.90319	valid-rmse:0.98940
+[80]	train-rmse:0.88699	valid-rmse:0.98999
+[100]	train-rmse:0.87326	valid-rmse:0.99080
+[108]	train-rmse:0.86852	valid-rmse:0.99107
+    [流动性] 中位数20日均成交额=1.26亿, 一字涨停59条, 停牌130条
+[CHECK] 沪深300基准(csi300_cache): 2019-01-02 ~ 2026-07-28 (1835天)
+[worker XGBoost] status=ok 用时147.6s
+
+========================================================================
+[Phase A] LightGBM  (wall-clock 预算 2700s)
+========================================================================
+[42801:MainThread](2026-07-30 09:35:02,448) INFO - qlib.Initialization - [config.py:473] - default_conf: client.
+[42801:MainThread](2026-07-30 09:35:03,319) INFO - qlib.Initialization - [__init__.py:82] - qlib successfully initialized based on client settings.
+[42801:MainThread](2026-07-30 09:35:03,321) INFO - qlib.Initialization - [__init__.py:84] - data_path={'__DEFAULT_FREQ': PosixPath('/Users/11164591/.qlib/qlib_data/cn_data_fixed')}
+[CHECK] fcf_pit: (93640, 6), 5454只, 1996~2025 | profit_pit: (55675, 4), 5448只, 1998~2025
+[CHECK] 交易日历: 2014-01-02 ~ 2026-07-23 (3019天)
+[CHECK] 估值缓存: 2079日 × 472股, 2018-01-02~2026-07-29
+[worker LightGBM] 冻结股票池 226 只 | train('2016-01-01', '2021-12-31') valid('2022-01-01', '2022-11-30')(embargo) 信号('2022-12-01', '2026-06-30')
+[42801:MainThread](2026-07-30 09:35:49,421) INFO - qlib.timer - [log.py:127] - Time cost: 38.376s | Loading data Done
+[42801:MainThread](2026-07-30 09:35:55,384) INFO - qlib.timer - [log.py:127] - Time cost: 5.654s | RobustZScoreNorm Done
+[42801:MainThread](2026-07-30 09:35:56,276) INFO - qlib.timer - [log.py:127] - Time cost: 0.890s | Fillna Done
+[42801:MainThread](2026-07-30 09:35:57,238) INFO - qlib.timer - [log.py:127] - Time cost: 0.298s | DropnaLabel Done
+[42801:MainThread](2026-07-30 09:36:01,338) INFO - qlib.timer - [log.py:127] - Time cost: 4.099s | CSZScoreNorm Done
+[42801:MainThread](2026-07-30 09:36:01,343) INFO - qlib.timer - [log.py:127] - Time cost: 11.921s | fit & process data Done
+[42801:MainThread](2026-07-30 09:36:01,343) INFO - qlib.timer - [log.py:127] - Time cost: 50.301s | Init data Done
+[42801:MainThread](2026-07-30 09:36:28,681) WARNING - qlib.workflow - [expm.py:230] - No valid experiment found. Create a new experiment with name Experiment.
+[42801:MainThread](2026-07-30 09:36:28,687) INFO - qlib.workflow - [exp.py:258] - Experiment 409026787405336840 starts running ...
+[42801:MainThread](2026-07-30 09:36:28,991) INFO - qlib.workflow - [recorder.py:345] - Recorder 64f6529a820542f69dab710533f1199c starts running under Experiment 409026787405336840 ...
+Training until validation scores don't improve for 50 rounds
+[20]	train's l2: 0.900948	valid's l2: 0.982588
+[40]	train's l2: 0.86506	valid's l2: 0.984543
+[60]	train's l2: 0.836749	valid's l2: 0.98809
+Early stopping, best iteration is:
+[14]	train's l2: 0.913596	valid's l2: 0.981838
+    [流动性] 中位数20日均成交额=1.26亿, 一字涨停59条, 停牌130条
+[CHECK] 沪深300基准(csi300_cache): 2019-01-02 ~ 2026-07-28 (1835天)
+[worker LightGBM] status=ok 用时110.9s
+[42801:MainThread](2026-07-30 09:36:54,324) INFO - qlib.timer - [log.py:127] - Time cost: 0.000s | waiting `async_log` Done
+
+========================================================================
+[Phase A] CatBoost  (wall-clock 预算 2700s)
+========================================================================
+[43697:MainThread](2026-07-30 09:36:59,675) INFO - qlib.Initialization - [config.py:473] - default_conf: client.
+[43697:MainThread](2026-07-30 09:37:00,371) INFO - qlib.Initialization - [__init__.py:82] - qlib successfully initialized based on client settings.
+[43697:MainThread](2026-07-30 09:37:00,372) INFO - qlib.Initialization - [__init__.py:84] - data_path={'__DEFAULT_FREQ': PosixPath('/Users/11164591/.qlib/qlib_data/cn_data_fixed')}
+[CHECK] fcf_pit: (93640, 6), 5454只, 1996~2025 | profit_pit: (55675, 4), 5448只, 1998~2025
+[CHECK] 交易日历: 2014-01-02 ~ 2026-07-23 (3019天)
+[CHECK] 估值缓存: 2079日 × 472股, 2018-01-02~2026-07-29
+[worker CatBoost] 冻结股票池 226 只 | train('2016-01-01', '2021-12-31') valid('2022-01-01', '2022-11-30')(embargo) 信号('2022-12-01', '2026-06-30')
+[43697:MainThread](2026-07-30 09:37:44,843) INFO - qlib.timer - [log.py:127] - Time cost: 35.821s | Loading data Done
+[43697:MainThread](2026-07-30 09:37:49,482) INFO - qlib.timer - [log.py:127] - Time cost: 4.260s | RobustZScoreNorm Done
+[43697:MainThread](2026-07-30 09:37:50,165) INFO - qlib.timer - [log.py:127] - Time cost: 0.681s | Fillna Done
+[43697:MainThread](2026-07-30 09:37:50,698) INFO - qlib.timer - [log.py:127] - Time cost: 0.207s | DropnaLabel Done
+[43697:MainThread](2026-07-30 09:37:54,984) INFO - qlib.timer - [log.py:127] - Time cost: 4.284s | CSZScoreNorm Done
+[43697:MainThread](2026-07-30 09:37:55,020) INFO - qlib.timer - [log.py:127] - Time cost: 10.176s | fit & process data Done
+[43697:MainThread](2026-07-30 09:37:55,021) INFO - qlib.timer - [log.py:127] - Time cost: 45.999s | Init data Done
+0:	learn: 0.9946144	test: 0.9964895	best: 0.9964895 (0)	total: 696ms	remaining: 11m 35s
+20:	learn: 0.9659529	test: 0.9922775	best: 0.9922775 (20)	total: 9.42s	remaining: 7m 19s
+40:	learn: 0.9541064	test: 0.9911461	best: 0.9911343 (39)	total: 19.7s	remaining: 7m 40s
+60:	learn: 0.9469989	test: 0.9907090	best: 0.9906587 (56)	total: 29.5s	remaining: 7m 33s
+80:	learn: 0.9416023	test: 0.9904820	best: 0.9904820 (80)	total: 38.2s	remaining: 7m 13s
+100:	learn: 0.9371266	test: 0.9905130	best: 0.9902864 (93)	total: 49.1s	remaining: 7m 17s
+120:	learn: 0.9331164	test: 0.9905591	best: 0.9902864 (93)	total: 57.9s	remaining: 7m
+140:	learn: 0.9293889	test: 0.9910318	best: 0.9902864 (93)	total: 1m 7s	remaining: 6m 50s
+Stopped by overfitting detector  (50 iterations wait)
+
+bestTest = 0.9902864251
+bestIteration = 93
+
+Shrink model to first 94 iterations.
+    [流动性] 中位数20日均成交额=1.26亿, 一字涨停59条, 停牌130条
+[CHECK] 沪深300基准(csi300_cache): 2019-01-02 ~ 2026-07-28 (1835天)
+[worker CatBoost] status=ok 用时156.8s
+
+========================================================================
+[Phase A] Linear  (wall-clock 预算 2700s)
+========================================================================
+[44731:MainThread](2026-07-30 09:39:40,850) INFO - qlib.Initialization - [config.py:473] - default_conf: client.
+[44731:MainThread](2026-07-30 09:39:41,744) INFO - qlib.Initialization - [__init__.py:82] - qlib successfully initialized based on client settings.
+[44731:MainThread](2026-07-30 09:39:41,745) INFO - qlib.Initialization - [__init__.py:84] - data_path={'__DEFAULT_FREQ': PosixPath('/Users/11164591/.qlib/qlib_data/cn_data_fixed')}
+[CHECK] fcf_pit: (93640, 6), 5454只, 1996~2025 | profit_pit: (55675, 4), 5448只, 1998~2025
+[CHECK] 交易日历: 2014-01-02 ~ 2026-07-23 (3019天)
+[CHECK] 估值缓存: 2079日 × 472股, 2018-01-02~2026-07-29
+[worker Linear] 冻结股票池 226 只 | train('2016-01-01', '2021-12-31') valid('2022-01-01', '2022-11-30')(embargo) 信号('2022-12-01', '2026-06-30')
+[44731:MainThread](2026-07-30 09:40:26,555) INFO - qlib.timer - [log.py:127] - Time cost: 36.900s | Loading data Done
+[44731:MainThread](2026-07-30 09:40:31,798) INFO - qlib.timer - [log.py:127] - Time cost: 4.893s | RobustZScoreNorm Done
+[44731:MainThread](2026-07-30 09:40:32,599) INFO - qlib.timer - [log.py:127] - Time cost: 0.800s | Fillna Done
+[44731:MainThread](2026-07-30 09:40:33,121) INFO - qlib.timer - [log.py:127] - Time cost: 0.245s | DropnaLabel Done
+[44731:MainThread](2026-07-30 09:40:38,256) INFO - qlib.timer - [log.py:127] - Time cost: 5.134s | CSZScoreNorm Done
+[44731:MainThread](2026-07-30 09:40:38,263) INFO - qlib.timer - [log.py:127] - Time cost: 11.707s | fit & process data Done
+[44731:MainThread](2026-07-30 09:40:38,264) INFO - qlib.timer - [log.py:127] - Time cost: 48.611s | Init data Done
+    [流动性] 中位数20日均成交额=1.26亿, 一字涨停59条, 停牌130条
+[CHECK] 沪深300基准(csi300_cache): 2019-01-02 ~ 2026-07-28 (1835天)
+[worker Linear] status=ok 用时106.9s
+
+========================================================================
+[Phase A] DoubleEnsemble  (wall-clock 预算 2700s)
+========================================================================
+[45347:MainThread](2026-07-30 09:41:32,911) INFO - qlib.Initialization - [config.py:473] - default_conf: client.
+[45347:MainThread](2026-07-30 09:41:33,726) INFO - qlib.Initialization - [__init__.py:82] - qlib successfully initialized based on client settings.
+[45347:MainThread](2026-07-30 09:41:33,727) INFO - qlib.Initialization - [__init__.py:84] - data_path={'__DEFAULT_FREQ': PosixPath('/Users/11164591/.qlib/qlib_data/cn_data_fixed')}
+[CHECK] fcf_pit: (93640, 6), 5454只, 1996~2025 | profit_pit: (55675, 4), 5448只, 1998~2025
+[CHECK] 交易日历: 2014-01-02 ~ 2026-07-23 (3019天)
+[CHECK] 估值缓存: 2079日 × 472股, 2018-01-02~2026-07-29
+[worker DoubleEnsemble] 冻结股票池 226 只 | train('2016-01-01', '2021-12-31') valid('2022-01-01', '2022-11-30')(embargo) 信号('2022-12-01', '2026-06-30')
+[45347:MainThread](2026-07-30 09:42:14,092) INFO - qlib.timer - [log.py:127] - Time cost: 33.104s | Loading data Done
+[45347:MainThread](2026-07-30 09:42:18,796) INFO - qlib.timer - [log.py:127] - Time cost: 4.518s | RobustZScoreNorm Done
+[45347:MainThread](2026-07-30 09:42:19,789) INFO - qlib.timer - [log.py:127] - Time cost: 0.992s | Fillna Done
+[45347:MainThread](2026-07-30 09:42:20,305) INFO - qlib.timer - [log.py:127] - Time cost: 0.312s | DropnaLabel Done
+[45347:MainThread](2026-07-30 09:42:24,079) INFO - qlib.timer - [log.py:127] - Time cost: 3.773s | CSZScoreNorm Done
+[45347:MainThread](2026-07-30 09:42:24,086) INFO - qlib.timer - [log.py:127] - Time cost: 9.993s | fit & process data Done
+[45347:MainThread](2026-07-30 09:42:24,086) INFO - qlib.timer - [log.py:127] - Time cost: 43.099s | Init data Done
+[45347:MainThread](2026-07-30 09:42:28,834) INFO - qlib.DEnsembleModel - [double_ensemble.py:57] - Double Ensemble Model...
+[45347:MainThread](2026-07-30 09:42:29,808) INFO - qlib.DEnsembleModel - [double_ensemble.py:81] - Training sub-model: (1/3)
+[45347:MainThread](2026-07-30 09:42:40,532) INFO - qlib.DEnsembleModel - [double_ensemble.py:88] - Retrieving loss curve and loss values...
+[45347:MainThread](2026-07-30 09:42:44,188) INFO - qlib.DEnsembleModel - [double_ensemble.py:98] - Sample re-weighting...
+[45347:MainThread](2026-07-30 09:42:47,039) INFO - qlib.DEnsembleModel - [double_ensemble.py:102] - Feature selection...
+[45347:MainThread](2026-07-30 09:45:55,505) INFO - qlib.DEnsembleModel - [double_ensemble.py:81] - Training sub-model: (2/3)
+[45347:MainThread](2026-07-30 09:46:01,260) INFO - qlib.DEnsembleModel - [double_ensemble.py:88] - Retrieving loss curve and loss values...
+[45347:MainThread](2026-07-30 09:46:03,471) INFO - qlib.DEnsembleModel - [double_ensemble.py:98] - Sample re-weighting...
+[45347:MainThread](2026-07-30 09:46:05,999) INFO - qlib.DEnsembleModel - [double_ensemble.py:102] - Feature selection...
+[45347:MainThread](2026-07-30 09:49:50,894) INFO - qlib.DEnsembleModel - [double_ensemble.py:81] - Training sub-model: (3/3)
+[LightGBM] [Info] Auto-choosing col-wise multi-threading, the overhead of testing was 0.291859 seconds.
+You can set `force_col_wise=true` to remove the overhead.
+[LightGBM] [Info] Total Bins 37173
+[LightGBM] [Info] Number of data points in the train set: 245521, number of used features: 171
+[LightGBM] [Info] Start training from score 0.000000
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[20]	train's l2: 0.900948	valid's l2: 0.982588
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Info] Auto-choosing col-wise multi-threading, the overhead of testing was 0.114402 seconds.
+You can set `force_col_wise=true` to remove the overhead.
+[LightGBM] [Info] Total Bins 17628
+[LightGBM] [Info] Number of data points in the train set: 245521, number of used features: 82
+[LightGBM] [Info] Start training from score 0.039484
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[20]	train's l2: 1.15506	valid's l2: 1.00148
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Info] Auto-choosing row-wise multi-threading, the overhead of testing was 0.025569 seconds.
+You can set `force_row_wise=true` to remove the overhead.
+And if memory is not enough, you can set `force_col_wise=true`.
+[LightGBM] [Info] Total Bins 18344
+[LightGBM] [Info] Number of data points in the train set: 245521, number of used features: 84
+[LightGBM] [Info] Start training from score 0.030078
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[20]	train's l2: 1.1162	valid's l2: 0.990122
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+    [流动性] 中位数20日均成交额=1.26亿, 一字涨停59条, 停牌130条
+[CHECK] 沪深300基准(csi300_cache): 2019-01-02 ~ 2026-07-28 (1835天)
+[worker DoubleEnsemble] status=ok 用时526.7s
+
+========================================================================
+[Phase A] MLP  (wall-clock 预算 2700s)
+========================================================================
+[49522:MainThread](2026-07-30 09:50:23,802) INFO - qlib.Initialization - [config.py:473] - default_conf: client.
+[49522:MainThread](2026-07-30 09:50:24,457) INFO - qlib.Initialization - [__init__.py:82] - qlib successfully initialized based on client settings.
+[49522:MainThread](2026-07-30 09:50:24,458) INFO - qlib.Initialization - [__init__.py:84] - data_path={'__DEFAULT_FREQ': PosixPath('/Users/11164591/.qlib/qlib_data/cn_data_fixed')}
+[CHECK] fcf_pit: (93640, 6), 5454只, 1996~2025 | profit_pit: (55675, 4), 5448只, 1998~2025
+[CHECK] 交易日历: 2014-01-02 ~ 2026-07-23 (3019天)
+[CHECK] 估值缓存: 2079日 × 472股, 2018-01-02~2026-07-29
+[worker MLP] 冻结股票池 226 只 | train('2016-01-01', '2021-12-31') valid('2022-01-01', '2022-11-30')(embargo) 信号('2022-12-01', '2026-06-30')
+[49522:MainThread](2026-07-30 09:51:06,673) INFO - qlib.timer - [log.py:127] - Time cost: 36.208s | Loading data Done
+[49522:MainThread](2026-07-30 09:51:11,516) INFO - qlib.timer - [log.py:127] - Time cost: 4.656s | RobustZScoreNorm Done
+[49522:MainThread](2026-07-30 09:51:12,319) INFO - qlib.timer - [log.py:127] - Time cost: 0.801s | Fillna Done
+[49522:MainThread](2026-07-30 09:51:12,783) INFO - qlib.timer - [log.py:127] - Time cost: 0.188s | DropnaLabel Done
+[49522:MainThread](2026-07-30 09:51:17,666) INFO - qlib.timer - [log.py:127] - Time cost: 4.882s | CSZScoreNorm Done
+[49522:MainThread](2026-07-30 09:51:17,672) INFO - qlib.timer - [log.py:127] - Time cost: 10.998s | fit & process data Done
+[49522:MainThread](2026-07-30 09:51:17,673) INFO - qlib.timer - [log.py:127] - Time cost: 47.210s | Init data Done
+    [MLP] 注入特征维度 = 172
+[49522:MainThread](2026-07-30 09:51:23,293) INFO - qlib.DNNModelPytorch - [pytorch_nn.py:83] - DNN pytorch version...
+[49522:MainThread](2026-07-30 09:51:23,294) INFO - qlib.DNNModelPytorch - [pytorch_nn.py:105] - DNN parameters setting:
+lr : 0.002
+max_steps : 8000
+batch_size : 8192
+early_stop_rounds : 50
+eval_steps : 20
+optimizer : adam
+loss_type : mse
+seed : None
+device : cpu
+use_GPU : False
+weight_decay : 0.0002
+enable data parall : False
+pt_model_uri: qlib.contrib.model.pytorch_nn.Net
+pt_model_kwargs: {'input_dim': 172}
+[49522:MainThread](2026-07-30 09:51:23,321) INFO - qlib.DNNModelPytorch - [pytorch_nn.py:139] - model:
+Net(
+  (dnn_layers): ModuleList(
+    (0): Dropout(p=0.05, inplace=False)
+    (1): Sequential(
+      (0): Linear(in_features=172, out_features=256, bias=True)
+      (1): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (2): LeakyReLU(negative_slope=0.1)
+    )
+    (2): Dropout(p=0.05, inplace=False)
+    (3): Linear(in_features=256, out_features=1, bias=True)
+  )
+)
+[49522:MainThread](2026-07-30 09:51:23,321) INFO - qlib.DNNModelPytorch - [pytorch_nn.py:140] - model size: 0.0430 MB
+[49522:MainThread](2026-07-30 09:51:26,833) INFO - qlib.DNNModelPytorch - [pytorch_nn.py:235] - training...
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/joblib/externals/loky/backend/resource_tracker.py:359: UserWarning: resource_tracker: There appear to be 2 leaked folder objects to clean up at shutdown
+  warnings.warn(
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/joblib/externals/loky/backend/resource_tracker.py:375: UserWarning: resource_tracker: /var/folders/g3/k9jmnbnx6xv37wjjzpv4mxjswf966k/T/joblib_memmapping_folder_49522_a79dfc4b82774723ac0c880e693a51c4_ec7f1703d7ac4004b46b968d1a6c1fb5: FileNotFoundError(2, 'No such file or directory')
+  warnings.warn(f"resource_tracker: {name}: {e!r}")
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/joblib/externals/loky/backend/resource_tracker.py:375: UserWarning: resource_tracker: /var/folders/g3/k9jmnbnx6xv37wjjzpv4mxjswf966k/T/joblib_memmapping_folder_49522_1cc66d084c1b4c2491301bd76814e5f0_6c95c7cc15a744f58c2e1a8de709afc6: FileNotFoundError(2, 'No such file or directory')
+  warnings.warn(f"resource_tracker: {name}: {e!r}")
+
+========================================================================
+[Phase A] TabNet  (wall-clock 预算 2700s)
+========================================================================
+[49960:MainThread](2026-07-30 09:51:31,150) INFO - qlib.Initialization - [config.py:473] - default_conf: client.
+[49960:MainThread](2026-07-30 09:51:32,660) INFO - qlib.Initialization - [__init__.py:82] - qlib successfully initialized based on client settings.
+[49960:MainThread](2026-07-30 09:51:32,660) INFO - qlib.Initialization - [__init__.py:84] - data_path={'__DEFAULT_FREQ': PosixPath('/Users/11164591/.qlib/qlib_data/cn_data_fixed')}
+[CHECK] fcf_pit: (93640, 6), 5454只, 1996~2025 | profit_pit: (55675, 4), 5448只, 1998~2025
+[CHECK] 交易日历: 2014-01-02 ~ 2026-07-23 (3019天)
+[CHECK] 估值缓存: 2079日 × 472股, 2018-01-02~2026-07-29
+[worker TabNet] 冻结股票池 226 只 | train('2016-01-01', '2021-12-31') valid('2022-01-01', '2022-11-30')(embargo) 信号('2022-12-01', '2026-06-30')
+[49960:MainThread](2026-07-30 09:52:10,689) INFO - qlib.timer - [log.py:127] - Time cost: 30.847s | Loading data Done
+[49960:MainThread](2026-07-30 09:52:15,556) INFO - qlib.timer - [log.py:127] - Time cost: 4.563s | RobustZScoreNorm Done
+[49960:MainThread](2026-07-30 09:52:16,365) INFO - qlib.timer - [log.py:127] - Time cost: 0.809s | Fillna Done
+[49960:MainThread](2026-07-30 09:52:16,890) INFO - qlib.timer - [log.py:127] - Time cost: 0.246s | DropnaLabel Done
+[49960:MainThread](2026-07-30 09:52:21,869) INFO - qlib.timer - [log.py:127] - Time cost: 4.979s | CSZScoreNorm Done
+[49960:MainThread](2026-07-30 09:52:21,883) INFO - qlib.timer - [log.py:127] - Time cost: 11.193s | fit & process data Done
+[49960:MainThread](2026-07-30 09:52:21,884) INFO - qlib.timer - [log.py:127] - Time cost: 42.042s | Init data Done
+    [TabNet] 注入特征维度 = 172
+[49960:MainThread](2026-07-30 09:52:26,495) INFO - qlib.TabNet - [pytorch_tabnet.py:78] - TabNet:
+batch_size : 4096
+virtual bs : 2048
+device : cpu
+pretrain: False
+[49960:MainThread](2026-07-30 09:52:26,577) INFO - qlib.TabNet - [pytorch_tabnet.py:91] - model:
+TabNet(
+  (shared): ModuleList(
+    (0): Linear(in_features=172, out_features=256, bias=True)
+    (1): Linear(in_features=128, out_features=256, bias=True)
+  )
+  (first_step): FeatureTransformer(
+    (shared): ModuleList(
+      (0): GLU(
+        (fc): Linear(in_features=172, out_features=256, bias=True)
+        (bn): GBN(
+          (bn): BatchNorm1d(256, eps=1e-05, momentum=0.01, affine=True, track_running_stats=True)
+        )
+      )
+      (1): GLU(
+        (fc): Linear(in_features=128, out_features=256, bias=True)
+        (bn): GBN(
+          (bn): BatchNorm1d(256, eps=1e-05, momentum=0.01, affine=True, track_running_stats=True)
+        )
+      )
+    )
+    (independ): ModuleList(
+      (0-1): 2 x GLU(
+        (fc): Linear(in_features=128, out_features=256, bias=True)
+        (bn): GBN(
+          (bn): BatchNorm1d(256, eps=1e-05, momentum=0.01, affine=True, track_running_stats=True)
+        )
+      )
+    )
+  )
+  (steps): ModuleList(
+    (0-3): 4 x DecisionStep(
+      (atten_tran): AttentionTransformer(
+        (fc): Linear(in_features=64, out_features=172, bias=True)
+        (bn): GBN(
+          (bn): BatchNorm1d(172, eps=1e-05, momentum=0.01, affine=True, track_running_stats=True)
+        )
+      )
+      (fea_tran): FeatureTransformer(
+        (shared): ModuleList(
+          (0): GLU(
+            (fc): Linear(in_features=172, out_features=256, bias=True)
+            (bn): GBN(
+              (bn): BatchNorm1d(256, eps=1e-05, momentum=0.01, affine=True, track_running_stats=True)
+            )
+          )
+          (1): GLU(
+            (fc): Linear(in_features=128, out_features=256, bias=True)
+            (bn): GBN(
+              (bn): BatchNorm1d(256, eps=1e-05, momentum=0.01, affine=True, track_running_stats=True)
+            )
+          )
+        )
+        (independ): ModuleList(
+          (0-1): 2 x GLU(
+            (fc): Linear(in_features=128, out_features=256, bias=True)
+            (bn): GBN(
+              (bn): BatchNorm1d(256, eps=1e-05, momentum=0.01, affine=True, track_running_stats=True)
+            )
+          )
+        )
+      )
+    )
+  )
+  (fc): Linear(in_features=64, out_features=64, bias=True)
+  (bn): BatchNorm1d(172, eps=1e-05, momentum=0.01, affine=True, track_running_stats=True)
+)
+TabNet_Decoder(
+  (shared): ModuleList(
+    (0): Linear(in_features=64, out_features=344, bias=True)
+    (1): Linear(in_features=172, out_features=344, bias=True)
+  )
+  (steps): ModuleList(
+    (0-4): 5 x DecoderStep(
+      (fea_tran): FeatureTransformer(
+        (shared): ModuleList(
+          (0): GLU(
+            (fc): Linear(in_features=64, out_features=344, bias=True)
+            (bn): GBN(
+              (bn): BatchNorm1d(344, eps=1e-05, momentum=0.01, affine=True, track_running_stats=True)
+            )
+          )
+          (1): GLU(
+            (fc): Linear(in_features=172, out_features=344, bias=True)
+            (bn): GBN(
+              (bn): BatchNorm1d(344, eps=1e-05, momentum=0.01, affine=True, track_running_stats=True)
+            )
+          )
+        )
+        (independ): ModuleList(
+          (0-1): 2 x GLU(
+            (fc): Linear(in_features=172, out_features=344, bias=True)
+            (bn): GBN(
+              (bn): BatchNorm1d(344, eps=1e-05, momentum=0.01, affine=True, track_running_stats=True)
+            )
+          )
+        )
+      )
+      (fc): Linear(in_features=172, out_features=172, bias=True)
+    )
+  )
+)
+[49960:MainThread](2026-07-30 09:52:26,578) INFO - qlib.TabNet - [pytorch_tabnet.py:92] - model size: 1.2473 MB
+[49960:MainThread](2026-07-30 09:53:41,094) INFO - qlib.TabNet - [pytorch_tabnet.py:185] - training...
+[49960:MainThread](2026-07-30 09:53:41,097) INFO - qlib.TabNet - [pytorch_tabnet.py:189] - epoch: 0
+[49960:MainThread](2026-07-30 09:53:41,098) INFO - qlib.TabNet - [pytorch_tabnet.py:190] - training...
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/joblib/externals/loky/backend/resource_tracker.py:359: UserWarning: resource_tracker: There appear to be 2 leaked folder objects to clean up at shutdown
+  warnings.warn(
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/joblib/externals/loky/backend/resource_tracker.py:375: UserWarning: resource_tracker: /var/folders/g3/k9jmnbnx6xv37wjjzpv4mxjswf966k/T/joblib_memmapping_folder_49960_f409eb6ed16c45d79f021ea5ad9c7516_81fbb2c2f5d54428b49aeb0566ef6742: FileNotFoundError(2, 'No such file or directory')
+  warnings.warn(f"resource_tracker: {name}: {e!r}")
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/joblib/externals/loky/backend/resource_tracker.py:375: UserWarning: resource_tracker: /var/folders/g3/k9jmnbnx6xv37wjjzpv4mxjswf966k/T/joblib_memmapping_folder_49960_688fff06e2a84d7baa490c1e420bdc90_7685cee0107e44778302117606e0fa4c: FileNotFoundError(2, 'No such file or directory')
+  warnings.warn(f"resource_tracker: {name}: {e!r}")
+
+========================================================================
+[Phase A] GRU  (wall-clock 预算 2700s)
+========================================================================
+[50911:MainThread](2026-07-30 09:53:44,847) INFO - qlib.Initialization - [config.py:473] - default_conf: client.
+[50911:MainThread](2026-07-30 09:53:45,463) INFO - qlib.Initialization - [__init__.py:82] - qlib successfully initialized based on client settings.
+[50911:MainThread](2026-07-30 09:53:45,463) INFO - qlib.Initialization - [__init__.py:84] - data_path={'__DEFAULT_FREQ': PosixPath('/Users/11164591/.qlib/qlib_data/cn_data_fixed')}
+[CHECK] fcf_pit: (93640, 6), 5454只, 1996~2025 | profit_pit: (55675, 4), 5448只, 1998~2025
+[CHECK] 交易日历: 2014-01-02 ~ 2026-07-23 (3019天)
+[CHECK] 估值缓存: 2079日 × 472股, 2018-01-02~2026-07-29
+[worker GRU] 冻结股票池 226 只 | train('2016-01-01', '2021-12-31') valid('2022-01-01', '2022-11-30')(embargo) 信号('2022-12-01', '2026-06-30')
+[50911:MainThread](2026-07-30 09:54:22,670) INFO - qlib.timer - [log.py:127] - Time cost: 30.681s | Loading data Done
+[50911:MainThread](2026-07-30 09:54:27,312) INFO - qlib.timer - [log.py:127] - Time cost: 4.400s | RobustZScoreNorm Done
+[50911:MainThread](2026-07-30 09:54:28,078) INFO - qlib.timer - [log.py:127] - Time cost: 0.765s | Fillna Done
+[50911:MainThread](2026-07-30 09:54:28,439) INFO - qlib.timer - [log.py:127] - Time cost: 0.149s | DropnaLabel Done
+[50911:MainThread](2026-07-30 09:54:31,760) INFO - qlib.timer - [log.py:127] - Time cost: 3.320s | CSZScoreNorm Done
+[50911:MainThread](2026-07-30 09:54:31,765) INFO - qlib.timer - [log.py:127] - Time cost: 9.094s | fit & process data Done
+[50911:MainThread](2026-07-30 09:54:31,773) INFO - qlib.timer - [log.py:127] - Time cost: 39.784s | Init data Done
+    [GRU] 注入特征维度 = 172
+[50911:MainThread](2026-07-30 09:54:37,835) INFO - qlib.GRU - [pytorch_gru_ts.py:61] - GRU pytorch version...
+[50911:MainThread](2026-07-30 09:54:37,836) INFO - qlib.GRU - [pytorch_gru_ts.py:79] - GRU parameters setting:
+d_feat : 172
+hidden_size : 64
+num_layers : 2
+dropout : 0.0
+n_epochs : 200
+lr : 0.0002
+metric : loss
+batch_size : 800
+early_stop : 10
+optimizer : adam
+loss_type : mse
+device : cpu
+n_jobs : 4
+use_GPU : False
+seed : None
+[50911:MainThread](2026-07-30 09:54:37,844) INFO - qlib.GRU - [pytorch_gru_ts.py:124] - model:
+GRUModel(
+  (rnn): GRU(172, 64, num_layers=2, batch_first=True)
+  (fc_out): Linear(in_features=64, out_features=1, bias=True)
+)
+[50911:MainThread](2026-07-30 09:54:37,844) INFO - qlib.GRU - [pytorch_gru_ts.py:125] - model size: 0.0674 MB
+[50911:MainThread](2026-07-30 09:54:41,981) INFO - qlib.GRU - [pytorch_gru_ts.py:249] - training...
+[50911:MainThread](2026-07-30 09:54:41,982) INFO - qlib.GRU - [pytorch_gru_ts.py:253] - Epoch0:
+[50911:MainThread](2026-07-30 09:54:41,983) INFO - qlib.GRU - [pytorch_gru_ts.py:254] - training...
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/joblib/externals/loky/backend/resource_tracker.py:359: UserWarning: resource_tracker: There appear to be 2 leaked folder objects to clean up at shutdown
+  warnings.warn(
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/joblib/externals/loky/backend/resource_tracker.py:375: UserWarning: resource_tracker: /var/folders/g3/k9jmnbnx6xv37wjjzpv4mxjswf966k/T/joblib_memmapping_folder_50911_853170a9e1b6471d8daa4311f7f390ba_f897a7ec78294c2d8f89f372191a9ed1: FileNotFoundError(2, 'No such file or directory')
+  warnings.warn(f"resource_tracker: {name}: {e!r}")
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/joblib/externals/loky/backend/resource_tracker.py:375: UserWarning: resource_tracker: /var/folders/g3/k9jmnbnx6xv37wjjzpv4mxjswf966k/T/joblib_memmapping_folder_50911_83f7632c982e45c6ba87e4961df6ba76_eb43625faa5748d8b3a688dc46215894: FileNotFoundError(2, 'No such file or directory')
+  warnings.warn(f"resource_tracker: {name}: {e!r}")
+
+========================================================================
+[Phase A] LSTM  (wall-clock 预算 2700s)
+========================================================================
+[51624:MainThread](2026-07-30 09:55:16,257) INFO - qlib.Initialization - [config.py:473] - default_conf: client.
+[51624:MainThread](2026-07-30 09:55:17,380) INFO - qlib.Initialization - [__init__.py:82] - qlib successfully initialized based on client settings.
+[51624:MainThread](2026-07-30 09:55:17,381) INFO - qlib.Initialization - [__init__.py:84] - data_path={'__DEFAULT_FREQ': PosixPath('/Users/11164591/.qlib/qlib_data/cn_data_fixed')}
+[CHECK] fcf_pit: (93640, 6), 5454只, 1996~2025 | profit_pit: (55675, 4), 5448只, 1998~2025
+[CHECK] 交易日历: 2014-01-02 ~ 2026-07-23 (3019天)
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/multiprocessing/resource_tracker.py:216: UserWarning: resource_tracker: There appear to be 20 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '
+[CHECK] 估值缓存: 2079日 × 472股, 2018-01-02~2026-07-29
+[worker LSTM] 冻结股票池 226 只 | train('2016-01-01', '2021-12-31') valid('2022-01-01', '2022-11-30')(embargo) 信号('2022-12-01', '2026-06-30')
+[51624:MainThread](2026-07-30 09:56:08,427) INFO - qlib.timer - [log.py:127] - Time cost: 39.906s | Loading data Done
+[51624:MainThread](2026-07-30 09:56:12,763) INFO - qlib.timer - [log.py:127] - Time cost: 4.094s | RobustZScoreNorm Done
+[51624:MainThread](2026-07-30 09:56:13,580) INFO - qlib.timer - [log.py:127] - Time cost: 0.817s | Fillna Done
+[51624:MainThread](2026-07-30 09:56:14,059) INFO - qlib.timer - [log.py:127] - Time cost: 0.204s | DropnaLabel Done
+[51624:MainThread](2026-07-30 09:56:18,611) INFO - qlib.timer - [log.py:127] - Time cost: 4.552s | CSZScoreNorm Done
+[51624:MainThread](2026-07-30 09:56:18,621) INFO - qlib.timer - [log.py:127] - Time cost: 10.192s | fit & process data Done
+[51624:MainThread](2026-07-30 09:56:18,622) INFO - qlib.timer - [log.py:127] - Time cost: 50.103s | Init data Done
+    [LSTM] 注入特征维度 = 172
+[51624:MainThread](2026-07-30 09:56:26,070) INFO - qlib.LSTM - [pytorch_lstm_ts.py:60] - LSTM pytorch version...
+[51624:MainThread](2026-07-30 09:56:26,072) INFO - qlib.LSTM - [pytorch_lstm_ts.py:78] - LSTM parameters setting:
+d_feat : 172
+hidden_size : 64
+num_layers : 2
+dropout : 0.0
+n_epochs : 200
+lr : 0.001
+metric : loss
+batch_size : 800
+early_stop : 10
+optimizer : adam
+loss_type : mse
+device : cpu
+n_jobs : 4
+use_GPU : False
+seed : None
+[51624:MainThread](2026-07-30 09:56:31,672) INFO - qlib.LSTM - [pytorch_lstm_ts.py:244] - training...
+[51624:MainThread](2026-07-30 09:56:31,673) INFO - qlib.LSTM - [pytorch_lstm_ts.py:248] - Epoch0:
+[51624:MainThread](2026-07-30 09:56:31,673) INFO - qlib.LSTM - [pytorch_lstm_ts.py:249] - training...
+
+========================================================================
+[Phase A] ALSTM  (wall-clock 预算 2700s)
+========================================================================
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/joblib/externals/loky/backend/resource_tracker.py:359: UserWarning: resource_tracker: There appear to be 2 leaked folder objects to clean up at shutdown
+  warnings.warn(
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/joblib/externals/loky/backend/resource_tracker.py:375: UserWarning: resource_tracker: /var/folders/g3/k9jmnbnx6xv37wjjzpv4mxjswf966k/T/joblib_memmapping_folder_51624_069b3c6877574277a9bd5eb801bd86c3_3a730f1e85a94bc1b63d16c23c0897dd: FileNotFoundError(2, 'No such file or directory')
+  warnings.warn(f"resource_tracker: {name}: {e!r}")
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/joblib/externals/loky/backend/resource_tracker.py:375: UserWarning: resource_tracker: /var/folders/g3/k9jmnbnx6xv37wjjzpv4mxjswf966k/T/joblib_memmapping_folder_51624_2a4890d25a28461383498e344da01a5f_43499714b92c4b3088d6ff7961d432d7: FileNotFoundError(2, 'No such file or directory')
+  warnings.warn(f"resource_tracker: {name}: {e!r}")
+[52432:MainThread](2026-07-30 09:57:09,828) INFO - qlib.Initialization - [config.py:473] - default_conf: client.
+[52432:MainThread](2026-07-30 09:57:10,647) INFO - qlib.Initialization - [__init__.py:82] - qlib successfully initialized based on client settings.
+[52432:MainThread](2026-07-30 09:57:10,648) INFO - qlib.Initialization - [__init__.py:84] - data_path={'__DEFAULT_FREQ': PosixPath('/Users/11164591/.qlib/qlib_data/cn_data_fixed')}
+[CHECK] fcf_pit: (93640, 6), 5454只, 1996~2025 | profit_pit: (55675, 4), 5448只, 1998~2025
+[CHECK] 交易日历: 2014-01-02 ~ 2026-07-23 (3019天)
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/multiprocessing/resource_tracker.py:216: UserWarning: resource_tracker: There appear to be 20 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '
+[CHECK] 估值缓存: 2079日 × 472股, 2018-01-02~2026-07-29
+[worker ALSTM] 冻结股票池 226 只 | train('2016-01-01', '2021-12-31') valid('2022-01-01', '2022-11-30')(embargo) 信号('2022-12-01', '2026-06-30')
+[52432:MainThread](2026-07-30 09:57:52,825) INFO - qlib.timer - [log.py:127] - Time cost: 35.531s | Loading data Done
+[52432:MainThread](2026-07-30 09:57:58,806) INFO - qlib.timer - [log.py:127] - Time cost: 5.630s | RobustZScoreNorm Done
+[52432:MainThread](2026-07-30 09:57:59,566) INFO - qlib.timer - [log.py:127] - Time cost: 0.758s | Fillna Done
+[52432:MainThread](2026-07-30 09:58:00,156) INFO - qlib.timer - [log.py:127] - Time cost: 0.360s | DropnaLabel Done
+[52432:MainThread](2026-07-30 09:58:04,122) INFO - qlib.timer - [log.py:127] - Time cost: 3.965s | CSZScoreNorm Done
+[52432:MainThread](2026-07-30 09:58:04,131) INFO - qlib.timer - [log.py:127] - Time cost: 11.305s | fit & process data Done
+[52432:MainThread](2026-07-30 09:58:04,132) INFO - qlib.timer - [log.py:127] - Time cost: 46.839s | Init data Done
+    [ALSTM] 注入特征维度 = 172
+[52432:MainThread](2026-07-30 09:58:09,424) INFO - qlib.ALSTM - [pytorch_alstm_ts.py:63] - ALSTM pytorch version...
+[52432:MainThread](2026-07-30 09:58:09,425) INFO - qlib.ALSTM - [pytorch_alstm_ts.py:81] - ALSTM parameters setting:
+d_feat : 172
+hidden_size : 64
+num_layers : 2
+dropout : 0.0
+n_epochs : 200
+lr : 0.001
+metric : loss
+batch_size : 800
+early_stop : 10
+optimizer : adam
+loss_type : mse
+device : cpu
+n_jobs : 4
+use_GPU : False
+seed : None
+[52432:MainThread](2026-07-30 09:58:09,511) INFO - qlib.ALSTM - [pytorch_alstm_ts.py:126] - model:
+ALSTMModel(
+  (net): Sequential(
+    (fc_in): Linear(in_features=172, out_features=64, bias=True)
+    (act): Tanh()
+  )
+  (rnn): GRU(64, 64, num_layers=2, batch_first=True)
+  (fc_out): Linear(in_features=128, out_features=1, bias=True)
+  (att_net): Sequential(
+    (att_fc_in): Linear(in_features=64, out_features=32, bias=True)
+    (att_dropout): Dropout(p=0.0, inplace=False)
+    (att_act): Tanh()
+    (att_fc_out): Linear(in_features=32, out_features=1, bias=False)
+    (att_softmax): Softmax(dim=1)
+  )
+)
+[52432:MainThread](2026-07-30 09:58:09,513) INFO - qlib.ALSTM - [pytorch_alstm_ts.py:127] - model size: 0.0603 MB
+[52432:MainThread](2026-07-30 09:58:13,937) INFO - qlib.ALSTM - [pytorch_alstm_ts.py:255] - training...
+[52432:MainThread](2026-07-30 09:58:13,939) INFO - qlib.ALSTM - [pytorch_alstm_ts.py:259] - Epoch0:
+[52432:MainThread](2026-07-30 09:58:13,940) INFO - qlib.ALSTM - [pytorch_alstm_ts.py:260] - training...
+
+========================================================================
+[Phase A] GATs  (wall-clock 预算 2700s)
+========================================================================
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/joblib/externals/loky/backend/resource_tracker.py:359: UserWarning: resource_tracker: There appear to be 2 leaked folder objects to clean up at shutdown
+  warnings.warn(
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/joblib/externals/loky/backend/resource_tracker.py:375: UserWarning: resource_tracker: /var/folders/g3/k9jmnbnx6xv37wjjzpv4mxjswf966k/T/joblib_memmapping_folder_52432_5864ca106a2540e88118bd21856bb7c3_a85b3e48da1d4bf8b3cef1b38b1bfdaa: FileNotFoundError(2, 'No such file or directory')
+  warnings.warn(f"resource_tracker: {name}: {e!r}")
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/joblib/externals/loky/backend/resource_tracker.py:375: UserWarning: resource_tracker: /var/folders/g3/k9jmnbnx6xv37wjjzpv4mxjswf966k/T/joblib_memmapping_folder_52432_f97c1952de6c4e60af603492986ac4e0_9d8148153c634a6981471c5616df3359: FileNotFoundError(2, 'No such file or directory')
+  warnings.warn(f"resource_tracker: {name}: {e!r}")
+[53233:MainThread](2026-07-30 09:58:45,588) INFO - qlib.Initialization - [config.py:473] - default_conf: client.
+[53233:MainThread](2026-07-30 09:58:46,360) INFO - qlib.Initialization - [__init__.py:82] - qlib successfully initialized based on client settings.
+[53233:MainThread](2026-07-30 09:58:46,361) INFO - qlib.Initialization - [__init__.py:84] - data_path={'__DEFAULT_FREQ': PosixPath('/Users/11164591/.qlib/qlib_data/cn_data_fixed')}
+[CHECK] fcf_pit: (93640, 6), 5454只, 1996~2025 | profit_pit: (55675, 4), 5448只, 1998~2025
+[CHECK] 交易日历: 2014-01-02 ~ 2026-07-23 (3019天)
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/multiprocessing/resource_tracker.py:216: UserWarning: resource_tracker: There appear to be 20 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '
+[CHECK] 估值缓存: 2079日 × 472股, 2018-01-02~2026-07-29
+[worker GATs] 冻结股票池 226 只 | train('2016-01-01', '2021-12-31') valid('2022-01-01', '2022-11-30')(embargo) 信号('2022-12-01', '2026-06-30')
+[53233:MainThread](2026-07-30 09:59:27,269) INFO - qlib.timer - [log.py:127] - Time cost: 34.222s | Loading data Done
+[53233:MainThread](2026-07-30 09:59:32,464) INFO - qlib.timer - [log.py:127] - Time cost: 4.703s | RobustZScoreNorm Done
+[53233:MainThread](2026-07-30 09:59:33,253) INFO - qlib.timer - [log.py:127] - Time cost: 0.787s | Fillna Done
+[53233:MainThread](2026-07-30 09:59:34,197) INFO - qlib.timer - [log.py:127] - Time cost: 0.345s | DropnaLabel Done
+[53233:MainThread](2026-07-30 09:59:38,719) INFO - qlib.timer - [log.py:127] - Time cost: 4.521s | CSZScoreNorm Done
+[53233:MainThread](2026-07-30 09:59:38,725) INFO - qlib.timer - [log.py:127] - Time cost: 11.454s | fit & process data Done
+[53233:MainThread](2026-07-30 09:59:38,726) INFO - qlib.timer - [log.py:127] - Time cost: 45.679s | Init data Done
+    [GATs] 注入特征维度 = 172
+[53233:MainThread](2026-07-30 09:59:44,010) INFO - qlib.GATs - [pytorch_gats_ts.py:82] - GATs pytorch version...
+[53233:MainThread](2026-07-30 09:59:44,011) INFO - qlib.GATs - [pytorch_gats_ts.py:101] - GATs parameters setting:
+d_feat : 172
+hidden_size : 64
+num_layers : 2
+dropout : 0.7
+n_epochs : 200
+lr : 0.0001
+metric : loss
+early_stop : 10
+optimizer : adam
+loss_type : mse
+base_model : LSTM
+model_path : None
+visible_GPU : -1
+use_GPU : False
+seed : None
+[53233:MainThread](2026-07-30 09:59:44,032) INFO - qlib.GATs - [pytorch_gats_ts.py:147] - model:
+GATModel(
+  (rnn): LSTM(172, 64, num_layers=2, batch_first=True, dropout=0.7)
+  (transformation): Linear(in_features=64, out_features=64, bias=True)
+  (fc): Linear(in_features=64, out_features=64, bias=True)
+  (fc_out): Linear(in_features=64, out_features=1, bias=True)
+  (leaky_relu): LeakyReLU(negative_slope=0.01)
+  (softmax): Softmax(dim=1)
+)
+[53233:MainThread](2026-07-30 09:59:44,033) INFO - qlib.GATs - [pytorch_gats_ts.py:148] - model size: 0.0980 MB
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/joblib/externals/loky/backend/resource_tracker.py:359: UserWarning: resource_tracker: There appear to be 2 leaked folder objects to clean up at shutdown
+  warnings.warn(
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/joblib/externals/loky/backend/resource_tracker.py:375: UserWarning: resource_tracker: /var/folders/g3/k9jmnbnx6xv37wjjzpv4mxjswf966k/T/joblib_memmapping_folder_53233_f7297f84380140eebeb47b16fa110ff3_540803ae03da4b6a98b477964ec79281: FileNotFoundError(2, 'No such file or directory')
+  warnings.warn(f"resource_tracker: {name}: {e!r}")
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/joblib/externals/loky/backend/resource_tracker.py:375: UserWarning: resource_tracker: /var/folders/g3/k9jmnbnx6xv37wjjzpv4mxjswf966k/T/joblib_memmapping_folder_53233_37d02a67f7c74a1cab582d1113d52c09_05e6bf9c0726438889f655efa221d1c1: FileNotFoundError(2, 'No such file or directory')
+  warnings.warn(f"resource_tracker: {name}: {e!r}")
+
+========================================================================
+[Phase A] TCN  (wall-clock 预算 2700s)
+========================================================================
+[53820:MainThread](2026-07-30 09:59:51,489) INFO - qlib.Initialization - [config.py:473] - default_conf: client.
+[53820:MainThread](2026-07-30 09:59:52,415) INFO - qlib.Initialization - [__init__.py:82] - qlib successfully initialized based on client settings.
+[53820:MainThread](2026-07-30 09:59:52,416) INFO - qlib.Initialization - [__init__.py:84] - data_path={'__DEFAULT_FREQ': PosixPath('/Users/11164591/.qlib/qlib_data/cn_data_fixed')}
+[CHECK] fcf_pit: (93640, 6), 5454只, 1996~2025 | profit_pit: (55675, 4), 5448只, 1998~2025
+[CHECK] 交易日历: 2014-01-02 ~ 2026-07-23 (3019天)
+[CHECK] 估值缓存: 2079日 × 472股, 2018-01-02~2026-07-29
+[worker TCN] 冻结股票池 226 只 | train('2016-01-01', '2021-12-31') valid('2022-01-01', '2022-11-30')(embargo) 信号('2022-12-01', '2026-06-30')
+[53820:MainThread](2026-07-30 10:00:37,552) INFO - qlib.timer - [log.py:127] - Time cost: 38.471s | Loading data Done
+[53820:MainThread](2026-07-30 10:00:42,145) INFO - qlib.timer - [log.py:127] - Time cost: 4.367s | RobustZScoreNorm Done
+[53820:MainThread](2026-07-30 10:00:43,095) INFO - qlib.timer - [log.py:127] - Time cost: 0.950s | Fillna Done
+[53820:MainThread](2026-07-30 10:00:43,517) INFO - qlib.timer - [log.py:127] - Time cost: 0.182s | DropnaLabel Done
+[53820:MainThread](2026-07-30 10:00:47,174) INFO - qlib.timer - [log.py:127] - Time cost: 3.656s | CSZScoreNorm Done
+[53820:MainThread](2026-07-30 10:00:47,183) INFO - qlib.timer - [log.py:127] - Time cost: 9.628s | fit & process data Done
+[53820:MainThread](2026-07-30 10:00:47,184) INFO - qlib.timer - [log.py:127] - Time cost: 48.104s | Init data Done
+    [TCN] 注入特征维度 = 172
+[53820:MainThread](2026-07-30 10:00:52,263) INFO - qlib.TCN - [pytorch_tcn_ts.py:61] - TCN pytorch version...
+[53820:MainThread](2026-07-30 10:00:52,264) INFO - qlib.TCN - [pytorch_tcn_ts.py:80] - TCN parameters setting:
+d_feat : 172
+n_chans : 32
+kernel_size : 7
+num_layers : 5
+dropout : 0.5
+n_epochs : 200
+lr : 0.0001
+metric : loss
+batch_size : 2000
+early_stop : 20
+optimizer : adam
+loss_type : mse
+device : cpu
+n_jobs : 4
+use_GPU : False
+seed : None
+
+========================================================================
+[Phase A] Localformer  (wall-clock 预算 2700s)
+========================================================================
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/joblib/externals/loky/backend/resource_tracker.py:359: UserWarning: resource_tracker: There appear to be 2 leaked folder objects to clean up at shutdown
+  warnings.warn(
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/joblib/externals/loky/backend/resource_tracker.py:375: UserWarning: resource_tracker: /var/folders/g3/k9jmnbnx6xv37wjjzpv4mxjswf966k/T/joblib_memmapping_folder_53820_3a18cda2c85d417681e377373d10c566_fd2d64f965d2430998c03a62c29b03f6: FileNotFoundError(2, 'No such file or directory')
+  warnings.warn(f"resource_tracker: {name}: {e!r}")
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/joblib/externals/loky/backend/resource_tracker.py:375: UserWarning: resource_tracker: /var/folders/g3/k9jmnbnx6xv37wjjzpv4mxjswf966k/T/joblib_memmapping_folder_53820_5eecba6a9643470081ff9121ffae4bc3_535ccc010b6b441eb39ed522607faf67: FileNotFoundError(2, 'No such file or directory')
+  warnings.warn(f"resource_tracker: {name}: {e!r}")
+[54336:MainThread](2026-07-30 10:00:55,040) INFO - qlib.Initialization - [config.py:473] - default_conf: client.
+[54336:MainThread](2026-07-30 10:00:56,062) INFO - qlib.Initialization - [__init__.py:82] - qlib successfully initialized based on client settings.
+[54336:MainThread](2026-07-30 10:00:56,063) INFO - qlib.Initialization - [__init__.py:84] - data_path={'__DEFAULT_FREQ': PosixPath('/Users/11164591/.qlib/qlib_data/cn_data_fixed')}
+[CHECK] fcf_pit: (93640, 6), 5454只, 1996~2025 | profit_pit: (55675, 4), 5448只, 1998~2025
+[CHECK] 交易日历: 2014-01-02 ~ 2026-07-23 (3019天)
+[CHECK] 估值缓存: 2079日 × 472股, 2018-01-02~2026-07-29
+[worker Localformer] 冻结股票池 226 只 | train('2016-01-01', '2021-12-31') valid('2022-01-01', '2022-11-30')(embargo) 信号('2022-12-01', '2026-06-30')
+[54336:MainThread](2026-07-30 10:01:38,194) INFO - qlib.timer - [log.py:127] - Time cost: 35.862s | Loading data Done
+[54336:MainThread](2026-07-30 10:01:43,831) INFO - qlib.timer - [log.py:127] - Time cost: 5.237s | RobustZScoreNorm Done
+[54336:MainThread](2026-07-30 10:01:44,742) INFO - qlib.timer - [log.py:127] - Time cost: 0.905s | Fillna Done
+[54336:MainThread](2026-07-30 10:01:45,173) INFO - qlib.timer - [log.py:127] - Time cost: 0.199s | DropnaLabel Done
+[54336:MainThread](2026-07-30 10:01:49,565) INFO - qlib.timer - [log.py:127] - Time cost: 4.392s | CSZScoreNorm Done
+[54336:MainThread](2026-07-30 10:01:49,574) INFO - qlib.timer - [log.py:127] - Time cost: 11.379s | fit & process data Done
+[54336:MainThread](2026-07-30 10:01:49,574) INFO - qlib.timer - [log.py:127] - Time cost: 47.243s | Init data Done
+    [Localformer] 注入特征维度 = 172
+[54336:MainThread](2026-07-30 10:01:58,762) INFO - qlib.TransformerModel - [pytorch_localformer_ts.py:62] - Improved Transformer:
+batch_size : 8192
+device : cpu
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/joblib/externals/loky/backend/resource_tracker.py:359: UserWarning: resource_tracker: There appear to be 2 leaked folder objects to clean up at shutdown
+  warnings.warn(
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/joblib/externals/loky/backend/resource_tracker.py:375: UserWarning: resource_tracker: /var/folders/g3/k9jmnbnx6xv37wjjzpv4mxjswf966k/T/joblib_memmapping_folder_54336_0841d517cd07457a8bb5c07b99bbd0c5_25287941a7ca47febd216f01cc9929fc: FileNotFoundError(2, 'No such file or directory')
+  warnings.warn(f"resource_tracker: {name}: {e!r}")
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/joblib/externals/loky/backend/resource_tracker.py:375: UserWarning: resource_tracker: /var/folders/g3/k9jmnbnx6xv37wjjzpv4mxjswf966k/T/joblib_memmapping_folder_54336_8d98add662fb441f825f8d96ec5c7f82_577cdbc4121441da960f876cffe1bb6e: FileNotFoundError(2, 'No such file or directory')
+  warnings.warn(f"resource_tracker: {name}: {e!r}")
+
+========================================================================
+[Phase A] Transformer  (wall-clock 预算 2700s)
+========================================================================
+[54848:MainThread](2026-07-30 10:02:04,091) INFO - qlib.Initialization - [config.py:473] - default_conf: client.
+[54848:MainThread](2026-07-30 10:02:05,155) INFO - qlib.Initialization - [__init__.py:82] - qlib successfully initialized based on client settings.
+[54848:MainThread](2026-07-30 10:02:05,155) INFO - qlib.Initialization - [__init__.py:84] - data_path={'__DEFAULT_FREQ': PosixPath('/Users/11164591/.qlib/qlib_data/cn_data_fixed')}
+[CHECK] fcf_pit: (93640, 6), 5454只, 1996~2025 | profit_pit: (55675, 4), 5448只, 1998~2025
+[CHECK] 交易日历: 2014-01-02 ~ 2026-07-23 (3019天)
+[CHECK] 估值缓存: 2079日 × 472股, 2018-01-02~2026-07-29
+[worker Transformer] 冻结股票池 226 只 | train('2016-01-01', '2021-12-31') valid('2022-01-01', '2022-11-30')(embargo) 信号('2022-12-01', '2026-06-30')
+[54848:MainThread](2026-07-30 10:02:56,409) INFO - qlib.timer - [log.py:127] - Time cost: 41.463s | Loading data Done
+[54848:MainThread](2026-07-30 10:03:01,672) INFO - qlib.timer - [log.py:127] - Time cost: 4.873s | RobustZScoreNorm Done
+[54848:MainThread](2026-07-30 10:03:04,618) INFO - qlib.timer - [log.py:127] - Time cost: 2.943s | Fillna Done
+[54848:MainThread](2026-07-30 10:03:05,165) INFO - qlib.timer - [log.py:127] - Time cost: 0.175s | DropnaLabel Done
+[54848:MainThread](2026-07-30 10:03:09,299) INFO - qlib.timer - [log.py:127] - Time cost: 4.133s | CSZScoreNorm Done
+[54848:MainThread](2026-07-30 10:03:09,304) INFO - qlib.timer - [log.py:127] - Time cost: 12.894s | fit & process data Done
+[54848:MainThread](2026-07-30 10:03:09,304) INFO - qlib.timer - [log.py:127] - Time cost: 54.361s | Init data Done
+    [Transformer] 注入特征维度 = 172
+[54848:MainThread](2026-07-30 10:03:16,597) INFO - qlib.TransformerModel - [pytorch_transformer_ts.py:61] - Naive Transformer:
+batch_size : 8192
+device : cpu
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/joblib/externals/loky/backend/resource_tracker.py:359: UserWarning: resource_tracker: There appear to be 2 leaked folder objects to clean up at shutdown
+  warnings.warn(
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/joblib/externals/loky/backend/resource_tracker.py:375: UserWarning: resource_tracker: /var/folders/g3/k9jmnbnx6xv37wjjzpv4mxjswf966k/T/joblib_memmapping_folder_54848_6438fe7c656148c4b76c6cabd50f2433_0e20c36b10264761af5f5f799cf41920: FileNotFoundError(2, 'No such file or directory')
+  warnings.warn(f"resource_tracker: {name}: {e!r}")
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/joblib/externals/loky/backend/resource_tracker.py:375: UserWarning: resource_tracker: /var/folders/g3/k9jmnbnx6xv37wjjzpv4mxjswf966k/T/joblib_memmapping_folder_54848_f4e2764655954fea94622eed72f1ef00_388cbbc0025a4004bd1354ec4d18e16b: FileNotFoundError(2, 'No such file or directory')
+  warnings.warn(f"resource_tracker: {name}: {e!r}")
+
+========================================================================
+[Phase A] VALUE20  (wall-clock 预算 2700s)
+========================================================================
+[55276:MainThread](2026-07-30 10:03:20,288) INFO - qlib.Initialization - [config.py:473] - default_conf: client.
+[55276:MainThread](2026-07-30 10:03:21,312) INFO - qlib.Initialization - [__init__.py:82] - qlib successfully initialized based on client settings.
+[55276:MainThread](2026-07-30 10:03:21,314) INFO - qlib.Initialization - [__init__.py:84] - data_path={'__DEFAULT_FREQ': PosixPath('/Users/11164591/.qlib/qlib_data/cn_data_fixed')}
+[CHECK] fcf_pit: (93640, 6), 5454只, 1996~2025 | profit_pit: (55675, 4), 5448只, 1998~2025
+[CHECK] 交易日历: 2014-01-02 ~ 2026-07-23 (3019天)
+[CHECK] 估值缓存: 2079日 × 472股, 2018-01-02~2026-07-29
+[worker VALUE20] 冻结股票池 226 只 | train('2016-01-01', '2021-12-31') valid('2022-01-01', '2022-11-30')(embargo) 信号('2022-12-01', '2026-06-30')
+    [流动性] 中位数20日均成交额=1.26亿, 一字涨停59条, 停牌130条
+[CHECK] 沪深300基准(csi300_cache): 2019-01-02 ~ 2026-07-28 (1835天)
+[worker VALUE20] status=ok 用时45.6s
+
+========================================================================
+[Phase A] POOL_EW  (wall-clock 预算 2700s)
+========================================================================
+[55564:MainThread](2026-07-30 10:04:12,317) INFO - qlib.Initialization - [config.py:473] - default_conf: client.
+[55564:MainThread](2026-07-30 10:04:13,983) INFO - qlib.Initialization - [__init__.py:82] - qlib successfully initialized based on client settings.
+[55564:MainThread](2026-07-30 10:04:13,983) INFO - qlib.Initialization - [__init__.py:84] - data_path={'__DEFAULT_FREQ': PosixPath('/Users/11164591/.qlib/qlib_data/cn_data_fixed')}
+[CHECK] fcf_pit: (93640, 6), 5454只, 1996~2025 | profit_pit: (55675, 4), 5448只, 1998~2025
+[CHECK] 交易日历: 2014-01-02 ~ 2026-07-23 (3019天)
+[CHECK] 估值缓存: 2079日 × 472股, 2018-01-02~2026-07-29
+[worker POOL_EW] 冻结股票池 226 只 | train('2016-01-01', '2021-12-31') valid('2022-01-01', '2022-11-30')(embargo) 信号('2022-12-01', '2026-06-30')
+    [流动性] 中位数20日均成交额=1.26亿, 一字涨停59条, 停牌130条
+[CHECK] 沪深300基准(csi300_cache): 2019-01-02 ~ 2026-07-28 (1835天)
+[worker POOL_EW] status=ok 用时43.4s
+
+================================================================================================
+  Phase A 全模型初筛排名 (单切分 test 2023~2026H1, 按 OOS RankIC 降序)
+================================================================================================
+模型              状态         RankIC      IC       年化  Sharpe       回撤  Calmar      换手     次数       秒
+VALUE20         ok         0.0965  0.0545   26.6%    1.42  -14.1%    1.89   14.5%  113.0    45.6
+POOL_EW         ok         0.0965  0.0545    6.8%    0.34  -26.8%    0.26    6.7%  301.0    43.4
+DoubleEnsemble  ok         0.0677  0.0564   18.8%    0.81  -31.9%    0.59   80.0%  345.0   526.7
+LightGBM        ok         0.0647  0.0545   20.1%    0.87  -28.4%    0.71   81.2%  351.0   110.9
+XGBoost         ok         0.0636  0.0547   18.0%    0.71  -34.1%    0.53   79.7%  344.0   147.6
+CatBoost        ok         0.0627  0.0652   14.8%    0.64  -28.2%    0.52   68.6%  295.0   156.8
+Linear          ok         0.0486  0.0257    3.5%    0.18  -28.9%    0.12   78.1%  339.0   106.9
+MLP             failed          -       -       -       -       -       -       -    nan    66.3
+    └─ worker 无输出 (可能崩溃/OOM)
+TabNet          failed          -       -       -       -       -       -       -    nan   134.2
+    └─ worker 无输出 (可能崩溃/OOM)
+GRU             failed          -       -       -       -       -       -       -    nan    92.1
+    └─ worker 无输出 (可能崩溃/OOM)
+LSTM            failed          -       -       -       -       -       -       -    nan   113.1
+    └─ worker 无输出 (可能崩溃/OOM)
+ALSTM           failed          -       -       -       -       -       -       -    nan    95.3
+    └─ worker 无输出 (可能崩溃/OOM)
+GATs            failed          -       -       -       -       -       -       -    nan    66.7
+    └─ worker 无输出 (可能崩溃/OOM)
+TCN             failed          -       -       -       -       -       -       -    nan    64.0
+    └─ worker 无输出 (可能崩溃/OOM)
+Localformer     failed          -       -       -       -       -       -       -    nan    66.5
+    └─ worker 无输出 (可能崩溃/OOM)
+Transformer     failed          -       -       -       -       -       -       -    nan    77.9
+    └─ worker 无输出 (可能崩溃/OOM)
+
+[+] Phase A 排名已存 /Users/11164591/Documents/Qoder目录/qlib/quant/outputs/benchmark_phaseA.csv
+[+] Phase A 前 4 名 (进入 Phase B 建议): ['VALUE20', 'POOL_EW', 'DoubleEnsemble', 'LightGBM']

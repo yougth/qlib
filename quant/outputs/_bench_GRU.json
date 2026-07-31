@@ -1,0 +1,1 @@
+{"model": "GRU", "status": "ok", "oos_rankic": 0.0518, "oos_ic": 0.0345, "ar": 0.1245, "vol": 0.2031, "sharpe": 0.613, "mdd": -0.2407, "calmar": 0.517, "excess_ar": 0.0661, "turnover": 0.8048, "n_buys": 349, "n_signals": 43, "yearly": {"2023": 0.1253, "2024": 0.2447, "2025": 0.1649, "2026": -0.0733}, "seconds": 1474.2}

@@ -1,0 +1,1 @@
+{"model": "XGBoost", "status": "ok", "oos_rankic": 0.0636, "oos_ic": 0.0547, "ar": 0.1796, "vol": 0.2515, "sharpe": 0.714, "mdd": -0.3406, "calmar": 0.527, "excess_ar": 0.1213, "turnover": 0.7969, "n_buys": 344, "n_signals": 43, "yearly": {"2023": 0.1269, "2024": 0.2933, "2025": 0.017, "2026": 0.2076}, "seconds": 153.2}

@@ -1,0 +1,1 @@
+{"model": "DoubleEnsemble", "status": "ok", "oos_rankic": 0.0677, "oos_ic": 0.0564, "ar": 0.1875, "vol": 0.2324, "sharpe": 0.807, "mdd": -0.3194, "calmar": 0.587, "excess_ar": 0.1292, "turnover": 0.8003, "n_buys": 345, "n_signals": 43, "yearly": {"2023": 0.195, "2024": 0.2896, "2025": 0.1523, "2026": 0.032}, "seconds": 824.4}

@@ -1,8 +1,8 @@
 /Users/11164591/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
   warnings.warn(
-[99463:MainThread](2026-07-29 17:11:20,891) INFO - qlib.Initialization - [config.py:473] - default_conf: client.
-[99463:MainThread](2026-07-29 17:11:22,394) INFO - qlib.Initialization - [__init__.py:82] - qlib successfully initialized based on client settings.
-[99463:MainThread](2026-07-29 17:11:22,394) INFO - qlib.Initialization - [__init__.py:84] - data_path={'__DEFAULT_FREQ': PosixPath('/Users/11164591/.qlib/qlib_data/cn_data')}
+[5514:MainThread](2026-07-29 17:33:05,658) INFO - qlib.Initialization - [config.py:473] - default_conf: client.
+[5514:MainThread](2026-07-29 17:33:07,937) INFO - qlib.Initialization - [__init__.py:82] - qlib successfully initialized based on client settings.
+[5514:MainThread](2026-07-29 17:33:07,940) INFO - qlib.Initialization - [__init__.py:84] - data_path={'__DEFAULT_FREQ': PosixPath('/Users/11164591/.qlib/qlib_data/cn_data')}
 ====================================================================================================
   终检回测 value_comp_M20  (月度纯估值Top20等权)   回测末端=2026-07-31
 ====================================================================================================
@@ -394,7 +394,7 @@ value_comp_M20  |   27.93%    31.84%     4.61%    36.26%    40.53%    26.61%    
   [    ]   max_dd   -0.1990658615 →  -0.1990658615   差 +0.0000000000
   [    ]    is_ar    0.2168505378 →   0.2168505378   差 +0.0000000000
   [    ]   oos_ar    0.2928053443 →   0.2928053443   差 +0.0000000000
-  [    ] turnover    0.1511028349 →   0.1511028331   差 -0.0000000018
+  [    ] turnover    0.1511028349 →   0.1511028340   差 -0.0000000010
 ====================================================================================================
   回测结论: 通过。6个已定格年份逐位一致, 仅 2026 年随新数据变动。
 ====================================================================================================

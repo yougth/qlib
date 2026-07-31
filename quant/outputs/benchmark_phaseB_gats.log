@@ -1,0 +1,79 @@
+[50038:MainThread](2026-07-31 11:03:42,454) INFO - qlib.Initialization - [config.py:473] - default_conf: client.
+[50038:MainThread](2026-07-31 11:03:42,787) INFO - qlib.Initialization - [__init__.py:82] - qlib successfully initialized based on client settings.
+[50038:MainThread](2026-07-31 11:03:42,787) INFO - qlib.Initialization - [__init__.py:84] - data_path={'__DEFAULT_FREQ': PosixPath('/Users/11164591/.qlib/qlib_data/cn_data_fixed')}
+[CHECK] fcf_pit: (93640, 6), 5454只, 1996~2025 | profit_pit: (55675, 4), 5448只, 1998~2025
+[CHECK] 交易日历: 2014-01-02 ~ 2026-07-23 (3019天)
+[CHECK] 估值缓存: 2079日 × 472股, 2018-01-02~2026-07-29
+
+======================================================================
+[Phase B W2020] 池137只 | train('2015-01-01', '2018-12-31') valid('2019-01-01', '2019-11-30')(embargo) 信号2019-12-01~2020-11-30
+======================================================================
+    [流动性] 中位数20日均成交额=6.50亿, 一字涨停36条, 停牌34条
+[50038:MainThread](2026-07-31 11:04:06,617) INFO - qlib.timer - [log.py:127] - Time cost: 13.236s | Loading data Done
+[50038:MainThread](2026-07-31 11:04:07,699) INFO - qlib.timer - [log.py:127] - Time cost: 0.997s | RobustZScoreNorm Done
+[50038:MainThread](2026-07-31 11:04:07,844) INFO - qlib.timer - [log.py:127] - Time cost: 0.144s | Fillna Done
+[50038:MainThread](2026-07-31 11:04:07,959) INFO - qlib.timer - [log.py:127] - Time cost: 0.036s | DropnaLabel Done
+[50038:MainThread](2026-07-31 11:04:08,530) INFO - qlib.timer - [log.py:127] - Time cost: 0.570s | CSZScoreNorm Done
+[50038:MainThread](2026-07-31 11:04:08,532) INFO - qlib.timer - [log.py:127] - Time cost: 1.915s | fit & process data Done
+[50038:MainThread](2026-07-31 11:04:08,532) INFO - qlib.timer - [log.py:127] - Time cost: 15.152s | Init data Done
+    [GATs] 注入特征维度 = 172
+[50038:MainThread](2026-07-31 11:04:10,243) INFO - qlib.GATs - [pytorch_gats_ts.py:82] - GATs pytorch version...
+[50038:MainThread](2026-07-31 11:04:10,244) INFO - qlib.GATs - [pytorch_gats_ts.py:101] - GATs parameters setting:
+d_feat : 172
+hidden_size : 64
+num_layers : 2
+dropout : 0.7
+n_epochs : 200
+lr : 0.0001
+metric : loss
+early_stop : 10
+optimizer : adam
+loss_type : mse
+base_model : LSTM
+model_path : None
+visible_GPU : -1
+use_GPU : False
+seed : None
+[50038:MainThread](2026-07-31 11:04:10,251) INFO - qlib.GATs - [pytorch_gats_ts.py:147] - model:
+GATModel(
+  (rnn): LSTM(172, 64, num_layers=2, batch_first=True, dropout=0.7)
+  (transformation): Linear(in_features=64, out_features=64, bias=True)
+  (fc): Linear(in_features=64, out_features=64, bias=True)
+  (fc_out): Linear(in_features=64, out_features=1, bias=True)
+  (leaky_relu): LeakyReLU(negative_slope=0.01)
+  (softmax): Softmax(dim=1)
+)
+[50038:MainThread](2026-07-31 11:04:10,251) INFO - qlib.GATs - [pytorch_gats_ts.py:148] - model size: 0.0980 MB
+[50038:MainThread](2026-07-31 11:04:11,536) INFO - qlib.GATs - [pytorch_gats_ts.py:280] - Loading pretrained model Done...
+[50038:MainThread](2026-07-31 11:04:11,537) INFO - qlib.GATs - [pytorch_gats_ts.py:283] - training...
+[50038:MainThread](2026-07-31 11:04:11,537) INFO - qlib.GATs - [pytorch_gats_ts.py:287] - Epoch0:
+[50038:MainThread](2026-07-31 11:04:11,538) INFO - qlib.GATs - [pytorch_gats_ts.py:288] - training...
+[50038:MainThread](2026-07-31 11:05:16,266) INFO - qlib.GATs - [pytorch_gats_ts.py:290] - evaluating...
+[50038:MainThread](2026-07-31 11:06:33,831) INFO - qlib.GATs - [pytorch_gats_ts.py:293] - train -0.938798, valid -1.022144
+[50038:MainThread](2026-07-31 11:06:33,835) INFO - qlib.GATs - [pytorch_gats_ts.py:287] - Epoch1:
+[50038:MainThread](2026-07-31 11:06:33,836) INFO - qlib.GATs - [pytorch_gats_ts.py:288] - training...
+[50038:MainThread](2026-07-31 11:07:39,244) INFO - qlib.GATs - [pytorch_gats_ts.py:290] - evaluating...
+[50038:MainThread](2026-07-31 11:09:09,824) INFO - qlib.GATs - [pytorch_gats_ts.py:293] - train -0.913514, valid -1.025592
+[50038:MainThread](2026-07-31 11:09:09,825) INFO - qlib.GATs - [pytorch_gats_ts.py:287] - Epoch2:
+[50038:MainThread](2026-07-31 11:09:09,825) INFO - qlib.GATs - [pytorch_gats_ts.py:288] - training...
+[50038:MainThread](2026-07-31 11:10:23,950) INFO - qlib.GATs - [pytorch_gats_ts.py:290] - evaluating...
+[50038:MainThread](2026-07-31 11:11:53,270) INFO - qlib.GATs - [pytorch_gats_ts.py:293] - train -0.876201, valid -1.019605
+[50038:MainThread](2026-07-31 11:11:53,278) INFO - qlib.GATs - [pytorch_gats_ts.py:287] - Epoch3:
+[50038:MainThread](2026-07-31 11:11:53,281) INFO - qlib.GATs - [pytorch_gats_ts.py:288] - training...
+[50038:MainThread](2026-07-31 11:12:49,810) INFO - qlib.GATs - [pytorch_gats_ts.py:290] - evaluating...
+[50038:MainThread](2026-07-31 11:14:20,105) INFO - qlib.GATs - [pytorch_gats_ts.py:293] - train -0.845122, valid -1.016434
+[50038:MainThread](2026-07-31 11:14:20,108) INFO - qlib.GATs - [pytorch_gats_ts.py:287] - Epoch4:
+[50038:MainThread](2026-07-31 11:14:20,108) INFO - qlib.GATs - [pytorch_gats_ts.py:288] - training...
+[50038:MainThread](2026-07-31 11:15:23,262) INFO - qlib.GATs - [pytorch_gats_ts.py:290] - evaluating...
+[50038:MainThread](2026-07-31 11:16:38,635) INFO - qlib.GATs - [pytorch_gats_ts.py:293] - train -0.818497, valid -1.002252
+[50038:MainThread](2026-07-31 11:16:38,638) INFO - qlib.GATs - [pytorch_gats_ts.py:287] - Epoch5:
+[50038:MainThread](2026-07-31 11:16:38,638) INFO - qlib.GATs - [pytorch_gats_ts.py:288] - training...
+[50038:MainThread](2026-07-31 11:17:36,878) INFO - qlib.GATs - [pytorch_gats_ts.py:290] - evaluating...
+[50038:MainThread](2026-07-31 11:19:01,763) INFO - qlib.GATs - [pytorch_gats_ts.py:293] - train -0.791889, valid -0.998101
+[50038:MainThread](2026-07-31 11:19:01,767) INFO - qlib.GATs - [pytorch_gats_ts.py:287] - Epoch6:
+[50038:MainThread](2026-07-31 11:19:01,767) INFO - qlib.GATs - [pytorch_gats_ts.py:288] - training...
+[50038:MainThread](2026-07-31 11:19:59,585) INFO - qlib.GATs - [pytorch_gats_ts.py:290] - evaluating...
+[50038:MainThread](2026-07-31 11:21:19,863) INFO - qlib.GATs - [pytorch_gats_ts.py:293] - train -0.785431, valid -0.985156
+[50038:MainThread](2026-07-31 11:21:19,869) INFO - qlib.GATs - [pytorch_gats_ts.py:287] - Epoch7:
+[50038:MainThread](2026-07-31 11:21:19,871) INFO - qlib.GATs - [pytorch_gats_ts.py:288] - training...
+[50038:MainThread](2026-07-31 11:22:39,801) INFO - qlib.GATs - [pytorch_gats_ts.py:290] - evaluating...

@@ -1,0 +1,1 @@
+{"model": "GATs", "status": "ok", "oos_rankic": 0.1841, "oos_ic": 0.1887, "ar": 0.4195, "vol": 0.1747, "sharpe": 2.401, "mdd": -0.1428, "calmar": 2.938, "excess_ar": 0.3612, "turnover": 0.4967, "n_buys": 213, "n_signals": 43, "yearly": {"2023": 0.2655, "2024": 0.582, "2025": 0.7233, "2026": -0.0037}, "seconds": 2277.1}

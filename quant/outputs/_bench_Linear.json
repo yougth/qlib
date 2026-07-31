@@ -1,0 +1,1 @@
+{"model": "Linear", "status": "ok", "oos_rankic": 0.0486, "oos_ic": 0.0257, "ar": 0.0346, "vol": 0.1947, "sharpe": 0.178, "mdd": -0.2889, "calmar": 0.12, "excess_ar": -0.0237, "turnover": 0.7815, "n_buys": 339, "n_signals": 43, "yearly": {"2023": -0.0016, "2024": 0.4012, "2025": -0.05, "2026": -0.1516}, "seconds": 176.3}

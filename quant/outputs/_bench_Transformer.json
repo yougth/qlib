@@ -1,1 +1,0 @@
-{"model": "Transformer", "status": "ok", "oos_rankic": 0.0811, "oos_ic": 0.0467, "ar": 0.1053, "vol": 0.2261, "sharpe": 0.466, "mdd": -0.3589, "calmar": 0.293, "excess_ar": 0.0469, "turnover": 0.8678, "n_buys": 377, "n_signals": 43, "yearly": {"2023": -0.1544, "2024": 0.5288, "2025": 0.325, "2026": -0.1693}, "seconds": 4113.7}

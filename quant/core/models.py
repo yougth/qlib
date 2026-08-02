@@ -124,12 +124,26 @@ def _n_features(dataset):
     return len(cols)
 
 
-def train_qlib_model(name, dataset):
+def train_qlib_model(name, dataset, seed_key=None):
     """加载并训练 qlib 内置模型, 返回 (fitted_model, pred_test_series)。
     - 按 config.MODEL_CONFIGS[name] 构造模型; DL/NN 按实际特征数注入维度;
     - fit(dataset) 仅用 train/valid 段 (dataset 已按 embargo 分段, 无穿越);
-    - predict 得信号段截面预测 Series。"""
+    - predict 得信号段截面预测 Series。
+    - seed_key: 复现性锚点 (如 "DoubleEnsemble:W2026"), fit 前按其哈希重置全局
+      随机流, 保证结果与执行路径(续跑/单跑/全跑)无关。DE 的特征采样用裸
+      np.random, 不重置则每次重训结果都不同。"""
+    import random as _random
+    import hashlib
     from qlib.utils import init_instance_by_config
+    if seed_key is not None:
+        s = int(hashlib.md5(seed_key.encode()).hexdigest()[:8], 16) % (2 ** 31)
+        _random.seed(s)
+        np.random.seed(s)
+        try:
+            import torch
+            torch.manual_seed(s)
+        except ImportError:
+            pass
     cfg = config.MODEL_CONFIGS[name]
     kwargs = {k: (dict(v) if isinstance(v, dict) else v) for k, v in cfg["kwargs"].items()}
     dfeat = cfg.get("dfeat")

@@ -3,16 +3,23 @@ core.config —— 全局路径 / 常量 / 模型超参 (单点配置)
 ================================================================================
 所有路径与口径常量集中在此, 便于后续开发维护。
 - 顶层活跃数据缓存 (valuation/fcf/profit/csi300) 位于 DATA_DIR, 绝不移动。
-- 行情用 fix_qlib_seam.py 修补后的 cn_data_fixed (已消除 2020-09-28 两批拼接断点)。
+- 行情用 tools/fetch_ohlcv.py 抓取腾讯后复权 → tools/build_qlib_bin.py 转成 qlib bin
+  (全市场 5400+ 只, 含退市; 老的 cn_data_fixed 只有 358 只覆盖 2020+ 行情, 已废弃)。
+- 数据源可用 QLIB_PROVIDER 环境变量覆盖。
 """
 import os
 
-# ---- 路径 ----
-DATA_DIR = "/Users/11164591/Documents/Qoder目录"          # 顶层活跃数据缓存目录 (不移动)
-QUANT_DIR = "/Users/11164591/Documents/Qoder目录/qlib/quant"
-OUT_DIR = f"{QUANT_DIR}/outputs"                            # 所有 csv/log 产出集中此处
+# ---- 路径 (可用环境变量覆盖, 便于换机/CI; 默认按本仓库相对位置推导) ----
+# QUANT_DIR = 本文件所在 core/ 的父目录; DATA_DIR = 顶层活跃数据缓存目录(不移动)
+QUANT_DIR = os.environ.get("QUANT_DIR") or os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DATA_DIR = os.environ.get("QUANT_DATA_DIR") or os.path.abspath(os.path.join(QUANT_DIR, "..", ".."))
+OUT_DIR = os.environ.get("QUANT_OUT_DIR") or f"{QUANT_DIR}/outputs"   # 所有 csv/log 产出集中此处
 
 QLIB_PROVIDER_FIXED = os.path.expanduser("~/.qlib/qlib_data/cn_data_fixed")
+# 新全市场 bin: 腾讯后复权行情 (5400+只, 含退市), 由 tools/build_qlib_bin.py 生成
+QLIB_PROVIDER = os.environ.get("QLIB_PROVIDER") or \
+    os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(
+        os.path.abspath(__file__)))), "data_cache", "qlib_cn_tencent")
 
 FCF_CACHE = f"{DATA_DIR}/fcf_cache_pit.csv"
 PROFIT_CACHE = f"{DATA_DIR}/profit_cache_pit.csv"
@@ -112,6 +119,9 @@ MODEL_CONFIGS = {
                                   "subsample": 0.8789, "lambda_l1": 205.6999,
                                   "lambda_l2": 580.9768, "max_depth": 8,
                                   "num_leaves": 210, "num_threads": 6,
+                                  # 复现性: 固定 lgb 种子 + deterministic (线程数变动也会
+                                  # 影响结果, num_threads 已写死, 不要随意改)
+                                  "seed": 43, "deterministic": True,
                                   "force_col_wise": True}},
     # ---- 表格 NN (DatasetH, 需 input_dim=特征数) ----
     "MLP": {"ds": "DatasetH", "class": "DNNModelPytorch",

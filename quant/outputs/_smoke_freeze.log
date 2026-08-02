@@ -1,0 +1,51 @@
+[75105:MainThread](2026-07-31 20:44:19,903) INFO - qlib.Initialization - [config.py:473] - default_conf: client.
+[75105:MainThread](2026-07-31 20:44:20,737) INFO - qlib.Initialization - [__init__.py:82] - qlib successfully initialized based on client settings.
+[75105:MainThread](2026-07-31 20:44:20,737) INFO - qlib.Initialization - [__init__.py:84] - data_path={'__DEFAULT_FREQ': PosixPath('/Users/11164591/.qlib/qlib_data/cn_data_fixed')}
+[CHECK] fcf_pit: (93640, 6), 5454只, 1996~2025 | profit_pit: (55675, 4), 5448只, 1998~2025
+[universe] 2026 年 PIT 池 (仅用 ≤2024 年报): 303 只
+
+======================================================================
+[train_annual] Linear W2026 | 种子1 | 冻结目录 /Users/11164591/Documents/Qoder目录/qlib/quant/live/models
+======================================================================
+[75105:MainThread](2026-07-31 20:45:03,553) INFO - qlib.timer - [log.py:127] - Time cost: 41.281s | Loading data Done
+[75105:MainThread](2026-07-31 20:45:06,993) INFO - qlib.timer - [log.py:127] - Time cost: 3.271s | RobustZScoreNorm Done
+[75105:MainThread](2026-07-31 20:45:07,570) INFO - qlib.timer - [log.py:127] - Time cost: 0.575s | Fillna Done
+[75105:MainThread](2026-07-31 20:45:07,999) INFO - qlib.timer - [log.py:127] - Time cost: 0.206s | DropnaLabel Done
+[75105:MainThread](2026-07-31 20:45:09,340) INFO - qlib.timer - [log.py:127] - Time cost: 1.340s | CSZScoreNorm Done
+[75105:MainThread](2026-07-31 20:45:09,348) INFO - qlib.timer - [log.py:127] - Time cost: 5.794s | fit & process data Done
+[75105:MainThread](2026-07-31 20:45:09,349) INFO - qlib.timer - [log.py:127] - Time cost: 47.077s | Init data Done
+  [freeze] Linear W2026 种子1/1 → Linear_W2026_s0.pkl
+  [freeze] manifest → Linear_W2026_manifest.json (config_hash=4a3e9640d387df49, git=c50a7f1b)
+[train_annual] 冻结完成, SHA256 校验通过 (1 个模型文件)
+
+======================================================================
+[verify] 第二次训练 (临时目录), 用于双跑一致性校验
+======================================================================
+[75105:MainThread](2026-07-31 20:45:57,913) INFO - qlib.timer - [log.py:127] - Time cost: 33.932s | Loading data Done
+[75105:MainThread](2026-07-31 20:46:02,716) INFO - qlib.timer - [log.py:127] - Time cost: 4.592s | RobustZScoreNorm Done
+[75105:MainThread](2026-07-31 20:46:03,281) INFO - qlib.timer - [log.py:127] - Time cost: 0.563s | Fillna Done
+[75105:MainThread](2026-07-31 20:46:03,611) INFO - qlib.timer - [log.py:127] - Time cost: 0.149s | DropnaLabel Done
+[75105:MainThread](2026-07-31 20:46:05,275) INFO - qlib.timer - [log.py:127] - Time cost: 1.662s | CSZScoreNorm Done
+[75105:MainThread](2026-07-31 20:46:05,283) INFO - qlib.timer - [log.py:127] - Time cost: 7.368s | fit & process data Done
+[75105:MainThread](2026-07-31 20:46:05,284) INFO - qlib.timer - [log.py:127] - Time cost: 41.304s | Init data Done
+  [freeze] Linear W2026 种子1/1 → Linear_W2026_s0.pkl
+  [freeze] manifest → Linear_W2026_manifest.json (config_hash=4a3e9640d387df49, git=c50a7f1b)
+[75105:MainThread](2026-07-31 20:46:59,768) INFO - qlib.timer - [log.py:127] - Time cost: 45.334s | Loading data Done
+[75105:MainThread](2026-07-31 20:47:04,739) INFO - qlib.timer - [log.py:127] - Time cost: 4.724s | RobustZScoreNorm Done
+[75105:MainThread](2026-07-31 20:47:05,424) INFO - qlib.timer - [log.py:127] - Time cost: 0.683s | Fillna Done
+[75105:MainThread](2026-07-31 20:47:06,352) INFO - qlib.timer - [log.py:127] - Time cost: 0.328s | DropnaLabel Done
+[75105:MainThread](2026-07-31 20:47:08,735) INFO - qlib.timer - [log.py:127] - Time cost: 2.381s | CSZScoreNorm Done
+[75105:MainThread](2026-07-31 20:47:08,742) INFO - qlib.timer - [log.py:127] - Time cost: 8.972s | fit & process data Done
+[75105:MainThread](2026-07-31 20:47:08,743) INFO - qlib.timer - [log.py:127] - Time cost: 54.310s | Init data Done
+[75105:MainThread](2026-07-31 20:47:51,901) INFO - qlib.timer - [log.py:127] - Time cost: 42.508s | Loading data Done
+[75105:MainThread](2026-07-31 20:47:56,449) INFO - qlib.timer - [log.py:127] - Time cost: 4.343s | RobustZScoreNorm Done
+[75105:MainThread](2026-07-31 20:47:57,024) INFO - qlib.timer - [log.py:127] - Time cost: 0.573s | Fillna Done
+[75105:MainThread](2026-07-31 20:47:57,473) INFO - qlib.timer - [log.py:127] - Time cost: 0.162s | DropnaLabel Done
+[75105:MainThread](2026-07-31 20:47:59,167) INFO - qlib.timer - [log.py:127] - Time cost: 1.693s | CSZScoreNorm Done
+[75105:MainThread](2026-07-31 20:47:59,177) INFO - qlib.timer - [log.py:127] - Time cost: 7.274s | fit & process data Done
+[75105:MainThread](2026-07-31 20:47:59,177) INFO - qlib.timer - [log.py:127] - Time cost: 49.785s | Init data Done
+
+[verify] 两次预测最大绝对差 = 0.000e+00 (42117 个 (日期,股票) 点)
+[verify] ✅ 双跑逐值完全一致 → 复现机制有效, 允许上线
+
+下一步: PYTHONPATH=. python3 live/monthly_signal.py --capital 50000

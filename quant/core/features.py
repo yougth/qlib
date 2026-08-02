@@ -15,6 +15,12 @@ from .universe import format_qlib_code
 class Alpha158Enhanced(Alpha158):
     def get_feature_config(self):
         fields, names = super().get_feature_config()
+        # 滤掉 $vwap 特征: qlib bin 里没有 vwap.day.bin (腾讯 kline 接口不返回成交额),
+        # 保留它只会产生全 NaN → Fillna 填 0 → 常数列, 对树模型无客 (永不分裂),
+        # 但对 MLP/NN 会浪费一个维度且在 CSZScoreNorm 时产生 NaN。
+        keep = [i for i, f in enumerate(fields) if "$vwap" not in f]
+        fields = [fields[i] for i in keep]
+        names = [names[i] for i in keep]
         extra_fields = [
             "Ref($close, 120)/$close", "Ref($close, 240)/$close",
             "Mean($close, 120)/$close", "Mean($close, 240)/$close",

@@ -3,7 +3,9 @@ test_no_lookahead —— 无穿越守卫单测 (回归门禁)
 ================================================================================
 快速静态守卫 (无需 qlib 数据, 秒级):
   1. 窗口分段顺序: train.end < valid.start ≤ valid.end < test.start
-  2. embargo: valid 截至 (Y-1)-11-30 (12月留白), test 段 12-01 起
+  2. purge gap 用真实交易日历校验: 每段末尾样本的 label(Ref($close,-20)) 结束日
+     必须早于下一段起点。旧版此处只断言日期字符串形如 "-11-30"/"-12-01", 形同虚设,
+     放过了 7/7 窗口 valid→test 20 交易日侵入 (见 core.universe 模块头)
   3. label 仅后向且 horizon == 20; 与 config.LABEL_HORIZON 一致
   4. 扩展特征无未来引用 (features.py 源码不含负偏移 Ref)
   5. 股票池 year-2 规则: 仅用 ≤(Y-2) 基本面, Y-1 数据不参与
@@ -29,7 +31,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from core import config
 from core import dataset as ds_mod
 from core import features as feat_mod
-from core.universe import build_windows, build_dynamic_universe
+from core.universe import build_windows, build_dynamic_universe, assert_purged
 from core.features import load_fund_features
 
 RUN_SLOW = os.environ.get("RUN_SLOW", "") == "1"
@@ -37,6 +39,17 @@ RUN_SLOW = os.environ.get("RUN_SLOW", "") == "1"
 
 def _d(s):
     return dt.date.fromisoformat(s)
+
+
+def _calendar_or_skip():
+    """真实 A 股交易日历. purge 检查必须用真日历: 工作日日历比真日历更密(缺节假日),
+    会把 label 结束日算得偏早, 从而低估侵入 —— 那种近似会放过穿越, 不能用。"""
+    try:
+        from core import data as datalayer
+        datalayer.init_qlib()
+        return pd.DatetimeIndex(datalayer.get_calendar())
+    except Exception as e:                        # qlib 数据不可用时不给假绿灯
+        pytest.skip(f"需真实交易日历, qlib 不可用: {e}")
 
 
 # ============================ 快速静态守卫 ============================
@@ -48,20 +61,33 @@ def test_window_segmentation_ordering():
         assert _d(ts) < _d(te) < _d(vs), f"{w['name']} train/valid 顺序错"
         assert _d(vs) < _d(ve) < _d(xs), f"{w['name']} valid/test 顺序错"
         assert _d(xs) <= _d(xe), f"{w['name']} test 起止错"
-        # train 4 年, 覆盖 Y-5..Y-2
+        # train 4 年, 覆盖 Y-5..Y-2 (末尾 purge 一个月, 见 core.universe 模块头)
         y = w["year"]
-        assert ts == f"{y-5}-01-01" and te == f"{y-2}-12-31"
+        assert ts == f"{y-5}-01-01" and te == f"{y-2}-11-30"
 
 
-def test_embargo_one_month_gap():
-    for w in build_windows():
-        _, ve = w["valid"]
-        xs, _ = w["test"]
-        # embargo: valid 必须停在 11-30 (12 月留白), 而非跑到 12-31
-        assert ve.endswith("-11-30"), f"{w['name']} valid 未在 11-30 embargo: {ve}"
-        assert xs.endswith("-12-01"), f"{w['name']} 信号段未从 12-01 起: {xs}"
-        # valid 结束年 == test 起始年 (上一年), 中间无跨年重叠
-        assert _d(ve).year == _d(xs).year
+def test_embargo_covers_label_horizon():
+    """purge gap 必须真正覆盖 label horizon —— 用交易日历算, 不看日期字面。
+
+    旧版本此处只断言 ve.endswith("-11-30") / xs.endswith("-12-01"), 属于形同虚设:
+    它只确认了"日期长成那个样子", 完全没验证 valid 末尾样本的 label 会不会伸进
+    test 段。实测旧分段 7/7 窗口都侵入 test 20 个交易日, 而该测试全绿。
+    """
+    cal = _calendar_or_skip()
+    wins = build_windows()
+    # 正向: 当前分段必须通过
+    assert_purged(wins, cal)
+    # 反向(变异): 把 purge 撤掉恢复成旧分段, 断言必须失败 —— 否则这个守卫是假的
+    broken = [{"name": "MUT", "train": (f"{y-5}-01-01", f"{y-2}-12-31"),
+               "valid": (f"{y-1}-01-01", f"{y-1}-11-30"),
+               "test": (f"{y-1}-12-01", f"{y}-11-30")}
+              for y in [2023]]
+    try:
+        assert_purged(broken, cal)
+    except RuntimeError:
+        pass
+    else:
+        raise AssertionError("旧(有穿越)分段未被 assert_purged 拦截 → 守卫失效!")
 
 
 def test_label_backward_only_and_horizon():
@@ -145,6 +171,100 @@ def test_fund_feature_pit_effective_date():
     assert min_eff >= pd.Timestamp(f"{2019+1}-05-01")
 
 
+# ============================ 信号层守卫 (core.strategy) ============================
+def test_exec_date_is_strictly_next_trading_day():
+    """T+1: 执行日必须严格晚于信号日, 且是日历里紧邻的下一个交易日。
+
+    最容易犯又最致命的穿越就是"月末收盘出信号、当天收盘成交"。这里逐个信号日
+    暴力校验, 并显式覆盖"信号日是日历最后一天"的边界 (必须返回 None 而不是回退
+    到当天)。
+    """
+    from core import strategy
+
+    cal = pd.DatetimeIndex(pd.bdate_range("2023-01-02", "2023-12-29"))
+    for i, d in enumerate(cal):
+        got = strategy.exec_date(cal, d)
+        if i == len(cal) - 1:
+            assert got is None, "日历末尾应返回 None, 不得回退到信号日当天"
+        else:
+            assert got == cal[i + 1], f"{d.date()} 的执行日应为 {cal[i+1].date()}, 实际 {got}"
+            assert got > d, "执行日不得早于或等于信号日 (当日成交 = 穿越)"
+
+
+def test_signal_layer_has_single_implementation():
+    """信号层只能有一份实现: 除 core/strategy.py 外, 任何脚本都不得自己拼
+    "build_candidates + searchsorted+1 + nlargest" 这套逻辑。
+
+    历史上这段在 run_rolling / run_benchmark / live 各写了一遍, 只要有一处漏了
+    T+1 就会凭空多出收益, 而且很难被发现 —— 用静态扫描把它钉住。
+    """
+    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    allowed = {os.path.join(root, "core", "strategy.py"),
+               os.path.join(root, "core", "tradability.py")}
+    offenders = []
+    for dirpath, dirnames, filenames in os.walk(root):
+        dirnames[:] = [d for d in dirnames
+                       if d not in ("archive", "outputs", "mlruns", "tests",
+                                    "__pycache__", "catboost_info", "docs")]
+        for fn in filenames:
+            if not fn.endswith(".py"):
+                continue
+            p = os.path.join(dirpath, fn)
+            if p in allowed:
+                continue
+            src = open(p, encoding="utf-8").read()
+            code = "\n".join(ln for ln in src.splitlines()
+                             if not ln.strip().startswith("#"))
+            if "build_candidates(" in code:
+                offenders.append((os.path.relpath(p, root), "直接调用 build_candidates"))
+            if re.search(r"searchsorted\([^)]*\)\s*\)?\s*\+\s*1", code):
+                offenders.append((os.path.relpath(p, root), "自行实现 T+1 位移"))
+    assert not offenders, f"信号层出现第二份实现: {offenders}"
+
+
+def test_top_picks_excludes_nan_scores():
+    """打分为 NaN 的股票绝不能进持仓 (NaN 在某些排序里会被当成最大值)"""
+    from core import strategy
+
+    s = pd.Series([0.5, np.nan, 0.9, np.nan, 0.1],
+                  index=["A", "B", "C", "D", "E"])
+    picks = strategy.top_picks(s, 3)
+    assert "B" not in picks and "D" not in picks, f"NaN 打分进了持仓: {picks}"
+    assert picks[0] == "C", f"排序不是降序: {picks}"
+
+
+# ============================ 价格口径守卫 ============================
+def test_liquidity_uses_unadjusted_price():
+    """流动性(成交额)必须用真实价 = $close/$factor, 不能用复权价。
+
+    复权价与真实价可以差几十倍 (老数据里广汇能源复权后 0.12 元 vs 真实 ~4.5 元),
+    用复权价算成交额会把它低估 37 倍 —— 该被流动性剔除的留下、该留的被剔除。
+    """
+    from core import tradability as tr
+
+    src = inspect.getsource(tr.build_tradability)
+    assert "$factor" in src, "build_tradability 未取 $factor"
+    assert re.search(r'px\["close"\]\s*/\s*fac', src), \
+        "成交额未用真实价 (close/factor) 计算"
+
+
+def test_live_order_price_is_unadjusted():
+    """实盘下单价必须是真实价: 券商界面看到的价格决定"一手多少钱"。
+
+    实测原数据 358 只里有 54 只 $close 与真实收盘偏离 >10% (最大 1.89 倍), 直接
+    用 $close 会把整手金额算错到 ±90%, 一手取整/买不起顺延的判断全部失效。
+    """
+    src = open(os.path.join(os.path.dirname(os.path.dirname(
+        os.path.abspath(__file__))), "live", "monthly_signal.py"),
+        encoding="utf-8").read()
+    m = re.search(r"def latest_prices.*?(?=\ndef )", src, re.S)
+    assert m, "未找到 latest_prices"
+    body = m.group(0)
+    assert "$factor" in body, "latest_prices 未取 $factor → 下单价用了复权价"
+    assert re.search(r'\$close"\]\s*/\s*px\["\$factor', body), \
+        "latest_prices 未做 close/factor 还原"
+
+
 # ============================ 重型探针 (RUN_SLOW=1) ============================
 @pytest.mark.skipif(not RUN_SLOW, reason="需 qlib 数据, 设 RUN_SLOW=1 开启")
 def test_shuffle_label_collapses_rankic():
@@ -199,183 +319,6 @@ def test_no_feature_equals_future_label():
         if pd.notna(c):
             max_abs_corr = max(max_abs_corr, abs(c))
     assert max_abs_corr < 0.95, f"存在特征与未来收益近乎完全相关({max_abs_corr:.3f}) → label 漏进 feature!"
-#!/usr/bin/env python3
-"""
-test_no_lookahead —— 无穿越/前视偏差 回归守卫单测
-================================================================================
-覆盖长期记忆《量化回测必须检查特征穿越与前视偏差清单》的自动化断言:
-
-快速静态断言 (无需 qlib 数据, 秒级, 作为 CI 门禁):
-  1. 窗口分段:      train.end < valid.start < valid.end(=11-30 embargo) < test.start
-  2. embargo 留白:  valid 截止 (Y-1)-11-30, test 从 (Y-1)-12-01 起, 1 个月缓冲
-  3. 标签后向:      label 仅 Ref($close,-20)(预测目标=未来20日收益), 且 horizon 对齐
-  4. 池 year-2 规则: 股票池最多用到 Y-2 年报 (Y-1 年报要到 Y 年5月才披露完)
-  5. 标准化只 fit train: handler fit_end == train_end (绝不用 test 段 fit → 无未来信息)
-  6. 基本面 PIT:     年报Y 因子最早生效日 >= (Y+1)-05-01 (合成数据验证, 无需 qlib)
-
-重型探针 (需 qlib 数据, 默认跳过; RUN_SLOW=1 开启):
-  7. 打乱标签探针:   y 随机置换后 valid RankIC 应塌缩到 ~0 (证明无标签泄露)
-  8. 信号前移探针:   调仓日前移一格应显著恶化 OOS RankIC (证明 T+1 未偷看未来价)
-"""
-import os
-import sys
-import numpy as np
-import pandas as pd
-import pytest
-
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
-from core import config
-from core.universe import build_windows, build_dynamic_universe
-from core.dataset import DEFAULT_LABEL, _handler_config
-from core.features import load_fund_features
-
-RUN_SLOW = os.environ.get("RUN_SLOW") == "1"
-
-
-# ============================ 1. 窗口分段 ============================
-def test_window_segmentation_ordering():
-    for w in build_windows():
-        ts, te = map(pd.Timestamp, w["train"])
-        vs, ve = map(pd.Timestamp, w["valid"])
-        xs, xe = map(pd.Timestamp, w["test"])
-        assert ts < te < vs <= ve < xs <= xe, f"{w['name']} 分段乱序: {w}"
-        # train 恰好 4 年 (Y-5..Y-2)
-        assert te.year - ts.year == 3, f"{w['name']} 训练窗口非4年"
-        # valid 恰好为 Y-1 年
-        assert vs.year == ve.year == w["year"] - 1, f"{w['name']} valid 非 Y-1 年"
-
-
-# ============================ 2. embargo 留白 ============================
-def test_embargo_one_month_gap():
-    for w in build_windows():
-        ve = pd.Timestamp(w["valid"][1])
-        xs = pd.Timestamp(w["test"][0])
-        # valid 截止 11-30
-        assert (ve.month, ve.day) == (11, 30), f"{w['name']} valid 未在 11-30 收口"
-        # test/信号段 从 12-01 起 → 12 月整月 embargo, 防 20 日 label 偷看测试期
-        assert (xs.month, xs.day) == (12, 1), f"{w['name']} 信号段未从 12-01 起"
-        assert (xs - ve).days >= 1
-
-
-# ============================ 3. 标签后向 + horizon 对齐 ============================
-def test_label_backward_only_and_horizon():
-    assert DEFAULT_LABEL == ["Ref($close, -20) / $close - 1"]
-    # label 的 -20 必须与 config.LABEL_HORIZON 一致 (前瞻收益/回测持有窗口同口径)
-    assert f"-{config.LABEL_HORIZON}" in DEFAULT_LABEL[0]
-    # 标签是唯一的未来量(预测目标); 特征侧不得出现负 Ref (未来价) —— 见 features 测试
-    assert DEFAULT_LABEL[0].count("Ref(") == 1
-
-
-def test_features_have_no_future_reference():
-    """特征字段中不得出现向未来取值的 Ref($close, -k) (k>0 = 偷看未来)"""
-    from core.features import Alpha158Enhanced
-    # 仅检查我们新增的长周期扩展字段(super() 的 Alpha158 字段是 qlib 标准, 均后向)
-    h = Alpha158Enhanced.__new__(Alpha158Enhanced)
-    # 直接取扩展字段源码常量, 断言无负 Ref
-    import inspect
-    src = inspect.getsource(Alpha158Enhanced.get_feature_config)
-    # 扩展字段里的 Ref 都应是正向历史 (Ref($close, 120) 等), 不能有 Ref(..., -N)
-    import re
-    negrefs = re.findall(r"Ref\([^)]*,\s*-\d+\)", src)
-    assert not negrefs, f"扩展特征出现未来 Ref: {negrefs}"
-
-
-# ============================ 4. 池 year-2 规则 ============================
-def test_universe_year2_rule():
-    """股票池最多用到 Y-2 年报: fcf/profit 年份上界 == backtest_year - 2"""
-    y = 2024
-    years = list(range(2010, 2024))
-    # build_dynamic_universe 内部: fcf_years=range(Y-11,Y-1) → 上界 Y-2
-    used_fcf_years = list(range(y - 11, y - 1))
-    assert max(used_fcf_years) == y - 2, "FCF 年份上界必须为 Y-2 (未用 Y-1 未披露年报)"
-
-    # 合成 PIT 缓存: 60 只全正基底(需 >= config.MIN_POOL 才不触发数据异常门禁)
-    base = [f"{600000 + i:06d}" for i in range(config.MIN_POOL + 10)]
-    rows = []
-    for c in base:
-        for yr in years:
-            rows.append((c, yr, 1.0e8, 1.0e8))
-    # 探针 B: Y-1(2023) 净利转负, 但 Y-2(2022) 仍正 → 因只用到 Y-2, 应仍入池(未偷看 Y-1)
-    b = "900001"
-    for yr in years:
-        rows.append((b, yr, 1.0e8, -1.0e8 if yr == y - 1 else 1.0e8))
-    # 探针 C: Y-2(2022) 净利转负 → 落在使用年份内 → 应被剔除
-    c_neg = "900002"
-    for yr in years:
-        rows.append((c_neg, yr, 1.0e8, -1.0e8 if yr == y - 2 else 1.0e8))
-
-    df = pd.DataFrame(rows, columns=["code", "year", "fcf", "net_profit"])
-    fcf = df[["code", "year", "fcf"]].copy()
-    prof = df[["code", "year", "net_profit"]].copy()
-    got = set(build_dynamic_universe(y, fcf, prof))
-    assert set(base).issubset(got), "全正基底股票应全部入池"
-    assert b in got, "探针B: Y-1转负但Y-2仍正的股票被误剔 → 疑似偷看了 Y-1 未披露年报!"
-    assert c_neg not in got, "探针C: Y-2转负的股票未被剔除 → year-2 门禁失效!"
-
-
-# ============================ 5. 标准化只在 train 段 fit ============================
-def test_normalization_fit_on_train_only():
-    w = build_windows()[3]  # 任取一窗
-    ts, te = w["train"]
-    xs, xe = w["test"]
-    dhc = _handler_config(["SH600000"], ts, te, xe, DEFAULT_LABEL)
-    # 关键: processor 的 fit 区间上界必须是 train_end, 绝不能是 test_end
-    assert dhc["fit_start_time"] == ts
-    assert dhc["fit_end_time"] == te, "标准化 fit 段越界到 test → 未来信息泄露!"
-    assert dhc["fit_end_time"] != xe
-    # infer 段用 RobustZScoreNorm(train统计量), learn 段按截面 CSZScoreNorm(label)
-    infer_classes = [p["class"] for p in dhc["infer_processors"]]
-    assert "RobustZScoreNorm" in infer_classes
-
-
-# ============================ 6. 基本面 PIT 生效日 (合成数据, 快) ============================
-def test_fund_feature_pit_effective_date():
-    """年报 Y 的因子最早生效日必须 >= (Y+1)-05-01 (次年5月才披露完)"""
-    cal = pd.DatetimeIndex(pd.bdate_range("2018-01-01", "2024-12-31"))
-    codes = ["600000"]
-    years = list(range(2016, 2023))
-    fcf = pd.DataFrame({"code": "600000", "year": years,
-                        "fcf": np.linspace(1e8, 2e8, len(years))})
-    prof = pd.DataFrame({"code": "600000", "year": years,
-                         "net_profit": np.linspace(1e8, 2e8, len(years))})
-    fdf = load_fund_features(["SH600000"], fcf, prof, cal, "2018-01-01", "2024-12-31")
-    dates = fdf.index.get_level_values(0)
-    # 最早出现的因子日期对应的是 years 中第二个年份(pct_change 需要前一年),
-    # 即 year=2017 → 生效日应 >= 2018-05-01
-    earliest = dates.min()
-    assert earliest >= pd.Timestamp("2018-05-01"), \
-        f"基本面因子最早生效日 {earliest.date()} 早于次年5月, 存在前视!"
-    # 且任一因子行的日期都不早于其年报年份+1 的 5-01 (抽样校验单调性)
-    assert earliest.month >= 5 or earliest.year > 2018
-
-
-# ============================ 7. 打乱标签探针 (重, 需 qlib 数据) ============================
-@pytest.mark.skipif(not RUN_SLOW, reason="重型探针, 设 RUN_SLOW=1 开启")
-def test_shuffle_label_collapses_rankic():
-    """label 随机置换后 valid RankIC 应塌缩到 ~0 (真实约 0.06~0.09)"""
-    from core import data as datalayer
-    from core.universe import build_dynamic_universe, format_qlib_code, load_pit_caches
-    from core.dataset import build_dataset
-    from core.models import RankICEval, train_xgb
-
-    datalayer.init_qlib()
-    fcf_df, profit_df = load_pit_caches()
-    cal = datalayer.get_calendar()
-    win = build_windows()[4]  # W2024, 数据充足
-    codes = build_dynamic_universe(win["year"], fcf_df, profit_df)
-    universe = [format_qlib_code(c) for c in codes]
-    ds = build_dataset(win, universe, fcf_df, profit_df, cal)
-
-    va_dates = ds["X_va"].index.get_level_values(0).values
-    ic_eval = RankICEval(va_dates, ds["y_va"].values)
-    # 打乱训练标签
-    rng = np.random.RandomState(0)
-    y_shuf = ds["y_tr"].copy()
-    y_shuf[:] = rng.permutation(y_shuf.values)
-    _, _, ic_shuf = train_xgb(ds["X_tr"], y_shuf, ds["X_va"], ds["y_va"], ic_eval)
-    assert abs(ic_shuf) < 0.03, f"打乱标签后 valid RankIC={ic_shuf:.4f} 仍显著 → 疑似泄露!"
-
 
 # ============================ 8. 信号前移探针 (重, 需 qlib 数据) ============================
 @pytest.mark.skipif(not RUN_SLOW, reason="重型探针, 设 RUN_SLOW=1 开启")
@@ -395,3 +338,26 @@ def test_signal_shift_does_not_improve():
     # 正确对齐的前瞻收益应为有限值且方差非退化
     assert np.isfinite(np.nanmean(fwd.values)), "前瞻收益矩阵异常"
     assert fwd.shape[0] > 20 and fwd.shape[1] > 10
+
+
+# ============================ 9. B 股排除守卫 ============================
+def test_universe_excludes_b_shares():
+    """B 股 (2/9 开头) 不可交易且财报口径不同, 必须在 build_dynamic_universe 排除。
+    fcf_cache_pit.csv 有 4 只 9 开头 + 11 只 2 开头 的 B 股, 不过滤会进池。"""
+    from core.universe import build_dynamic_universe, load_pit_caches
+    fcf, prof = load_pit_caches()
+    for y in range(2020, 2027):
+        codes = build_dynamic_universe(y, fcf, prof)
+        b_shares = [c for c in codes if c[0] in ("2", "9")]
+        assert not b_shares, f"{y} 年股票池含 B 股: {b_shares}"
+
+
+# ============================ 10. 死特征守卫 (源码级) ============================
+def test_alpha158_no_vwap_feature():
+    """Alpha158Enhanced 必须滤掉 $vwap: qlib bin 无 vwap.day.bin, 保留只会产生
+    全 NaN → 填 0 → 常数列。静态扫描 get_feature_config 的输出不含 $vwap。"""
+    from core.features import Alpha158Enhanced
+    h = Alpha158Enhanced.__new__(Alpha158Enhanced)
+    fields, names = Alpha158Enhanced.get_feature_config(h)
+    vwap = [n for f, n in zip(fields, names) if "$vwap" in f]
+    assert not vwap, f"Alpha158Enhanced 仍含 $vwap 特征: {vwap}"

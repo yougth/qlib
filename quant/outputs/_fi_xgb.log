@@ -1,0 +1,35 @@
+[33986:MainThread](2026-07-31 23:08:26,746) INFO - qlib.Initialization - [config.py:473] - default_conf: client.
+[33986:MainThread](2026-07-31 23:08:27,200) INFO - qlib.Initialization - [__init__.py:82] - qlib successfully initialized based on client settings.
+[33986:MainThread](2026-07-31 23:08:27,201) INFO - qlib.Initialization - [__init__.py:84] - data_path={'__DEFAULT_FREQ': PosixPath('/Users/11164591/.qlib/qlib_data/cn_data_fixed')}
+[CHECK] fcf_pit: (93640, 6), 5454只, 1996~2025 | profit_pit: (55675, 4), 5448只, 1998~2025
+[featimp] XGBoost W2026 | 池 303 只 | train('2021-01-01', '2024-11-30') valid('2025-01-01', '2025-10-31') (评估段=('2025-01-01', '2025-10-31'), 不读 test)
+[33986:MainThread](2026-07-31 23:08:47,854) INFO - qlib.timer - [log.py:127] - Time cost: 19.930s | Loading data Done
+[33986:MainThread](2026-07-31 23:08:49,910) INFO - qlib.timer - [log.py:127] - Time cost: 1.930s | RobustZScoreNorm Done
+[33986:MainThread](2026-07-31 23:08:50,214) INFO - qlib.timer - [log.py:127] - Time cost: 0.303s | Fillna Done
+[33986:MainThread](2026-07-31 23:08:50,506) INFO - qlib.timer - [log.py:127] - Time cost: 0.099s | DropnaLabel Done
+[33986:MainThread](2026-07-31 23:08:51,216) INFO - qlib.timer - [log.py:127] - Time cost: 0.709s | CSZScoreNorm Done
+[33986:MainThread](2026-07-31 23:08:51,222) INFO - qlib.timer - [log.py:127] - Time cost: 3.366s | fit & process data Done
+[33986:MainThread](2026-07-31 23:08:51,222) INFO - qlib.timer - [log.py:127] - Time cost: 23.299s | Init data Done
+[featimp] 特征列 172 个
+[0]	train-rmse:0.99553	valid-rmse:0.99840
+[20]	train-rmse:0.96058	valid-rmse:1.00179
+[40]	train-rmse:0.93796	valid-rmse:1.00465
+[50]	train-rmse:0.92810	valid-rmse:1.00619
+
+=== XGBoost W2026 原生增益 gain 前 15 ===
+    1. MA120                              113.0    2.05%
+    2. SUMN10                             109.1    1.98%
+    3. SUMD30                             106.0    1.92%
+    4. RANK30                              76.7    1.39%
+    5. VSTD10                              72.0    1.31%
+    6. VMA240                              71.6    1.30%
+    7. STD240                              66.8    1.21%
+    8. STD120                              65.0    1.18%
+    9. ROC30                               63.4    1.15%
+   10. CORD60                              63.1    1.14%
+   11. MA60                                61.9    1.12%
+   12. SUMN30                              60.8    1.10%
+   13. QTLD60                              60.6    1.10%
+   14. SUMN5                               59.0    1.07%
+   15. CNTD20                              57.6    1.05%
+[+] 已存 /Users/11164591/Documents/Qoder目录/qlib/quant/outputs/featimp_XGBoost_W2026_gain.csv  (共 161/172 列被真正用到)

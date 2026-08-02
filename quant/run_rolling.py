@@ -2,7 +2,8 @@
 """
 run_rolling —— 滚动十年双正 × XGB/LGB/ENS 双模型 × 月频Top10 回测 (产出 24.88%)
 ================================================================================
-本脚本仅做编排, 全部无穿越逻辑复用 core/ 公共层。行为与重构前 rolling10y_dual_model.py 等价。
+本脚本仅做编排, 全部无穿越逻辑复用 core/ 公共层 (信号层见 core.strategy)。
+行为与重构前 archive/legacy/rolling10y_dual_model.py 等价。
 不穿越设计见 core.dataset / core.universe / core.features 各模块 docstring。
 """
 import os
@@ -26,18 +27,17 @@ set_seed(42)
 os.environ["MLFLOW_ALLOW_FILE_STORE"] = "true"
 warnings.filterwarnings("ignore")
 
-import numpy as np
 import pandas as pd
 import xgboost as xgb
-from qlib.data import D
 
 from core import config
 from core import data as datalayer
+from core import strategy
 from core.universe import build_windows, build_dynamic_universe, format_qlib_code, load_pit_caches
 from core.valuation import load_valuation, value_comp_score
 from core.dataset import build_dataset
 from core.models import RankICEval, train_xgb, train_lgb, check_convergence
-from core.tradability import build_tradability, get_month_end_dates, build_candidates
+from core.tradability import build_tradability
 from core.backtest import (portfolio_backtest, calc_metrics, annualized_since,
                            print_yearly_table, print_metric_table)
 
@@ -47,7 +47,6 @@ TOPK = config.TOPK
 MIN_CAND = config.MIN_CAND
 LABEL_HORIZON = config.LABEL_HORIZON
 STRATS = config.STRATS
-MODEL_STRATS = config.MODEL_STRATS
 OUT_DIR = config.OUT_DIR
 
 
@@ -63,6 +62,8 @@ def run_window(win, fcf_df, profit_df, cal, results, rebalances, holdings_log,
     codes = build_dynamic_universe(y, fcf_df, profit_df)
     universe = [format_qlib_code(c) for c in codes]
     print(f"  股票池: {len(universe)} 只", flush=True)
+    # 行情覆盖率门禁: 池成员若无行情会在 build_candidates 被静默剔除 → 选择偏差
+    datalayer.assert_market_coverage(universe, xs, win["bt_end"], tag=win["name"])
 
     ds = build_dataset(win, universe, fcf_df, profit_df, cal)
     X_tr, y_tr = ds["X_tr"], ds["y_tr"]
@@ -97,58 +98,46 @@ def run_window(win, fcf_df, profit_df, cal, results, rebalances, holdings_log,
     # ---- OOS IC 用: 信号段 20日前瞻真实收益矩阵 (date × instrument) ----
     fwd_mat = datalayer.forward_return_matrix(universe, xs, xe)
 
-    sig_dates = get_month_end_dates(cal, xs, xe)
-    cal_idx = pd.DatetimeIndex(cal)
-    for sig_dt in sig_dates:
-        for tag in ["XGB", "LGB"]:
-            if sig_dt not in preds[tag].index.get_level_values(0):
-                raise RuntimeError(f"[CHECK] {sig_dt.date()} 无{tag}预测截面!")
-        # 可交易候选集 (model-agnostic: 一字涨停/停牌/流动性不足)
-        base_idx = preds["XGB"].xs(sig_dt, level=0).index
-        cand = build_candidates(base_idx, sig_dt, limit_up, susp, liq)
-        if len(cand) < TOPK:
-            raise RuntimeError(f"[CHECK] {sig_dt.date()} 可交易候选仅{len(cand)}只(<{TOPK})!")
-        if len(cand) < MIN_CAND:
-            print(f"    [WARN] {sig_dt.date()} 可交易候选{len(cand)}只偏少", flush=True)
+    # ENS = XGB/LGB 截面 rank 均值; VALUE 用 value_comp。
+    # 六个策略共用同一可交易候选集 (model-agnostic 过滤), 因此逐策略调用
+    # core.strategy 时得到的候选完全一致, 差别只在打分。
+    score_fns = {
+        "XGB": lambda cand, dt: preds["XGB"].xs(dt, level=0).reindex(cand),
+        "LGB": lambda cand, dt: preds["LGB"].xs(dt, level=0).reindex(cand),
+        "ENS": lambda cand, dt: (
+            preds["XGB"].xs(dt, level=0).reindex(cand).rank(pct=True)
+            + preds["LGB"].xs(dt, level=0).reindex(cand).rank(pct=True)) / 2,
+        "VAL20": lambda cand, dt: value_comp_score(cand, dt, val_piv).reindex(cand),
+        "VAL10": lambda cand, dt: value_comp_score(cand, dt, val_piv).reindex(cand),
+        "POOL_EW": lambda cand, dt: pd.Series(1.0, index=cand),
+    }
+    TOPK_OF = {"XGB": TOPK, "LGB": TOPK, "ENS": TOPK, "VAL20": 20, "VAL10": 10,
+               "POOL_EW": TOPK}
+    # IC 聚合时 VAL10/VAL20 是同一打分, 统一记为 VALUE (与旧版 ic_of 映射一致);
+    # VAL10 与 POOL_EW 不再重复记 IC (VAL10 打分与 VAL20 完全相同, POOL_EW 无排序)
+    IC_MODEL = {"VAL20": "VALUE"}
+    IC_ON = ("XGB", "LGB", "ENS", "VAL20")
 
-        # 各策略在同一候选集上的打分
-        score = {}
-        score["XGB"] = preds["XGB"].xs(sig_dt, level=0).reindex(cand)
-        score["LGB"] = preds["LGB"].xs(sig_dt, level=0).reindex(cand)
-        score["ENS"] = (score["XGB"].rank(pct=True) + score["LGB"].rank(pct=True)) / 2
-        score["VALUE"] = value_comp_score(cand, sig_dt, val_piv).reindex(cand)
+    # 预测截面完整性: 缺任一信号日截面就直接失败, 不允许静默少跑一个月
+    for tag in ("XGB", "LGB"):
+        miss = [d for d in strategy.signal_days(cal, xs, xe)
+                if d not in preds[tag].index.get_level_values(0)]
+        if miss:
+            raise RuntimeError(f"[CHECK] {win['name']} {tag} 缺 {len(miss)} 个信号日"
+                               f"预测截面, 首个 {miss[0].date()}!")
 
-        # OOS IC: 每模型 该信号日截面 (score vs 20日前瞻真实收益) 的 Pearson/Spearman
-        fwd = fwd_mat.loc[sig_dt].reindex(cand) if sig_dt in fwd_mat.index else pd.Series(np.nan, index=cand)
-        for mdl in MODEL_STRATS + ["VALUE"]:
-            df = pd.concat([score[mdl], fwd], axis=1).dropna()
-            if len(df) >= 10:
-                ic_records.append({"window": win["name"], "model": mdl,
-                                   "sig_date": sig_dt,
-                                   "ic": df.iloc[:, 0].corr(df.iloc[:, 1]),
-                                   "rank_ic": df.iloc[:, 0].corr(df.iloc[:, 1], method="spearman")})
-
-        # T+1: 次一交易日执行
-        pos = int(cal_idx.searchsorted(sig_dt)) + 1
-        if pos >= len(cal_idx):
-            continue
-        exec_dt = cal_idx[pos]
-        vc_valid = score["VALUE"].dropna()
-        picks = {
-            "XGB": score["XGB"].nlargest(TOPK).index.tolist(),
-            "LGB": score["LGB"].nlargest(TOPK).index.tolist(),
-            "ENS": score["ENS"].nlargest(TOPK).index.tolist(),
-            "VAL20": vc_valid.nlargest(20).index.tolist(),
-            "VAL10": vc_valid.nlargest(10).index.tolist(),
-            "POOL_EW": cand.tolist(),
-        }
-        for tag, top in picks.items():
-            if not top:
-                raise RuntimeError(f"[CHECK] {sig_dt.date()} {tag} 无可买标的!")
-            rebalances[tag].append((exec_dt, top))
-            if tag in ("XGB", "LGB", "ENS", "VAL20"):
-                holdings_log.append({"signal_date": sig_dt.date(), "exec_date": exec_dt.date(),
-                                     "model": tag, "holdings": ",".join(top)})
+    for tag in STRATS:
+        # 候选集门禁按 TOPK 判定 (与旧版一致: 所有策略共用 TOPK 下限),
+        # 真正取几只由 TOPK_OF 决定
+        strategy.emit_window_signals(
+            tag, preds["XGB"], universe, cal, val_piv, xs, xe,
+            limit_up, susp, liq, fwd_mat, TOPK,
+            ic_records=ic_records if tag in IC_ON else None,
+            rebalances=rebalances, win_name=win["name"], strict=True,
+            min_cand=MIN_CAND,
+            holdings_log=holdings_log if tag in ("XGB", "LGB", "ENS", "VAL20") else None,
+            score_fn=score_fns[tag], ic_model=IC_MODEL.get(tag),
+            topk_pick=TOPK_OF[tag])
     del preds
     gc.collect()
 

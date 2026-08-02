@@ -1,0 +1,852 @@
+[47034:MainThread](2026-07-31 19:19:57,480) INFO - qlib.Initialization - [config.py:473] - default_conf: client.
+[47034:MainThread](2026-07-31 19:19:57,843) INFO - qlib.Initialization - [__init__.py:82] - qlib successfully initialized based on client settings.
+[47034:MainThread](2026-07-31 19:19:57,843) INFO - qlib.Initialization - [__init__.py:84] - data_path={'__DEFAULT_FREQ': PosixPath('/Users/11164591/.qlib/qlib_data/cn_data_fixed')}
+[CHECK] fcf_pit: (93640, 6), 5454只, 1996~2025 | profit_pit: (55675, 4), 5448只, 1998~2025
+[CHECK] 交易日历: 2014-01-02 ~ 2026-07-23 (3019天)
+[CHECK] 估值缓存: 2079日 × 472股, 2018-01-02~2026-07-29
+
+======================================================================
+[Phase B W2020] 池137只 | train('2015-01-01', '2018-12-31') valid('2019-01-01', '2019-11-30')(embargo) 信号2019-12-01~2020-11-30
+======================================================================
+    [流动性] 中位数20日均成交额=6.50亿, 一字涨停36条, 停牌34条
+[47034:MainThread](2026-07-31 19:20:33,498) INFO - qlib.timer - [log.py:127] - Time cost: 19.872s | Loading data Done
+[47034:MainThread](2026-07-31 19:20:34,427) INFO - qlib.timer - [log.py:127] - Time cost: 0.852s | RobustZScoreNorm Done
+[47034:MainThread](2026-07-31 19:20:34,648) INFO - qlib.timer - [log.py:127] - Time cost: 0.221s | Fillna Done
+[47034:MainThread](2026-07-31 19:20:34,770) INFO - qlib.timer - [log.py:127] - Time cost: 0.049s | DropnaLabel Done
+[47034:MainThread](2026-07-31 19:20:35,858) INFO - qlib.timer - [log.py:127] - Time cost: 1.087s | CSZScoreNorm Done
+[47034:MainThread](2026-07-31 19:20:35,861) INFO - qlib.timer - [log.py:127] - Time cost: 2.362s | fit & process data Done
+[47034:MainThread](2026-07-31 19:20:35,862) INFO - qlib.timer - [log.py:127] - Time cost: 22.237s | Init data Done
+[47034:MainThread](2026-07-31 19:20:38,341) INFO - qlib.DEnsembleModel - [double_ensemble.py:57] - Double Ensemble Model...
+[47034:MainThread](2026-07-31 19:20:38,506) INFO - qlib.DEnsembleModel - [double_ensemble.py:81] - Training sub-model: (1/3)
+[47034:MainThread](2026-07-31 19:20:41,186) INFO - qlib.DEnsembleModel - [double_ensemble.py:88] - Retrieving loss curve and loss values...
+[47034:MainThread](2026-07-31 19:20:42,284) INFO - qlib.DEnsembleModel - [double_ensemble.py:98] - Sample re-weighting...
+[47034:MainThread](2026-07-31 19:20:42,942) INFO - qlib.DEnsembleModel - [double_ensemble.py:102] - Feature selection...
+[47034:MainThread](2026-07-31 19:21:33,234) INFO - qlib.DEnsembleModel - [double_ensemble.py:81] - Training sub-model: (2/3)
+[47034:MainThread](2026-07-31 19:21:34,348) INFO - qlib.DEnsembleModel - [double_ensemble.py:88] - Retrieving loss curve and loss values...
+[47034:MainThread](2026-07-31 19:21:34,955) INFO - qlib.DEnsembleModel - [double_ensemble.py:98] - Sample re-weighting...
+[47034:MainThread](2026-07-31 19:21:35,496) INFO - qlib.DEnsembleModel - [double_ensemble.py:102] - Feature selection...
+[47034:MainThread](2026-07-31 19:22:41,822) INFO - qlib.DEnsembleModel - [double_ensemble.py:81] - Training sub-model: (3/3)
+[LightGBM] [Info] Total Bins 36837
+[LightGBM] [Info] Number of data points in the train set: 103649, number of used features: 171
+[LightGBM] [Info] Start training from score -0.000000
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[20]	train's l2: 0.822455	valid's l2: 0.985324
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Info] Total Bins 18071
+[LightGBM] [Info] Number of data points in the train set: 103649, number of used features: 83
+[LightGBM] [Info] Start training from score 0.033489
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[20]	train's l2: 1.03777	valid's l2: 1.01469
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Info] Total Bins 18416
+[LightGBM] [Info] Number of data points in the train set: 103649, number of used features: 82
+[LightGBM] [Info] Start training from score 0.022387
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[20]	train's l2: 0.962189	valid's l2: 1.0241
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+
+======================================================================
+[Phase B W2021] 池168只 | train('2016-01-01', '2019-12-31') valid('2020-01-01', '2020-11-30')(embargo) 信号2020-12-01~2021-11-30
+======================================================================
+    [流动性] 中位数20日均成交额=1.10亿, 一字涨停11条, 停牌13条
+[47034:MainThread](2026-07-31 19:23:19,945) INFO - qlib.timer - [log.py:127] - Time cost: 19.195s | Loading data Done
+[47034:MainThread](2026-07-31 19:23:21,205) INFO - qlib.timer - [log.py:127] - Time cost: 1.184s | RobustZScoreNorm Done
+[47034:MainThread](2026-07-31 19:23:21,439) INFO - qlib.timer - [log.py:127] - Time cost: 0.233s | Fillna Done
+[47034:MainThread](2026-07-31 19:23:21,590) INFO - qlib.timer - [log.py:127] - Time cost: 0.056s | DropnaLabel Done
+[47034:MainThread](2026-07-31 19:23:22,816) INFO - qlib.timer - [log.py:127] - Time cost: 1.225s | CSZScoreNorm Done
+[47034:MainThread](2026-07-31 19:23:22,820) INFO - qlib.timer - [log.py:127] - Time cost: 2.874s | fit & process data Done
+[47034:MainThread](2026-07-31 19:23:22,820) INFO - qlib.timer - [log.py:127] - Time cost: 22.073s | Init data Done
+[47034:MainThread](2026-07-31 19:23:22,822) INFO - qlib.DEnsembleModel - [double_ensemble.py:57] - Double Ensemble Model...
+[47034:MainThread](2026-07-31 19:23:22,935) INFO - qlib.DEnsembleModel - [double_ensemble.py:81] - Training sub-model: (1/3)
+[47034:MainThread](2026-07-31 19:23:25,836) INFO - qlib.DEnsembleModel - [double_ensemble.py:88] - Retrieving loss curve and loss values...
+[47034:MainThread](2026-07-31 19:23:26,893) INFO - qlib.DEnsembleModel - [double_ensemble.py:98] - Sample re-weighting...
+[47034:MainThread](2026-07-31 19:23:27,557) INFO - qlib.DEnsembleModel - [double_ensemble.py:102] - Feature selection...
+[47034:MainThread](2026-07-31 19:24:31,224) INFO - qlib.DEnsembleModel - [double_ensemble.py:81] - Training sub-model: (2/3)
+[47034:MainThread](2026-07-31 19:24:33,178) INFO - qlib.DEnsembleModel - [double_ensemble.py:88] - Retrieving loss curve and loss values...
+[47034:MainThread](2026-07-31 19:24:34,037) INFO - qlib.DEnsembleModel - [double_ensemble.py:98] - Sample re-weighting...
+[47034:MainThread](2026-07-31 19:24:34,870) INFO - qlib.DEnsembleModel - [double_ensemble.py:102] - Feature selection...
+[47034:MainThread](2026-07-31 19:25:55,570) INFO - qlib.DEnsembleModel - [double_ensemble.py:81] - Training sub-model: (3/3)
+[LightGBM] [Info] Total Bins 37066
+[LightGBM] [Info] Number of data points in the train set: 133519, number of used features: 171
+[LightGBM] [Info] Start training from score -0.000000
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[20]	train's l2: 0.848351	valid's l2: 0.998131
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Info] Total Bins 18244
+[LightGBM] [Info] Number of data points in the train set: 133519, number of used features: 81
+[LightGBM] [Info] Start training from score 0.037133
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[20]	train's l2: 1.0667	valid's l2: 1.03562
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Info] Total Bins 18129
+[LightGBM] [Info] Number of data points in the train set: 133519, number of used features: 83
+[LightGBM] [Info] Start training from score 0.026582
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[20]	train's l2: 1.01402	valid's l2: 1.01183
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+
+======================================================================
+[Phase B W2022] 池201只 | train('2017-01-01', '2020-12-31') valid('2021-01-01', '2021-11-30')(embargo) 信号2021-12-01~2022-11-30
+======================================================================
+    [流动性] 中位数20日均成交额=1.15亿, 一字涨停9条, 停牌16条
+[47034:MainThread](2026-07-31 19:26:31,756) INFO - qlib.timer - [log.py:127] - Time cost: 19.498s | Loading data Done
+[47034:MainThread](2026-07-31 19:26:33,182) INFO - qlib.timer - [log.py:127] - Time cost: 1.360s | RobustZScoreNorm Done
+[47034:MainThread](2026-07-31 19:26:33,399) INFO - qlib.timer - [log.py:127] - Time cost: 0.217s | Fillna Done
+[47034:MainThread](2026-07-31 19:26:33,567) INFO - qlib.timer - [log.py:127] - Time cost: 0.059s | DropnaLabel Done
+[47034:MainThread](2026-07-31 19:26:34,476) INFO - qlib.timer - [log.py:127] - Time cost: 0.909s | CSZScoreNorm Done
+[47034:MainThread](2026-07-31 19:26:34,480) INFO - qlib.timer - [log.py:127] - Time cost: 2.723s | fit & process data Done
+[47034:MainThread](2026-07-31 19:26:34,481) INFO - qlib.timer - [log.py:127] - Time cost: 22.223s | Init data Done
+[47034:MainThread](2026-07-31 19:26:34,482) INFO - qlib.DEnsembleModel - [double_ensemble.py:57] - Double Ensemble Model...
+[47034:MainThread](2026-07-31 19:26:34,639) INFO - qlib.DEnsembleModel - [double_ensemble.py:81] - Training sub-model: (1/3)
+[47034:MainThread](2026-07-31 19:26:37,666) INFO - qlib.DEnsembleModel - [double_ensemble.py:88] - Retrieving loss curve and loss values...
+[47034:MainThread](2026-07-31 19:26:38,993) INFO - qlib.DEnsembleModel - [double_ensemble.py:98] - Sample re-weighting...
+[47034:MainThread](2026-07-31 19:26:39,918) INFO - qlib.DEnsembleModel - [double_ensemble.py:102] - Feature selection...
+[47034:MainThread](2026-07-31 19:27:52,155) INFO - qlib.DEnsembleModel - [double_ensemble.py:81] - Training sub-model: (2/3)
+[47034:MainThread](2026-07-31 19:27:54,085) INFO - qlib.DEnsembleModel - [double_ensemble.py:88] - Retrieving loss curve and loss values...
+[47034:MainThread](2026-07-31 19:27:55,132) INFO - qlib.DEnsembleModel - [double_ensemble.py:98] - Sample re-weighting...
+[47034:MainThread](2026-07-31 19:27:56,089) INFO - qlib.DEnsembleModel - [double_ensemble.py:102] - Feature selection...
+[47034:MainThread](2026-07-31 19:29:25,105) INFO - qlib.DEnsembleModel - [double_ensemble.py:81] - Training sub-model: (3/3)
+[LightGBM] [Info] Total Bins 37110
+[LightGBM] [Info] Number of data points in the train set: 152706, number of used features: 171
+[LightGBM] [Info] Start training from score -0.000000
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[20]	train's l2: 0.888855	valid's l2: 1.00286
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Info] Total Bins 17648
+[LightGBM] [Info] Number of data points in the train set: 152706, number of used features: 83
+[LightGBM] [Info] Start training from score 0.041503
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[20]	train's l2: 1.13276	valid's l2: 1.02924
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Info] Total Bins 18542
+[LightGBM] [Info] Number of data points in the train set: 152706, number of used features: 83
+[LightGBM] [Info] Start training from score 0.028460
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[20]	train's l2: 1.06634	valid's l2: 1.02865
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+
+======================================================================
+[Phase B W2023] 池226只 | train('2018-01-01', '2021-12-31') valid('2022-01-01', '2022-11-30')(embargo) 信号2022-12-01~2023-11-30
+======================================================================
+    [流动性] 中位数20日均成交额=0.96亿, 一字涨停11条, 停牌34条
+[47034:MainThread](2026-07-31 19:30:02,872) INFO - qlib.timer - [log.py:127] - Time cost: 21.860s | Loading data Done
+[47034:MainThread](2026-07-31 19:30:04,647) INFO - qlib.timer - [log.py:127] - Time cost: 1.682s | RobustZScoreNorm Done
+[47034:MainThread](2026-07-31 19:30:05,005) INFO - qlib.timer - [log.py:127] - Time cost: 0.357s | Fillna Done
+[47034:MainThread](2026-07-31 19:30:05,229) INFO - qlib.timer - [log.py:127] - Time cost: 0.071s | DropnaLabel Done
+[47034:MainThread](2026-07-31 19:30:06,138) INFO - qlib.timer - [log.py:127] - Time cost: 0.908s | CSZScoreNorm Done
+[47034:MainThread](2026-07-31 19:30:06,144) INFO - qlib.timer - [log.py:127] - Time cost: 3.271s | fit & process data Done
+[47034:MainThread](2026-07-31 19:30:06,145) INFO - qlib.timer - [log.py:127] - Time cost: 25.133s | Init data Done
+[47034:MainThread](2026-07-31 19:30:06,147) INFO - qlib.DEnsembleModel - [double_ensemble.py:57] - Double Ensemble Model...
+[47034:MainThread](2026-07-31 19:30:06,309) INFO - qlib.DEnsembleModel - [double_ensemble.py:81] - Training sub-model: (1/3)
+[47034:MainThread](2026-07-31 19:30:10,674) INFO - qlib.DEnsembleModel - [double_ensemble.py:88] - Retrieving loss curve and loss values...
+[47034:MainThread](2026-07-31 19:30:11,999) INFO - qlib.DEnsembleModel - [double_ensemble.py:98] - Sample re-weighting...
+[47034:MainThread](2026-07-31 19:30:12,895) INFO - qlib.DEnsembleModel - [double_ensemble.py:102] - Feature selection...
+[47034:MainThread](2026-07-31 19:31:37,184) INFO - qlib.DEnsembleModel - [double_ensemble.py:81] - Training sub-model: (2/3)
+[47034:MainThread](2026-07-31 19:31:39,759) INFO - qlib.DEnsembleModel - [double_ensemble.py:88] - Retrieving loss curve and loss values...
+[47034:MainThread](2026-07-31 19:31:40,791) INFO - qlib.DEnsembleModel - [double_ensemble.py:98] - Sample re-weighting...
+[47034:MainThread](2026-07-31 19:31:41,730) INFO - qlib.DEnsembleModel - [double_ensemble.py:102] - Feature selection...
+[47034:MainThread](2026-07-31 19:33:18,800) INFO - qlib.DEnsembleModel - [double_ensemble.py:81] - Training sub-model: (3/3)
+[LightGBM] [Info] Total Bins 37050
+[LightGBM] [Info] Number of data points in the train set: 174330, number of used features: 171
+[LightGBM] [Info] Start training from score 0.000000
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[20]	train's l2: 0.923483	valid's l2: 0.987978
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Info] Total Bins 17332
+[LightGBM] [Info] Number of data points in the train set: 174330, number of used features: 83
+[LightGBM] [Info] Start training from score 0.043270
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[20]	train's l2: 1.19358	valid's l2: 1.00429
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Info] Total Bins 17435
+[LightGBM] [Info] Number of data points in the train set: 174330, number of used features: 84
+[LightGBM] [Info] Start training from score 0.028916
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[20]	train's l2: 1.13181	valid's l2: 0.995449
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+
+======================================================================
+[Phase B W2024] 池228只 | train('2019-01-01', '2022-12-31') valid('2023-01-01', '2023-11-30')(embargo) 信号2023-12-01~2024-11-30
+======================================================================
+    [流动性] 中位数20日均成交额=0.99亿, 一字涨停24条, 停牌15条
+[47034:MainThread](2026-07-31 19:34:04,038) INFO - qlib.timer - [log.py:127] - Time cost: 24.212s | Loading data Done
+[47034:MainThread](2026-07-31 19:34:05,884) INFO - qlib.timer - [log.py:127] - Time cost: 1.732s | RobustZScoreNorm Done
+[47034:MainThread](2026-07-31 19:34:06,159) INFO - qlib.timer - [log.py:127] - Time cost: 0.273s | Fillna Done
+[47034:MainThread](2026-07-31 19:34:06,408) INFO - qlib.timer - [log.py:127] - Time cost: 0.084s | DropnaLabel Done
+[47034:MainThread](2026-07-31 19:34:07,317) INFO - qlib.timer - [log.py:127] - Time cost: 0.909s | CSZScoreNorm Done
+[47034:MainThread](2026-07-31 19:34:07,322) INFO - qlib.timer - [log.py:127] - Time cost: 3.281s | fit & process data Done
+[47034:MainThread](2026-07-31 19:34:07,323) INFO - qlib.timer - [log.py:127] - Time cost: 27.498s | Init data Done
+[47034:MainThread](2026-07-31 19:34:07,324) INFO - qlib.DEnsembleModel - [double_ensemble.py:57] - Double Ensemble Model...
+[47034:MainThread](2026-07-31 19:34:07,504) INFO - qlib.DEnsembleModel - [double_ensemble.py:81] - Training sub-model: (1/3)
+[47034:MainThread](2026-07-31 19:34:11,922) INFO - qlib.DEnsembleModel - [double_ensemble.py:88] - Retrieving loss curve and loss values...
+[47034:MainThread](2026-07-31 19:34:13,603) INFO - qlib.DEnsembleModel - [double_ensemble.py:98] - Sample re-weighting...
+[47034:MainThread](2026-07-31 19:34:14,768) INFO - qlib.DEnsembleModel - [double_ensemble.py:102] - Feature selection...
+[47034:MainThread](2026-07-31 19:35:50,860) INFO - qlib.DEnsembleModel - [double_ensemble.py:81] - Training sub-model: (2/3)
+[47034:MainThread](2026-07-31 19:35:53,749) INFO - qlib.DEnsembleModel - [double_ensemble.py:88] - Retrieving loss curve and loss values...
+[47034:MainThread](2026-07-31 19:35:55,227) INFO - qlib.DEnsembleModel - [double_ensemble.py:98] - Sample re-weighting...
+[47034:MainThread](2026-07-31 19:35:56,523) INFO - qlib.DEnsembleModel - [double_ensemble.py:102] - Feature selection...
+[47034:MainThread](2026-07-31 19:37:56,010) INFO - qlib.DEnsembleModel - [double_ensemble.py:81] - Training sub-model: (3/3)
+[LightGBM] [Info] Total Bins 36998
+[LightGBM] [Info] Number of data points in the train set: 189069, number of used features: 171
+[LightGBM] [Info] Start training from score -0.000000
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[20]	train's l2: 0.924263	valid's l2: 0.998674
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Info] Total Bins 17796
+[LightGBM] [Info] Number of data points in the train set: 189069, number of used features: 83
+[LightGBM] [Info] Start training from score 0.044674
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[20]	train's l2: 1.19156	valid's l2: 1.01996
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Info] Total Bins 19128
+[LightGBM] [Info] Number of data points in the train set: 189069, number of used features: 86
+[LightGBM] [Info] Start training from score 0.032141
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[20]	train's l2: 1.11471	valid's l2: 1.02255
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+
+======================================================================
+[Phase B W2025] 池274只 | train('2020-01-01', '2023-12-31') valid('2024-01-01', '2024-11-30')(embargo) 信号2024-12-01~2025-11-30
+======================================================================
+    [流动性] 中位数20日均成交额=1.61亿, 一字涨停50条, 停牌64条
+[47034:MainThread](2026-07-31 19:38:49,219) INFO - qlib.timer - [log.py:127] - Time cost: 32.013s | Loading data Done
+[47034:MainThread](2026-07-31 19:38:52,020) INFO - qlib.timer - [log.py:127] - Time cost: 2.670s | RobustZScoreNorm Done
+[47034:MainThread](2026-07-31 19:38:52,553) INFO - qlib.timer - [log.py:127] - Time cost: 0.532s | Fillna Done
+[47034:MainThread](2026-07-31 19:38:52,928) INFO - qlib.timer - [log.py:127] - Time cost: 0.135s | DropnaLabel Done
+[47034:MainThread](2026-07-31 19:38:53,997) INFO - qlib.timer - [log.py:127] - Time cost: 1.069s | CSZScoreNorm Done
+[47034:MainThread](2026-07-31 19:38:54,004) INFO - qlib.timer - [log.py:127] - Time cost: 4.784s | fit & process data Done
+[47034:MainThread](2026-07-31 19:38:54,005) INFO - qlib.timer - [log.py:127] - Time cost: 36.800s | Init data Done
+[47034:MainThread](2026-07-31 19:38:54,007) INFO - qlib.DEnsembleModel - [double_ensemble.py:57] - Double Ensemble Model...
+[47034:MainThread](2026-07-31 19:38:54,310) INFO - qlib.DEnsembleModel - [double_ensemble.py:81] - Training sub-model: (1/3)
+[47034:MainThread](2026-07-31 19:39:00,627) INFO - qlib.DEnsembleModel - [double_ensemble.py:88] - Retrieving loss curve and loss values...
+[47034:MainThread](2026-07-31 19:39:02,744) INFO - qlib.DEnsembleModel - [double_ensemble.py:98] - Sample re-weighting...
+[47034:MainThread](2026-07-31 19:39:04,308) INFO - qlib.DEnsembleModel - [double_ensemble.py:102] - Feature selection...
+[47034:MainThread](2026-07-31 19:40:54,423) INFO - qlib.DEnsembleModel - [double_ensemble.py:81] - Training sub-model: (2/3)
+[47034:MainThread](2026-07-31 19:40:57,297) INFO - qlib.DEnsembleModel - [double_ensemble.py:88] - Retrieving loss curve and loss values...
+[47034:MainThread](2026-07-31 19:40:58,841) INFO - qlib.DEnsembleModel - [double_ensemble.py:98] - Sample re-weighting...
+[47034:MainThread](2026-07-31 19:41:00,616) INFO - qlib.DEnsembleModel - [double_ensemble.py:102] - Feature selection...
+[47034:MainThread](2026-07-31 19:43:11,822) INFO - qlib.DEnsembleModel - [double_ensemble.py:81] - Training sub-model: (3/3)
+[LightGBM] [Info] Total Bins 36971
+[LightGBM] [Info] Number of data points in the train set: 247309, number of used features: 171
+[LightGBM] [Info] Start training from score 0.000000
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[20]	train's l2: 0.927528	valid's l2: 0.99137
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Info] Total Bins 18831
+[LightGBM] [Info] Number of data points in the train set: 247309, number of used features: 84
+[LightGBM] [Info] Start training from score 0.038977
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[20]	train's l2: 1.20363	valid's l2: 1.00805
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Info] Total Bins 18373
+[LightGBM] [Info] Number of data points in the train set: 247309, number of used features: 86
+[LightGBM] [Info] Start training from score 0.025852
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[20]	train's l2: 1.12149	valid's l2: 1.00692
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+
+======================================================================
+[Phase B W2026] 池303只 | train('2021-01-01', '2024-12-31') valid('2025-01-01', '2025-11-30')(embargo) 信号2025-12-01~2026-06-30
+======================================================================
+    [流动性] 中位数20日均成交额=1.42亿, 一字涨停16条, 停牌29条
+[47034:MainThread](2026-07-31 19:43:58,843) INFO - qlib.timer - [log.py:127] - Time cost: 27.760s | Loading data Done
+[47034:MainThread](2026-07-31 19:44:01,459) INFO - qlib.timer - [log.py:127] - Time cost: 2.467s | RobustZScoreNorm Done
+[47034:MainThread](2026-07-31 19:44:01,875) INFO - qlib.timer - [log.py:127] - Time cost: 0.416s | Fillna Done
+[47034:MainThread](2026-07-31 19:44:02,171) INFO - qlib.timer - [log.py:127] - Time cost: 0.121s | DropnaLabel Done
+[47034:MainThread](2026-07-31 19:44:03,142) INFO - qlib.timer - [log.py:127] - Time cost: 0.970s | CSZScoreNorm Done
+[47034:MainThread](2026-07-31 19:44:03,149) INFO - qlib.timer - [log.py:127] - Time cost: 4.305s | fit & process data Done
+[47034:MainThread](2026-07-31 19:44:03,150) INFO - qlib.timer - [log.py:127] - Time cost: 32.068s | Init data Done
+[47034:MainThread](2026-07-31 19:44:03,152) INFO - qlib.DEnsembleModel - [double_ensemble.py:57] - Double Ensemble Model...
+[47034:MainThread](2026-07-31 19:44:03,418) INFO - qlib.DEnsembleModel - [double_ensemble.py:81] - Training sub-model: (1/3)
+[47034:MainThread](2026-07-31 19:44:09,392) INFO - qlib.DEnsembleModel - [double_ensemble.py:88] - Retrieving loss curve and loss values...
+[47034:MainThread](2026-07-31 19:44:11,864) INFO - qlib.DEnsembleModel - [double_ensemble.py:98] - Sample re-weighting...
+[47034:MainThread](2026-07-31 19:44:13,619) INFO - qlib.DEnsembleModel - [double_ensemble.py:102] - Feature selection...
+[47034:MainThread](2026-07-31 19:46:27,558) INFO - qlib.DEnsembleModel - [double_ensemble.py:81] - Training sub-model: (2/3)
+[47034:MainThread](2026-07-31 19:46:30,670) INFO - qlib.DEnsembleModel - [double_ensemble.py:88] - Retrieving loss curve and loss values...
+[47034:MainThread](2026-07-31 19:46:32,406) INFO - qlib.DEnsembleModel - [double_ensemble.py:98] - Sample re-weighting...
+[47034:MainThread](2026-07-31 19:46:34,313) INFO - qlib.DEnsembleModel - [double_ensemble.py:102] - Feature selection...
+[47034:MainThread](2026-07-31 19:49:27,078) INFO - qlib.DEnsembleModel - [double_ensemble.py:81] - Training sub-model: (3/3)
+[LightGBM] [Info] Total Bins 36788
+[LightGBM] [Info] Number of data points in the train set: 281484, number of used features: 171
+[LightGBM] [Info] Start training from score 0.000000
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[20]	train's l2: 0.926586	valid's l2: 1.00625
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Info] Total Bins 18404
+[LightGBM] [Info] Number of data points in the train set: 281484, number of used features: 86
+[LightGBM] [Info] Start training from score 0.033472
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[20]	train's l2: 1.19392	valid's l2: 1.03325
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Info] Total Bins 18461
+[LightGBM] [Info] Number of data points in the train set: 281484, number of used features: 87
+[LightGBM] [Info] Start training from score 0.023313
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[20]	train's l2: 1.12734	valid's l2: 1.03166
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+[CHECK] 沪深300基准(csi300_cache): 2019-01-02 ~ 2026-07-28 (1835天)
+
+================================================================================================
+  Phase B 分年收益 (完整7窗口滚动) (月频, T+1, 往返成本0.4%)
+================================================================================================
+策略                       2020     2021     2022     2023     2024     2025     2026
+DoubleEnsemble Top10    38.7%    40.6%    12.6%    29.0%    29.5%    33.7%     3.3%
+value_comp Top20       7.9%    21.6%    10.0%    37.1%    39.2%    24.0%    -0.5%
+十年双正池等权               21.7%    13.4%    -8.9%     5.9%    11.1%    17.6%    -7.6%
+沪深300基准               27.2%    -5.2%   -21.6%   -11.4%    14.7%    17.7%    -1.3%
+
+================================================================================================
+  Phase B 整体指标 (图1口径; 与 value_comp Top20 头对头)
+================================================================================================
+                  策略     年化收益  年化(剔20)     年化波动 Sharpe     最大回撤 Calmar     IC RankIC      换手率  交易次数
+DoubleEnsemble Top10   28.30%   26.48%   25.92%   1.09  -40.40%   0.70 0.0619 0.0736   82.30%   648
+    value_comp Top20   20.66%   23.11%   20.50%   1.01  -19.34%   1.07 0.0582 0.0780   16.50%   226
+             十年双正池等权    7.58%    5.19%   20.78%   0.36  -27.10%   0.28   n/a    n/a     9.14%   663
+             沪深300基准    1.69%   -2.35%   18.74%   0.09  -45.60%   0.04   n/a    n/a     0.00%     0
+
+[+] Phase B 结果已存 /Users/11164591/Documents/Qoder目录/qlib/quant/outputs/benchmark_phaseB_deD.csv

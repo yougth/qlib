@@ -1,0 +1,1 @@
+{"model": "TabNet", "status": "ok", "oos_rankic": 0.0688, "oos_ic": 0.044, "ar": 0.0093, "vol": 0.1833, "sharpe": 0.051, "mdd": -0.2989, "calmar": 0.031, "excess_ar": -0.0491, "turnover": 0.9094, "n_buys": 395, "n_signals": 43, "yearly": {"2023": 0.0411, "2024": 0.1366, "2025": 0.0545, "2026": -0.1721}, "seconds": 1125.8}

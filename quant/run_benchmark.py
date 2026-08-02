@@ -27,6 +27,14 @@ import os
 os.environ.setdefault("KMP_DUPLICATE_LIB_OK", "TRUE")
 
 import sys
+
+# --- 复现性: Python 字符串哈希随机化会让 set/dict 遍历顺序因进程而异, 导致 DE 等
+#     模型的特征采样跨进程不可复现 (同进程可复现). PYTHONHASHSEED 必须在解释器
+#     启动前生效, 代码里设置无效 → 未设置时用固定值 re-exec 自身. ---
+if os.environ.get("PYTHONHASHSEED") != "0":
+    os.environ["PYTHONHASHSEED"] = "0"
+    os.execv(sys.executable, [sys.executable] + sys.argv)
+
 import gc
 import json
 import time
@@ -43,7 +51,7 @@ def set_seed(seed=42):
     random.seed(seed)
     import numpy as _np
     _np.random.seed(seed)
-    os.environ["PYTHONHASHSEED"] = str(seed)
+    # PYTHONHASHSEED 已在文件头 re-exec 处固定为 0, 此处不再覆盖
 
 
 set_seed(42)
@@ -55,12 +63,14 @@ import pandas as pd
 
 from core import config
 from core import data as datalayer
+from core import strategy
 from core.universe import (build_windows, build_dynamic_universe, format_qlib_code,
                            load_pit_caches)
-from core.valuation import load_valuation, value_comp_score
+from core.valuation import load_valuation
 from core.dataset import build_datasetH
 from core.models import train_qlib_model
-from core.tradability import build_tradability, get_month_end_dates, build_candidates
+from core.pipeline import zscore_mean
+from core.tradability import build_tradability
 from core.backtest import (portfolio_backtest, calc_metrics, annualized_since,
                            print_yearly_table, print_metric_table)
 
@@ -72,53 +82,16 @@ SPECIAL = ("VALUE20", "POOL_EW")          # 非训练对照系 (纯估值 / 全�
 
 
 # ==================================================================
-#  信号 → 回测: 把一段预测 (或 value 打分) 转成月频 T+1 组合与图1指标
+#  信号 → 回测: 统一走 core.strategy (口径与 run_rolling / live 完全一致)
+#  初筛阶段 strict=False: 允许个别月份缺预测截面/候选不足时跳过, 由 n_ok 回报
 # ==================================================================
 def _signals_for_window(name, pred, universe, cal, val_piv, xs, xe,
                         limit_up, susp, liq, fwd_mat, topk, ic_records=None,
                         rebalances=None, win_name=""):
-    """单窗口: 遍历月末信号日, 产出 (exec_dt, 持仓) 追加到 rebalances[name]。
-    pred=None 表示 value/pool 对照系。同时累计该模型 OOS 截面 IC/RankIC。"""
-    cal_idx = pd.DatetimeIndex(cal)
-    sig_dates = get_month_end_dates(cal, xs, xe)
-    n_ok = 0
-    for sig_dt in sig_dates:
-        if pred is not None:
-            if sig_dt not in pred.index.get_level_values(0):
-                continue
-            cross = pred.xs(sig_dt, level=0)
-            base_idx = cross.index
-        else:
-            base_idx = pd.Index(universe)
-        cand = build_candidates(base_idx, sig_dt, limit_up, susp, liq)
-        if len(cand) < topk:
-            continue
-        if pred is not None:
-            score = cross.reindex(cand)
-        else:
-            score = value_comp_score(cand, sig_dt, val_piv).reindex(cand)
-
-        if fwd_mat is not None and sig_dt in fwd_mat.index and ic_records is not None:
-            fwd = fwd_mat.loc[sig_dt].reindex(cand)
-            df = pd.concat([score, fwd], axis=1).dropna()
-            if len(df) >= 10:
-                ic_records.append({"window": win_name, "model": name, "sig_date": sig_dt,
-                                   "ic": df.iloc[:, 0].corr(df.iloc[:, 1]),
-                                   "rank_ic": df.iloc[:, 0].corr(df.iloc[:, 1], method="spearman")})
-
-        pos = int(cal_idx.searchsorted(sig_dt)) + 1
-        if pos >= len(cal_idx):
-            continue
-        exec_dt = cal_idx[pos]
-        if name == "POOL_EW":
-            top = cand.tolist()
-        else:
-            top = score.dropna().nlargest(topk).index.tolist()
-        if not top:
-            continue
-        rebalances[name].append((exec_dt, top))
-        n_ok += 1
-    return n_ok
+    return strategy.emit_window_signals(
+        name, pred, universe, cal, val_piv, xs, xe, limit_up, susp, liq,
+        fwd_mat, topk, ic_records=ic_records, rebalances=rebalances,
+        win_name=win_name, strict=False)
 
 
 # ==================================================================
@@ -138,13 +111,15 @@ def run_worker(name, out_path):
         xs, xe = seg["test"]
         print(f"[worker {name}] 冻结股票池 {len(universe)} 只 | "
               f"train{seg['train']} valid{seg['valid']}(embargo) 信号{seg['test']}", flush=True)
+        # 行情覆盖率门禁 (无行情的池成员会被 build_candidates 静默剔除 → 选择偏差)
+        datalayer.assert_market_coverage(universe, xs, config.BT_END, tag=f"PhaseA/{name}")
 
         if name in SPECIAL:
             pred = None
         else:
             mcfg = config.MODEL_CONFIGS[name]
             dataset = build_datasetH(seg, universe, ds_class=mcfg["ds"])
-            _, pred = train_qlib_model(name, dataset)
+            _, pred = train_qlib_model(name, dataset, seed_key=f"{name}:phaseA")
             del dataset
             gc.collect()
 
@@ -273,7 +248,7 @@ def _print_phase_a(df):
 # ==================================================================
 #  Phase B: 指定模型进入完整 7 窗口滚动, 与 value_comp/pool 头对头
 # ==================================================================
-def run_phase_b(models, tag=""):
+def run_phase_b(models, tag="", n_seeds=1):
     os.makedirs(OUT_DIR, exist_ok=True)
     if not models:
         raise SystemExit("Phase B 需 --models 指定模型 (通常取 Phase A 前几名)")
@@ -286,13 +261,26 @@ def run_phase_b(models, tag=""):
     tags = list(models) + list(SPECIAL)
     rebalances = {t: [] for t in tags}
     ic_records = []
+    # 断点续跑: 存在 checkpoint 则跳过已完成窗口 (窗口间独立训练, 续跑不影响结果)
+    import pickle
+    suffix = f"_{tag}" if tag else ""
+    ckpt_path = f"{OUT_DIR}/_phaseB_ckpt{suffix}.pkl"
+    done_upto = None
+    if os.path.exists(ckpt_path):
+        with open(ckpt_path, "rb") as f:
+            d = pickle.load(f)
+        rebalances, ic_records, done_upto = d["rebalances"], d["ic_records"], d["done_windows"]
+        print(f"[resume] 发现 checkpoint, 已完成至 {done_upto}, 跳过之前窗口", flush=True)
     for win in windows:
+        if done_upto and win["name"] <= done_upto:
+            continue
         y = win["year"]
         xs, xe = win["test"]
         codes = build_dynamic_universe(y, fcf_df, profit_df)
         universe = [format_qlib_code(c) for c in codes]
         print(f"\n{'='*70}\n[Phase B {win['name']}] 池{len(universe)}只 | train{win['train']} "
               f"valid{win['valid']}(embargo) 信号{xs}~{xe}\n{'='*70}", flush=True)
+        datalayer.assert_market_coverage(universe, xs, win["bt_end"], tag=f"PhaseB/{win['name']}")
         limit_up, susp, liq = build_tradability(universe, xs, xe)
         fwd_mat = datalayer.forward_return_matrix(universe, xs, xe)
         seg = {"train": win["train"], "valid": win["valid"], "test": win["test"]}
@@ -300,7 +288,19 @@ def run_phase_b(models, tag=""):
         for name in models:
             try:
                 dataset = build_datasetH(seg, universe, ds_class=config.MODEL_CONFIGS[name]["ds"])
-                _, preds[name] = train_qlib_model(name, dataset)
+                # seed_key 锁定随机流: 同窗口同模型任何时候重训结果一致(与续跑路径无关)
+                # n_seeds>1 = 种子集成: 各种子预测 z-score 后平均降噪 (不是挑最优种子,
+                # 期望不变方差更小; 全部 seed_key 固定, 结果仍永久可复现)
+                if n_seeds <= 1:
+                    _, preds[name] = train_qlib_model(name, dataset, seed_key=f"{name}:{win['name']}")
+                else:
+                    ps = []
+                    for k in range(n_seeds):
+                        sk = f"{name}:{win['name']}" if k == 0 else f"{name}:{win['name']}#s{k}"
+                        _, p = train_qlib_model(name, dataset, seed_key=sk)
+                        ps.append(p)
+                        print(f"    [{name}] 种子{k+1}/{n_seeds} 完成", flush=True)
+                    preds[name] = zscore_mean(ps)   # 融合口径与 live 推理共用同一实现
                 del dataset
                 gc.collect()
             except Exception as e:
@@ -319,9 +319,7 @@ def run_phase_b(models, tag=""):
                             limit_up, susp, liq, None, TOPK,
                             ic_records=None, rebalances=rebalances, win_name=win["name"])
         # 每窗口落盘 checkpoint, 长任务中途崩溃/重启不丢已完成窗口
-        import pickle
-        suffix = f"_{tag}" if tag else ""
-        with open(f"{OUT_DIR}/_phaseB_ckpt{suffix}.pkl", "wb") as f:
+        with open(ckpt_path, "wb") as f:
             pickle.dump({"done_windows": win["name"], "rebalances": rebalances,
                          "ic_records": ic_records}, f)
 
@@ -329,6 +327,8 @@ def run_phase_b(models, tag=""):
 
 
 def _finalize_phase_b(tags, models, rebalances, ic_records, tag=""):
+    # 先算输出后缀: 下方 for tag in tags 循环会遮蔽参数 tag (曾导致文件存成 _POOL_EW 后缀)
+    suffix = f"_{tag}" if tag else ""
     all_insts = sorted({i for t in tags for _, tops in rebalances[t] for i in tops})
     price_mat = datalayer.load_price_matrix(all_insts)
     bench = datalayer.load_benchmark()
@@ -369,7 +369,6 @@ def _finalize_phase_b(tags, models, rebalances, ic_records, tag=""):
     print_yearly_table(yearly_all, order, labels, title="Phase B 分年收益 (完整7窗口滚动)")
     mdf = pd.DataFrame(metric_rows)
     print_metric_table(mdf, title="Phase B 整体指标 (图1口径; 与 value_comp Top20 头对头)")
-    suffix = f"_{tag}" if tag else ""
     csv_path = f"{OUT_DIR}/benchmark_phaseB{suffix}.csv"
     mdf.to_csv(csv_path, sep="\t", index=False)
     pd.DataFrame(yearly_all).T.to_csv(f"{OUT_DIR}/benchmark_phaseB_yearly{suffix}.csv", sep="\t")
@@ -386,7 +385,9 @@ def main():
                     help="Phase A 单模型 wall-clock 秒预算")
     ap.add_argument("--worker", default="", help="内部: 单模型 worker 名")
     ap.add_argument("--out", default="", help="内部: worker JSON 输出路径")
-    ap.add_argument("--tag", default="", help="Phase B 输出文件后缀, 多进程并行时隔离结果")
+    ap.add_argument("--tag", default="", help="Phase B 输出文件后缀, 多进程 并行时隔离结果")
+    ap.add_argument("--seeds", type=int, default=1,
+                    help="Phase B 种子集成数: >1 时各种子预测 z-score 平均降噪(非挑种子)")
     args = ap.parse_args()
 
     if args.worker:
@@ -396,7 +397,7 @@ def main():
     if args.phase == "A":
         run_phase_a(models, args.budget)
     else:
-        run_phase_b(models, tag=args.tag)
+        run_phase_b(models, tag=args.tag, n_seeds=args.seeds)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,54 @@
+{
+  "signal_date": "2026-07-23",
+  "capital": 50000.0,
+  "model": "Linear",
+  "year": 2026,
+  "manifest": [
+    {
+      "path": "Linear_W2026_s0.pkl",
+      "sha256": "46fe60c23701fc2e54b2acd2aaeaef1c3730265846892dc83aef594f8c7c2b77",
+      "bytes": 990
+    }
+  ],
+  "config_hash": "4a3e9640d387df49",
+  "git_commit": "c50a7f1b",
+  "sleeves": {
+    "DE": {
+      "weight": 0.4,
+      "topk": 5
+    },
+    "V20": {
+      "weight": 0.6,
+      "topk": 10
+    }
+  },
+  "summary": {
+    "capital": 50000.0,
+    "invested": 49740.214228630066,
+    "cash_left": 259.7857713699341,
+    "cash_pct": 0.005195715427398682,
+    "n_positions": 15,
+    "n_orders": 15,
+    "sleeve_invested": {
+      "DE": 19925.06422996521,
+      "V20": 29815.149998664856
+    },
+    "sleeve_target": {
+      "DE": 20000.0,
+      "V20": 30000.0
+    },
+    "max_weight_dev": 0.337999979654948
+  },
+  "skipped": [
+    {
+      "sleeve": "V20",
+      "instrument": "SH601318",
+      "reason": "一手5430元 > 目标3000×1.5"
+    }
+  ],
+  "turnover": {
+    "turnover": 0.0,
+    "traded_amount": 0.0,
+    "est_cost": 0.0
+  }
+}

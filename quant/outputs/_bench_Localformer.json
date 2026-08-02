@@ -1,1 +1,0 @@
-{"model": "Localformer", "status": "ok", "oos_rankic": 0.058, "oos_ic": 0.0238, "ar": 0.0699, "vol": 0.1779, "sharpe": 0.393, "mdd": -0.217, "calmar": 0.322, "excess_ar": 0.0115, "turnover": 0.7957, "n_buys": 345, "n_signals": 43, "yearly": {"2023": 0.062, "2024": 0.124, "2025": 0.0166, "2026": 0.0456}, "seconds": 4079.9}

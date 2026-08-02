@@ -32,11 +32,19 @@ def load_valuation():
 
 
 def value_comp_score(candidates, sig, val_piv):
-    """信号日 value_comp: 4估值倒数在池内截面 rank 百分位均值(越大越便宜)"""
+    """信号日 value_comp: 4估值倒数在池内截面 rank 百分位均值(越大越便宜)
+
+    估值缓存只覆盖 472 只股票, 而各年股票池有 137~303 只, 池内不在此 472 只中的
+    成员拿不到估值数据 → rank 只在有数据的那部分里排 → VAL 策略只在“今天才知道
+    有估值的子集”里选股 = 前视选择偏差。这里加覆盖率门禁让人看见。"""
     f = pd.DataFrame(index=pd.Index(sorted(candidates), name="instrument"))
     for c in config.VALUE_FACTORS:
         pv = val_piv[c].loc[:sig]
         row = pv.iloc[-1] if len(pv) else pd.Series(dtype=float)
         f[c] = row.reindex(f.index)
+    miss = f.isna().all(axis=1).sum()
+    if miss > len(f) * 0.10:
+        print(f"    [WARN] {sig.date()} value_comp: {miss}/{len(f)} 只候选无估值数据 "
+              f"({miss/len(f):.0%}), VAL 策略选股宇宙被估值缓存覆盖范围决定", flush=True)
     vc = pd.concat([f[c].rank(pct=True) for c in config.VALUE_FACTORS], axis=1).mean(axis=1)
     return vc

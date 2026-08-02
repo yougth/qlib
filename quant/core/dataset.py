@@ -85,100 +85,27 @@ def build_dataset(win, universe, fcf_df, profit_df, cal, label=None, inject_fund
           f"NaN={nan_pct:.2f}%", flush=True)
     if nan_pct > 5:
         raise RuntimeError(f"[CHECK] 特征NaN比例{nan_pct:.1f}%过高!")
+
+    # ---- check: 死特征 (全 NaN 或零方差) ----
+    # Alpha158 默认含 $vwap 特征, 若 qlib bin 无 vwap.day.bin → 全 NaN → Fillna 填 0
+    # → 常数列。Alpha158Enhanced 已显式滤掉 $vwap, 但若将来加了新字段也缺 bin, 
+    # 这条检查会让人看见, 而不是静默让模型在坏特征上浪费容量。
+    col_nan = X_tr.isna().all()
+    col_var = X_tr.var()
+    dead = col_nan | (col_var < 1e-12)
+    if dead.any():
+        names = list(dead[dead].index[:10])
+        raise RuntimeError(
+            f"[CHECK] 训练特征中有 {int(dead.sum())} 列全 NaN 或零方差 (死特征)!\n"
+            f"    例: {names}\n"
+            f"    这通常是 Alpha158 引用了不存在的 qlib 字段 (如 $vwap)。\n"
+            f"    请检查 Alpha158Enhanced.get_feature_config 是否滤掉了无 bin 的字段。")
     del train_df, valid_df
     gc.collect()
 
     return {"X_tr": X_tr, "y_tr": y_tr, "X_va": X_va, "y_va": y_va,
             "test_X": test_X, "n_inst": n_inst, "cov": cov,
             "feat_cols": list(X_tr.columns)}
-
-
-def build_datasetH(seg, universe, label=None, ds_class="DatasetH", step_len=20):
-    """构造 qlib 原生 Dataset (DatasetH / TSDatasetH), 供 27 模型基准统一调用。
-    与滚动引擎共用同一 handler 口径 (Alpha158Enhanced + 同 processors + 同 embargo 分段 +
-    同 20 日后向 label), 单点保证无穿越。DL 序列模型需 TSDatasetH(step_len)。
-    注: 基准走 qlib 原生 model API, 不注入 build_dataset 的 5 个 FCF 因子。"""
-    ts, te = seg["train"]
-    vs, ve = seg["valid"]
-    xs, xe = seg["test"]
-    label = label or DEFAULT_LABEL
-    dhc = _handler_config(universe, ts, te, xe, label)
-    kwargs = {"handler": {"class": "Alpha158Enhanced", "module_path": "core.features",
-                          "kwargs": dhc},
-              "segments": {"train": (ts, te), "valid": (vs, ve), "test": (xs, xe)}}
-    if ds_class == "TSDatasetH":
-        kwargs["step_len"] = step_len
-    dsc = {"class": ds_class, "module_path": "qlib.data.dataset", "kwargs": kwargs}
-    return init_instance_by_config(dsc)
-
-
-def build_datasetH(seg, universe, label=None, ds_class="DatasetH", step_len=20):
-    """构造 qlib 原生 Dataset (DatasetH / TSDatasetH), 供 27 模型基准统一调用。
-    与滚动引擎共用同一 handler 口径 (Alpha158Enhanced + 同 processors + 同 embargo 分段 +
-    同 20 日后向 label), 单点保证无穿越。DL 序列模型需 TSDatasetH(step_len)。
-    注: 基准走 qlib 原生 model API, 不注入 build_dataset 的 5 个 FCF 因子。"""
-    ts, te = seg["train"]
-    vs, ve = seg["valid"]
-    xs, xe = seg["test"]
-    label = label or DEFAULT_LABEL
-    dhc = _handler_config(universe, ts, te, xe, label)
-    kwargs = {"handler": {"class": "Alpha158Enhanced", "module_path": "core.features",
-                          "kwargs": dhc},
-              "segments": {"train": (ts, te), "valid": (vs, ve), "test": (xs, xe)}}
-    if ds_class == "TSDatasetH":
-        kwargs["step_len"] = step_len
-    dsc = {"class": ds_class, "module_path": "qlib.data.dataset", "kwargs": kwargs}
-    return init_instance_by_config(dsc)
-
-
-def build_datasetH(seg, universe, label=None, ds_class="DatasetH", step_len=20):
-    """构造 qlib 原生 Dataset (DatasetH / TSDatasetH), 供 27 模型基准统一调用。
-    与滚动引擎共用同一 handler 口径 (Alpha158Enhanced + 同 processors + 同 embargo 分段 +
-    同 20 日后向 label), 单点保证无穿越。DL 序列模型需 TSDatasetH(step_len)。
-
-    seg: dict(train=(ts,te), valid=(vs,ve), test=(xs,xe))
-    返回: qlib Dataset 实例 (喂给 init_instance_by_config 出来的模型 .fit/.predict)
-
-    注: 基准走 qlib 原生 model API, 不注入 build_dataset 的 5 个 FCF 因子
-    (那是滚动引擎 XGB/LGB 的专属增强); 基准比较"同一 Alpha158Enhanced 特征下模型架构优劣"。
-    """
-    ts, te = seg["train"]
-    vs, ve = seg["valid"]
-    xs, xe = seg["test"]
-    label = label or DEFAULT_LABEL
-    dhc = _handler_config(universe, ts, te, xe, label)
-    kwargs = {"handler": {"class": "Alpha158Enhanced", "module_path": "core.features",
-                          "kwargs": dhc},
-              "segments": {"train": (ts, te), "valid": (vs, ve), "test": (xs, xe)}}
-    if ds_class == "TSDatasetH":
-        kwargs["step_len"] = step_len
-    dsc = {"class": ds_class, "module_path": "qlib.data.dataset", "kwargs": kwargs}
-    return init_instance_by_config(dsc)
-
-
-def build_datasetH(seg, universe, label=None, ds_class="DatasetH", step_len=20):
-    """构造 qlib 原生 Dataset (DatasetH / TSDatasetH), 供 27 模型基准统一调用。
-    与滚动引擎共用同一 handler 口径 (Alpha158Enhanced + 同 processors + 同 embargo 分段 +
-    同 20 日后向 label), 单点保证无穿越。DL 序列模型需 TSDatasetH(step_len)。
-
-    seg: dict(train=(ts,te), valid=(vs,ve), test=(xs,xe))
-    返回: qlib Dataset 实例 (可直接喂给 init_instance_by_config 出来的模型 .fit/.predict)
-
-    注: 基准走 qlib 原生 model API, 不注入 build_dataset 的 5 个 FCF 因子
-    (那是滚动引擎 XGB/LGB 的专属增强); 基准比较"同一 Alpha158Enhanced 特征下模型架构优劣"。
-    """
-    ts, te = seg["train"]
-    vs, ve = seg["valid"]
-    xs, xe = seg["test"]
-    label = label or DEFAULT_LABEL
-    dhc = _handler_config(universe, ts, te, xe, label)
-    kwargs = {"handler": {"class": "Alpha158Enhanced", "module_path": "core.features",
-                          "kwargs": dhc},
-              "segments": {"train": (ts, te), "valid": (vs, ve), "test": (xs, xe)}}
-    if ds_class == "TSDatasetH":
-        kwargs["step_len"] = step_len
-    dsc = {"class": ds_class, "module_path": "qlib.data.dataset", "kwargs": kwargs}
-    return init_instance_by_config(dsc)
 
 
 def build_datasetH(seg, universe, label=None, ds_class="DatasetH", step_len=20):

@@ -1,0 +1,51 @@
+{
+  "signal_date": "2026-07-23",
+  "strategy": "VGH",
+  "strategy_label": "VGH Top10 (结构化剥离)",
+  "capital": 50000.0,
+  "year": 2027,
+  "config_hash_ablate_sumd": true,
+  "summary": {
+    "capital": 50000.0,
+    "invested": 49906.99989318848,
+    "cash_left": 93.00010681152344,
+    "cash_pct": 0.0018600021362304687,
+    "n_positions": 10,
+    "n_orders": 10,
+    "sleeve_invested": {
+      "VGH": 49906.99989318848
+    },
+    "sleeve_target": {
+      "VGH": 50000.0
+    },
+    "max_weight_dev": 0.3437999725341797
+  },
+  "skipped": [
+    {
+      "sleeve": "VGH",
+      "instrument": "hk09988",
+      "reason": "一手11490元 > 目标5000×1.5"
+    },
+    {
+      "sleeve": "VGH",
+      "instrument": "hk00700",
+      "reason": "一手44520元 > 目标5000×1.5"
+    },
+    {
+      "sleeve": "VGH",
+      "instrument": "hk00388",
+      "reason": "一手40620元 > 目标5000×1.5"
+    }
+  ],
+  "turnover": {
+    "turnover": 0.5,
+    "traded_amount": 49906.99989318848,
+    "est_cost": 99.81399978637695
+  },
+  "sleeves": {
+    "VGH": {
+      "weight": 1.0,
+      "topk": 10
+    }
+  }
+}

@@ -36,18 +36,22 @@ def build_tradability(universe, start, end):
     px["avg20"] = px.groupby("instrument")["amount"].transform(
         lambda x: x.rolling(20, min_periods=10).mean())
     liq = px.set_index(["datetime", "instrument"])["avg20"]
+    # 收盘价 (真实价, 用于最低股价红线过滤)
+    px["real_close"] = px["close"] / fac
+    close_px = px.set_index(["datetime", "instrument"])["real_close"]
     # ---- check: 单位自检, 池内中位数成交额应在合理量级 (1e6~1e11) ----
     med = liq.dropna().median()
     if not (1e6 < med < 1e11):
         raise RuntimeError(f"[CHECK] 流动性单位异常: 池内20日均成交额中位数={med:.3g}元!")
-    # ---- check: 复权因子缺失率 (缺了就退化成复权价口径, 必须让人看见) ----
-    fac_miss = float(fac.isna().mean())
+    # ---- check: 复权因子缺失率 (只在有效行情行上算, 停牌/退市缺因子是正常) ----
+    valid_px = px["close"].notna()
+    fac_miss = float(fac[valid_px].isna().mean()) if valid_px.any() else 0.0
     if fac_miss > 0.01:
         raise RuntimeError(f"[CHECK] $factor 缺失率 {fac_miss:.1%} > 1%, "
                            f"流动性口径不可信!")
     print(f"    [流动性] 中位数20日均成交额={med/1e8:.2f}亿, 一字涨停{len(limit_up)}条, "
           f"停牌{len(suspension)}条", flush=True)
-    return limit_up, suspension, liq
+    return limit_up, suspension, liq, close_px
 
 
 def get_month_end_dates(cal, start, end):
@@ -59,8 +63,18 @@ def get_month_end_dates(cal, start, end):
     return out
 
 
-def build_candidates(base_idx, sig_dt, limit_up, susp, liq):
-    """model-agnostic 可交易候选集: 过滤一字涨停/停牌/流动性不足"""
+def get_biweekly_dates(cal, start, end):
+    """每10个交易日取一个信号日 (双周频, ~2次/月).
+
+    与月末信号日不同: 双周频更频繁调仓, 适合短期反转特征 (信息衰减快).
+    首日不取 (特征需要 lookback), 从第10个交易日开始.
+    """
+    dates = [d for d in cal if pd.Timestamp(start) <= d <= pd.Timestamp(end)]
+    return dates[9::10]  # 从第10个交易日起, 每10日一信号
+
+
+def build_candidates(base_idx, sig_dt, limit_up, susp, liq, px=None):
+    """model-agnostic 可交易候选集: 过滤一字涨停/停牌/流动性不足/低价壳价值"""
     cand = []
     for inst in base_idx:
         if (sig_dt, inst) in limit_up or (sig_dt, inst) in susp:
@@ -68,5 +82,12 @@ def build_candidates(base_idx, sig_dt, limit_up, susp, liq):
         a = liq.get((sig_dt, inst), np.nan)
         if pd.isna(a) or a < config.LIQ_THRESHOLD:
             continue
+        # 最低股价红线: 剔除壳价值特征小微盘 (低价股 = 流动性消失的高危标的)
+        # 仅A股: 壳价值是A股注册制前的特有现象; 港股优质股常年在1-2港币 (如香港中旅),
+        # 统一低价线会误杀, 港股由流动性阈值单独把关
+        if px is not None and config.MIN_PRICE > 0 and not inst.startswith("hk"):
+            p = px.get((sig_dt, inst), np.nan)
+            if pd.isna(p) or p < config.MIN_PRICE:
+                continue
         cand.append(inst)
     return pd.Index(cand)

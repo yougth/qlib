@@ -1,0 +1,214 @@
+[50125:MainThread](2026-09-03 13:38:49,626) INFO - qlib.Initialization - [config.py:473] - default_conf: client.
+[50125:MainThread](2026-09-03 13:38:50,011) INFO - qlib.Initialization - [__init__.py:82] - qlib successfully initialized based on client settings.
+[50125:MainThread](2026-09-03 13:38:50,011) INFO - qlib.Initialization - [__init__.py:84] - data_path={'__DEFAULT_FREQ': PosixPath('/Users/11164591/Documents/Qoder目录/qlib/data_cache/qlib_cn_tencent')}
+[qlib] 数据源: /Users/11164591/Documents/Qoder目录/qlib/data_cache/qlib_cn_tencent
+[CHECK] 合并港股FCF: +1878行, 88只
+[CHECK] 合并港股利润: +1877行, 88只
+[CHECK] fcf_pit合并后: (95518, 6), 5542只, 1996~2026 | profit_pit: (57552, 4), 5536只, 1996~2026
+[CHECK] 交易日历: 2014-01-02 ~ 2026-07-23 (3052天)
+[CHECK] 合并港股估值: +233821行, 83只
+[CHECK] 估值缓存(合并后): 3169日 × 561股, 2013-05-24~2026-07-23
+
+======================================================================
+[W2020] 池:2009~2018十年双正 | train 2015-01-01~2018-11-30 | valid 2019-01-01~2019-10-31(embargo) | 信号 2019-12-01~2020-11-30
+======================================================================
+  股票池: 191 只
+[CHECK] W2020 行情覆盖率 189/191 = 99.0%, 缺失例: ['SH601728', 'SZ000418']
+[50125:MainThread](2026-09-03 13:39:07,307) INFO - qlib.timer - [log.py:127] - Time cost: 11.727s | Loading data Done
+[50125:MainThread](2026-09-03 13:39:08,513) INFO - qlib.timer - [log.py:127] - Time cost: 1.151s | RobustZScoreNorm Done
+[50125:MainThread](2026-09-03 13:39:08,674) INFO - qlib.timer - [log.py:127] - Time cost: 0.160s | Fillna Done
+[50125:MainThread](2026-09-03 13:39:08,838) INFO - qlib.timer - [log.py:127] - Time cost: 0.049s | DropnaLabel Done
+[50125:MainThread](2026-09-03 13:39:09,374) INFO - qlib.timer - [log.py:127] - Time cost: 0.535s | CSZScoreNorm Done
+[50125:MainThread](2026-09-03 13:39:09,376) INFO - qlib.timer - [log.py:127] - Time cost: 2.069s | fit & process data Done
+[50125:MainThread](2026-09-03 13:39:09,376) INFO - qlib.timer - [log.py:127] - Time cost: 13.797s | Init data Done
+  [CHECK] 行情覆盖: 184/191 (96%)
+  特征矩阵: train (157231, 178), valid (37253, 178), test (45641, 178), NaN=0.00%
+    [W2020-XGB] best_iter=874, valid RankIC=0.0698 → OK
+    [W2020-LGB] best_iter=178, valid RankIC=0.0796 → OK
+    [W2020-DE] best_iter=199, valid RankIC=0.0676 → OK
+    [流动性] 中位数20日均成交额=3.12亿, 一字涨停24条, 停牌477条
+
+======================================================================
+[W2021] 池:2010~2019十年双正 | train 2016-01-01~2019-11-30 | valid 2020-01-01~2020-10-31(embargo) | 信号 2020-12-01~2021-11-30
+======================================================================
+  股票池: 222 只
+[CHECK] W2021 行情覆盖率 221/222 = 99.5%, 缺失例: ['SH600317']
+[50125:MainThread](2026-09-03 13:45:56,354) INFO - qlib.timer - [log.py:127] - Time cost: 13.735s | Loading data Done
+[50125:MainThread](2026-09-03 13:45:57,624) INFO - qlib.timer - [log.py:127] - Time cost: 1.210s | RobustZScoreNorm Done
+[50125:MainThread](2026-09-03 13:45:57,804) INFO - qlib.timer - [log.py:127] - Time cost: 0.179s | Fillna Done
+[50125:MainThread](2026-09-03 13:45:58,075) INFO - qlib.timer - [log.py:127] - Time cost: 0.059s | DropnaLabel Done
+[50125:MainThread](2026-09-03 13:45:58,605) INFO - qlib.timer - [log.py:127] - Time cost: 0.530s | CSZScoreNorm Done
+[50125:MainThread](2026-09-03 13:45:58,609) INFO - qlib.timer - [log.py:127] - Time cost: 2.254s | fit & process data Done
+[50125:MainThread](2026-09-03 13:45:58,609) INFO - qlib.timer - [log.py:127] - Time cost: 15.990s | Init data Done
+  [CHECK] 行情覆盖: 216/222 (97%)
+  特征矩阵: train (184745, 178), valid (43005, 178), test (53013, 178), NaN=0.00%
+    [W2021-XGB] best_iter=548, valid RankIC=0.1143 → OK
+    [W2021-LGB] best_iter=165, valid RankIC=0.1089 → OK
+    [W2021-DE] best_iter=124, valid RankIC=0.1060 → OK
+    [流动性] 中位数20日均成交额=2.14亿, 一字涨停13条, 停牌569条
+
+======================================================================
+[W2022] 池:2011~2020十年双正 | train 2017-01-01~2020-11-30 | valid 2021-01-01~2021-10-31(embargo) | 信号 2021-12-01~2022-11-30
+======================================================================
+  股票池: 253 只
+[CHECK] W2022 行情覆盖率 252/253 = 99.6%, 缺失例: ['SH600317']
+[50125:MainThread](2026-09-03 13:51:31,592) INFO - qlib.timer - [log.py:127] - Time cost: 14.612s | Loading data Done
+[50125:MainThread](2026-09-03 13:51:33,040) INFO - qlib.timer - [log.py:127] - Time cost: 1.377s | RobustZScoreNorm Done
+[50125:MainThread](2026-09-03 13:51:33,260) INFO - qlib.timer - [log.py:127] - Time cost: 0.220s | Fillna Done
+[50125:MainThread](2026-09-03 13:51:33,556) INFO - qlib.timer - [log.py:127] - Time cost: 0.076s | DropnaLabel Done
+[50125:MainThread](2026-09-03 13:51:34,132) INFO - qlib.timer - [log.py:127] - Time cost: 0.575s | CSZScoreNorm Done
+[50125:MainThread](2026-09-03 13:51:34,136) INFO - qlib.timer - [log.py:127] - Time cost: 2.542s | fit & process data Done
+[50125:MainThread](2026-09-03 13:51:34,136) INFO - qlib.timer - [log.py:127] - Time cost: 17.157s | Init data Done
+  [CHECK] 行情覆盖: 235/253 (93%)
+  特征矩阵: train (205882, 178), valid (47801, 178), test (60851, 178), NaN=0.00%
+    [W2022-XGB] best_iter=1073, valid RankIC=0.0291 → OK
+    [W2022-LGB] best_iter=1451, valid RankIC=0.0466 → OK
+    [W2022-DE] best_iter=1090, valid RankIC=0.0524 → OK
+    [流动性] 中位数20日均成交额=2.13亿, 一字涨停18条, 停牌400条
+
+======================================================================
+[W2023] 池:2012~2021十年双正 | train 2018-01-01~2021-11-30 | valid 2022-01-01~2022-10-31(embargo) | 信号 2022-12-01~2023-11-30
+======================================================================
+  股票池: 277 只
+[CHECK] W2023 行情覆盖率 277/277 = 100.0%
+[50125:MainThread](2026-09-03 14:52:09,583) INFO - qlib.timer - [log.py:127] - Time cost: 20.478s | Loading data Done
+[50125:MainThread](2026-09-03 14:52:11,367) INFO - qlib.timer - [log.py:127] - Time cost: 1.690s | RobustZScoreNorm Done
+[50125:MainThread](2026-09-03 14:52:11,622) INFO - qlib.timer - [log.py:127] - Time cost: 0.255s | Fillna Done
+[50125:MainThread](2026-09-03 14:52:11,847) INFO - qlib.timer - [log.py:127] - Time cost: 0.070s | DropnaLabel Done
+[50125:MainThread](2026-09-03 14:52:12,397) INFO - qlib.timer - [log.py:127] - Time cost: 0.550s | CSZScoreNorm Done
+[50125:MainThread](2026-09-03 14:52:12,401) INFO - qlib.timer - [log.py:127] - Time cost: 2.817s | fit & process data Done
+[50125:MainThread](2026-09-03 14:52:12,401) INFO - qlib.timer - [log.py:127] - Time cost: 23.296s | Init data Done
+  [CHECK] 行情覆盖: 271/277 (98%)
+  特征矩阵: train (233580, 178), valid (53916, 178), test (67206, 178), NaN=0.00%
+    [W2023-XGB] best_iter=1078, valid RankIC=0.0862 → OK
+    [W2023-LGB] best_iter=538, valid RankIC=0.0882 → OK
+    [W2023-DE] best_iter=489, valid RankIC=0.0906 → OK
+    [流动性] 中位数20日均成交额=1.65亿, 一字涨停16条, 停牌505条
+
+======================================================================
+[W2024] 池:2013~2022十年双正 | train 2019-01-01~2022-11-30 | valid 2023-01-01~2023-10-31(embargo) | 信号 2023-12-01~2024-11-30
+======================================================================
+  股票池: 280 只
+[CHECK] W2024 行情覆盖率 280/280 = 100.0%
+[50125:MainThread](2026-09-03 15:17:35,700) INFO - qlib.timer - [log.py:127] - Time cost: 20.214s | Loading data Done
+[50125:MainThread](2026-09-03 15:17:37,919) INFO - qlib.timer - [log.py:127] - Time cost: 2.109s | RobustZScoreNorm Done
+[50125:MainThread](2026-09-03 15:17:38,186) INFO - qlib.timer - [log.py:127] - Time cost: 0.266s | Fillna Done
+[50125:MainThread](2026-09-03 15:17:38,503) INFO - qlib.timer - [log.py:127] - Time cost: 0.079s | DropnaLabel Done
+[50125:MainThread](2026-09-03 15:17:39,437) INFO - qlib.timer - [log.py:127] - Time cost: 0.934s | CSZScoreNorm Done
+[50125:MainThread](2026-09-03 15:17:39,442) INFO - qlib.timer - [log.py:127] - Time cost: 3.741s | fit & process data Done
+[50125:MainThread](2026-09-03 15:17:39,442) INFO - qlib.timer - [log.py:127] - Time cost: 23.958s | Init data Done
+  [CHECK] 行情覆盖: 277/280 (99%)
+  特征矩阵: train (245195, 178), valid (55284, 178), test (67480, 178), NaN=0.00%
+    [W2024-XGB] best_iter=1509, valid RankIC=0.0764 → OK
+    [W2024-LGB] best_iter=448, valid RankIC=0.0786 → OK
+    [W2024-DE] best_iter=222, valid RankIC=0.0789 → OK
+    [流动性] 中位数20日均成交额=1.69亿, 一字涨停15条, 停牌535条
+
+======================================================================
+[W2025] 池:2014~2023十年双正 | train 2020-01-01~2023-11-30 | valid 2024-01-01~2024-10-31(embargo) | 信号 2024-12-01~2025-11-30
+======================================================================
+  股票池: 327 只
+[CHECK] W2025 行情覆盖率 327/327 = 100.0%
+[50125:MainThread](2026-09-03 15:32:53,562) INFO - qlib.timer - [log.py:127] - Time cost: 17.896s | Loading data Done
+[50125:MainThread](2026-09-03 15:32:55,791) INFO - qlib.timer - [log.py:127] - Time cost: 2.116s | RobustZScoreNorm Done
+[50125:MainThread](2026-09-03 15:32:56,115) INFO - qlib.timer - [log.py:127] - Time cost: 0.323s | Fillna Done
+[50125:MainThread](2026-09-03 15:32:56,701) INFO - qlib.timer - [log.py:127] - Time cost: 0.150s | DropnaLabel Done
+[50125:MainThread](2026-09-03 15:32:57,383) INFO - qlib.timer - [log.py:127] - Time cost: 0.681s | CSZScoreNorm Done
+[50125:MainThread](2026-09-03 15:32:57,386) INFO - qlib.timer - [log.py:127] - Time cost: 3.824s | fit & process data Done
+[50125:MainThread](2026-09-03 15:32:57,387) INFO - qlib.timer - [log.py:127] - Time cost: 21.722s | Init data Done
+  [CHECK] 行情覆盖: 326/327 (100%)
+  特征矩阵: train (293558, 178), valid (65067, 178), test (79134, 178), NaN=0.00%
+    [W2025-XGB] best_iter=565, valid RankIC=0.0639 → OK
+    [W2025-LGB] best_iter=138, valid RankIC=0.0645 → OK
+    [W2025-DE] best_iter=292, valid RankIC=0.0577 → OK
+    [流动性] 中位数20日均成交额=2.64亿, 一字涨停29条, 停牌441条
+
+======================================================================
+[W2026] 池:2015~2024十年双正 | train 2021-01-01~2024-11-30 | valid 2025-01-01~2025-10-31(embargo) | 信号 2025-12-01~2026-06-30
+======================================================================
+  股票池: 357 只
+[CHECK] W2026 行情覆盖率 357/357 = 100.0%
+[50125:MainThread](2026-09-03 15:41:54,428) INFO - qlib.timer - [log.py:127] - Time cost: 25.166s | Loading data Done
+[50125:MainThread](2026-09-03 15:41:57,997) INFO - qlib.timer - [log.py:127] - Time cost: 3.290s | RobustZScoreNorm Done
+[50125:MainThread](2026-09-03 15:41:58,345) INFO - qlib.timer - [log.py:127] - Time cost: 0.348s | Fillna Done
+[50125:MainThread](2026-09-03 15:41:58,719) INFO - qlib.timer - [log.py:127] - Time cost: 0.092s | DropnaLabel Done
+[50125:MainThread](2026-09-03 15:41:59,362) INFO - qlib.timer - [log.py:127] - Time cost: 0.642s | CSZScoreNorm Done
+[50125:MainThread](2026-09-03 15:41:59,366) INFO - qlib.timer - [log.py:127] - Time cost: 4.937s | fit & process data Done
+[50125:MainThread](2026-09-03 15:41:59,366) INFO - qlib.timer - [log.py:127] - Time cost: 30.106s | Init data Done
+  [CHECK] 行情覆盖: 356/357 (100%)
+  特征矩阵: train (325990, 178), valid (71178, 178), test (49623, 178), NaN=0.00%
+    [W2026-XGB] best_iter=420, valid RankIC=0.1162 → OK
+    [W2026-LGB] best_iter=295, valid RankIC=0.1099 → OK
+    [W2026-DE] best_iter=88, valid RankIC=0.0919 → OK
+    [流动性] 中位数20日均成交额=2.20亿, 一字涨停12条, 停牌407条
+[CHECK] 沪深300基准(csi300_cache): 2019-01-02 ~ 2026-07-28 (1835天)
+
+================================================================================================
+  一、分年收益 (2020~2026H1) (月频, T+1, 往返成本0.4%)
+================================================================================================
+策略                       2020     2021     2022     2023     2024     2025     2026
+XGB Top10             52.4%     6.8%    16.9%     0.7%    41.7%    26.5%    -3.0%
+LGB Top10             47.3%    -5.3%    10.5%    -3.9%    51.3%    14.3%    -5.1%
+DE Top10              70.5%    -4.6%     6.9%     1.0%    28.9%    31.4%    -1.8%
+集成ENS Top10           70.2%     6.4%    13.0%    -0.2%    43.3%    27.3%     1.2%
+DE+LGB Top10          62.1%    -1.7%    10.5%    -0.1%    35.8%    22.8%    -4.6%
+IC加权 Top10            70.2%     9.7%    14.5%    -0.2%    43.3%    22.9%     1.5%
+DL+择时 Top10           63.5%    -3.8%     7.8%     0.5%    38.5%    20.1%    -3.8%
+XGB15+缓冲              45.3%     3.6%     8.8%     0.3%    30.2%    28.3%    -1.8%
+VHF Top20              3.4%    12.0%    -7.9%     2.3%    22.4%    19.0%    -2.3%
+VHF Top10              0.5%    18.3%    -4.0%    -3.8%    25.6%    13.6%     0.5%
+value_comp Top20       6.0%     5.5%    -4.6%     2.7%    19.5%    18.5%    -0.1%
+value_comp Top10      -0.3%    14.9%    -6.2%    -2.0%    25.5%    12.9%     0.5%
+value+盈利 Top10        12.7%    10.1%    -6.8%     8.7%    52.8%    42.7%    -7.3%
+value+盈利 Top20         9.6%    13.6%    -7.0%     4.6%    25.1%    24.6%    -1.0%
+结构化剥离 Top10           11.5%    20.2%   -11.7%    18.2%    19.7%    38.2%     5.5%
+VGH+XGB Top10         26.5%     9.1%     5.0%     8.3%    25.2%    33.9%     0.7%
+VG底仓+ENS精排            12.0%    21.0%   -10.1%    -2.5%    23.2%    15.3%    -0.3%
+VGH底仓+ENS精排           23.8%    12.4%    -9.8%     6.7%    18.9%    11.8%     8.8%
+十年双正池等权               20.4%     8.9%   -11.4%     2.6%     6.7%    16.4%    -5.9%
+沪深300基准               27.2%    -5.2%   -21.6%   -11.4%    14.7%    17.7%    -1.3%
+
+================================================================================================
+  二、整体指标 (图1口径; 年化(剔2020)对齐 value_comp 冻结基线)
+================================================================================================
+              策略     年化收益  年化(剔20)     年化波动 Sharpe     最大回撤 Calmar     IC RankIC      换手率  交易次数
+       XGB Top10   20.31%   15.24%   22.20%   0.91  -25.22%   0.81 0.0583 0.0696   72.67%   566
+       LGB Top10   14.61%    9.51%   22.55%   0.65  -31.61%   0.46 0.0607 0.0747   74.79%   585
+        DE Top10   17.91%   10.26%   22.82%   0.78  -32.34%   0.55 0.0566 0.0731   75.22%   589
+     集成ENS Top10   22.63%   15.53%   23.05%   0.98  -29.72%   0.76 0.0562 0.0747   75.34%   589
+    DE+LGB Top10   17.15%   10.43%   22.70%   0.76  -31.02%   0.55 0.0566 0.0754   73.93%   578
+      IC加权 Top10   22.83%   15.75%   22.96%   0.99  -29.96%   0.76 0.0564 0.0750   75.22%   588
+     DL+择时 Top10   16.66%    9.71%   22.46%   0.74  -32.23%   0.52 0.0566 0.0754   73.93%   578
+        XGB15+缓冲   16.44%   11.85%   20.84%   0.79  -28.19%   0.58 0.0583 0.0696   64.37%   747
+       VHF Top20    7.00%    7.66%    8.76%   0.80  -14.15%   0.49   n/a    n/a    22.66%   341
+       VHF Top10    7.23%    8.50%    9.05%   0.80  -14.56%   0.50   n/a    n/a    22.37%   170
+value_comp Top20    6.98%    7.15%    7.32%   0.95  -13.31%   0.52 0.0252 0.0594   23.08%   350
+value_comp Top10    6.42%    7.69%    8.52%   0.75  -18.09%   0.35 0.0252 0.0594   26.43%   202
+  value+盈利 Top10   15.40%   15.88%   13.96%   1.10  -17.54%   0.88 0.0224 0.0490   26.72%   199
+  value+盈利 Top20   10.10%   10.18%   11.80%   0.86  -17.18%   0.59 0.0224 0.0490   24.71%   367
+     结构化剥离 Top10   14.71%   15.29%   11.96%   1.23  -17.80%   0.83 0.0268 0.0602   28.91%   217
+   VGH+XGB Top10   16.16%   14.36%   15.26%   1.06  -21.85%   0.74 0.0572 0.0915   66.74%   520
+      VG底仓+ENS精排    8.32%    7.65%   14.32%   0.58  -27.01%   0.31 0.0697 0.0615   56.00%   436
+     VGH底仓+ENS精排   10.70%    8.48%   12.39%   0.86  -17.81%   0.60 0.0760 0.0619   57.88%   451
+         十年双正池等权    5.20%    2.66%   14.30%   0.36  -23.51%   0.22   n/a    n/a    10.52%  1200
+         沪深300基准    1.69%   -2.35%   18.74%   0.09  -45.60%   0.04   n/a    n/a     0.00%     0
+
+================================================================================================
+  三、模型 vs value_comp 对照
+================================================================================================
+  · 全期(含2020)  : DE 17.91%  ICW 22.83%  XGB15+缓冲 16.44%  vs  value_comp20 6.98%
+  · 对齐(剔2020)  : DE 10.26%  ICW 15.75%  XGB15+缓冲 11.85%  vs  value_comp20 7.15%
+  · 风险调整      : DE Sharpe 0.78  ICW Sharpe 0.99  XGB15+缓冲 Sharpe 0.79  vs  value_comp20 Sharpe 0.95
+  · 回撤           : DE -32.3%  ICW -30.0%  XGB15+缓冲 -28.2%  vs  value_comp20 -13.3%
+  · 换手           : DE 75.2%  ICW 75.2%  XGB15+缓冲 64.4%  vs  value_comp20 23.1%
+  · OOS RankIC    : DE=0.0731  ICW=0.0750  XGB15+缓冲=0.0696  value=0.0594
+
+================================================================================================
+  四、级联精排 vs value 底仓对照
+================================================================================================
+  · VG底仓+ENS精排 vs value+盈利 Top10
+      全期: 8.32% vs 15.40%  |  剔20: 7.65% vs 15.88%  |  Sharpe: 0.58 vs 1.10  |  回撤: -27.0% vs -17.5%
+  · VGH底仓+ENS精排 vs 结构化剥离 Top10
+      全期: 10.70% vs 14.71%  |  剔20: 8.48% vs 15.29%  |  Sharpe: 0.86 vs 1.23  |  回撤: -17.8% vs -17.8%
+
+[+] 结果已保存至 /Users/11164591/Documents/Qoder目录/qlib/quant/outputs: rolling10y_summary.csv / _yearly.csv / _ic.csv / _train_diag.csv / _holdings.csv / _nav.csv

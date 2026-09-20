@@ -123,7 +123,7 @@ def run_worker(name, out_path):
             del dataset
             gc.collect()
 
-        limit_up, susp, liq = build_tradability(universe, xs, xe)
+        limit_up, susp, liq, close_px = build_tradability(universe, xs, xe)
         fwd_mat = datalayer.forward_return_matrix(universe, xs, xe)
         price_mat = datalayer.load_price_matrix(universe, start="2022-11-01")
         bench = datalayer.load_benchmark()
@@ -281,7 +281,7 @@ def run_phase_b(models, tag="", n_seeds=1):
         print(f"\n{'='*70}\n[Phase B {win['name']}] 池{len(universe)}只 | train{win['train']} "
               f"valid{win['valid']}(embargo) 信号{xs}~{xe}\n{'='*70}", flush=True)
         datalayer.assert_market_coverage(universe, xs, win["bt_end"], tag=f"PhaseB/{win['name']}")
-        limit_up, susp, liq = build_tradability(universe, xs, xe)
+        limit_up, susp, liq, close_px = build_tradability(universe, xs, xe)
         fwd_mat = datalayer.forward_return_matrix(universe, xs, xe)
         seg = {"train": win["train"], "valid": win["valid"], "test": win["test"]}
         preds = {}

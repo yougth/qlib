@@ -39,8 +39,8 @@ BASE = "https://ifzq.gtimg.cn/appstock/app/fqkline/get"
 # 备用主机: 腾讯 WAF 按主机名封 —— 8 线程跑 30 只就把 web.ifzq.gtimg.cn 封了
 # (全部返回 501 + waf.tencent.com 跳转页, 二十分钟不恢复), 而同源的 ifzq.gtimg.cn
 # 当时仍然 200。所以多主机轮换, 并在识别到 WAF 时整体退避而不是硬重试。
-HOSTS = ["https://ifzq.gtimg.cn/appstock/app/fqkline/get",
-         "https://web.ifzq.gtimg.cn/appstock/app/fqkline/get"]
+HOSTS = ["https://web.ifzq.gtimg.cn/appstock/app/fqkline/get",
+         "https://ifzq.gtimg.cn/appstock/app/fqkline/get"]
 START = "2012-01-01"
 END = "2026-07-23"
 PAGE = 640                      # 接口单次上限

@@ -72,6 +72,36 @@ def annualized_since(returns, start):
     return (1 + sub).prod() ** (244 / len(sub)) - 1
 
 
+def attrib_returns(rets, bench, rets_untimed=None):
+    """收益归因 (DFA/AQR 尽调第一问: 你赚的是什么钱?):
+    总年化收益 ≈ beta贡献 + 择时贡献 + 选股/因子贡献
+
+    - beta贡献: 日频 OLS 斜率 × 基准年化 (市场暴露部分)
+    - 择时贡献: 择时策略 vs 同策略未择时的年化差 (DL_T/ICW_T/ICW_SW 专用,
+      其余策略为 0); 复利交互项也归入择时, 保证三项之和≈总收益
+    - 选股/因子贡献: 残差 (含质量/价值/动量因子暴露, 无法再拆因无因子收益序列)
+    注: 算术拆分 CAGR 忽略复利交互, 是归因报表的标准近似。
+    返回 dict 或 {} (样本不足)。
+    """
+    b = bench.reindex(rets.index).fillna(0)
+    ok = rets.notna() & b.notna()
+    x, y = b[ok], rets[ok]
+    if len(x) < 60 or x.std() == 0:
+        return {}
+    beta = np.cov(y, x)[0, 1] / x.var()
+    n_years = len(rets) / 244
+    r_total = (1 + rets).prod() ** (1 / n_years) - 1
+    r_bench = (1 + b).prod() ** (1 / n_years) - 1
+    beta_contrib = beta * r_bench
+    timing_contrib = 0.0
+    if rets_untimed is not None:
+        r_untimed = (1 + rets_untimed).prod() ** (1 / n_years) - 1
+        timing_contrib = r_total - r_untimed
+    return {"total": r_total, "beta": beta_contrib, "timing": timing_contrib,
+            "alpha": r_total - beta_contrib - timing_contrib,
+            "beta_coef": beta, "bench_ar": r_bench}
+
+
 # ==================== 标准输出 (用户固定格式: 分年 + 图1九指标) ====================
 def _fpp(x):
     return "  n/a  " if pd.isna(x) else f"{x*100:7.2f}%"

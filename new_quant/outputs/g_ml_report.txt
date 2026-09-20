@@ -1,0 +1,141 @@
+[CHECK] 交易日历: 2017-11-27 ~ 2026-09-11 (2136天)
+[CHECK] 面板: 3135 只A股 | 疑似退市/停更(last_date<末-30d): 140 只 | 中位20日均额 1.02亿 | 一字涨停 6123 条
+[CHECK] profit补丁: 增补 12437 条 (主缓存优先) | 2013年覆盖 3298 只 (原250只均为退市股管道数据, 予以保留)
+[CHECK] 财务表: 5439 只A股 | 年份 1996~2025 | 剔除非A股前缀行 369
+[CHECK] 市值面板: 1120 只 | 2016-09-18 ~ 2026-09-17 | 采样点/只中位 3651
+
+[1] 构建特征 (PIT, 月频友好)...
+    特征月数 92 | 首月样本 213 | 特征数 15
+
+[2] 滚动OOS训练 (LightGBM, RankIC早停)...
+  [ML 2020-01-23] valid IC 0.0300 | OOS IC 0.0370 | best_iter 18 | train 1557 | w=0.5
+  [ML 2020-02-28] valid IC 0.0151 | OOS IC 0.1139 | best_iter 17 | train 1814 | w=0.5
+  [ML 2020-03-31] valid IC 0.0561 | OOS IC 0.2031 | best_iter 76 | train 2072 | w=0.5
+  [ML 2020-04-30] valid IC 0.0902 | OOS IC 0.1386 | best_iter 256 | train 2356 | w=0.5
+  [ML 2020-05-29] valid IC 0.0932 | OOS IC 0.1351 | best_iter 59 | train 2624 | w=0.5
+  [ML 2020-06-30] valid IC 0.0219 | OOS IC 0.0147 | best_iter 5 | train 2873 | w=0.5
+  [ML 2020-07-31] valid IC 0.1547 | OOS IC 0.0731 | best_iter 111 | train 3151 | w=0.5
+  [ML 2020-08-31] valid IC 0.1382 | OOS IC -0.2094 | best_iter 80 | train 3451 | w=0.5
+  [ML 2020-09-30] valid IC 0.0673 | OOS IC 0.0158 | best_iter 10 | train 3763 | w=0.5
+  [ML 2020-10-30] valid IC 0.0509 | OOS IC -0.1480 | best_iter 28 | train 4078 | w=0.5
+  [ML 2020-11-30] valid IC -0.0178 | OOS IC 0.0734 | best_iter 11 | train 4374 | w=0.0
+  [ML 2020-12-31] valid IC 0.0070 | OOS IC -0.0123 | best_iter 1 | train 4723 | w=0.5
+  [ML 2021-01-29] valid IC -0.0277 | OOS IC -0.0490 | best_iter 1 | train 5096 | w=0.0
+  [ML 2021-02-26] valid IC 0.0225 | OOS IC -0.0100 | best_iter 1 | train 5501 | w=0.5
+  [ML 2021-03-31] valid IC 0.0021 | OOS IC -0.0007 | best_iter 1 | train 5903 | w=0.15
+  [ML 2021-04-30] valid IC -0.0353 | OOS IC 0.0443 | best_iter 1 | train 6287 | w=0.0
+  [ML 2021-05-31] valid IC -0.0461 | OOS IC -0.0209 | best_iter 1 | train 6651 | w=0.0
+  [ML 2021-06-30] valid IC -0.0462 | OOS IC 0.0108 | best_iter 2 | train 7030 | w=0.0
+  [ML 2021-07-30] valid IC -0.0376 | OOS IC 0.0284 | best_iter 3 | train 7401 | w=0.0
+  [ML 2021-08-31] valid IC -0.0322 | OOS IC 0.0911 | best_iter 5 | train 7763 | w=0.0
+  [ML 2021-09-30] valid IC -0.0136 | OOS IC 0.1081 | best_iter 6 | train 8126 | w=0.0
+  [ML 2021-10-29] valid IC 0.0529 | OOS IC 0.0775 | best_iter 35 | train 8503 | w=0.5
+  [ML 2021-11-30] valid IC 0.0642 | OOS IC 0.0294 | best_iter 36 | train 8890 | w=0.5
+  [ML 2021-12-31] valid IC 0.0981 | OOS IC 0.1054 | best_iter 171 | train 9390 | w=0.5
+  [ML 2022-01-28] valid IC 0.1145 | OOS IC 0.0109 | best_iter 141 | train 9896 | w=0.5
+  [ML 2022-02-28] valid IC 0.0775 | OOS IC 0.0020 | best_iter 119 | train 10392 | w=0.5
+  [ML 2022-03-31] valid IC 0.0943 | OOS IC -0.0251 | best_iter 117 | train 10905 | w=0.3
+  [ML 2022-04-29] valid IC 0.0188 | OOS IC 0.2725 | best_iter 70 | train 11433 | w=0.15
+  [ML 2022-05-31] valid IC 0.0160 | OOS IC 0.0608 | best_iter 97 | train 11925 | w=0.0
+  [ML 2022-06-30] valid IC 0.0587 | OOS IC -0.0076 | best_iter 113 | train 12439 | w=0.3
+  [ML 2022-07-29] valid IC 0.0875 | OOS IC 0.1606 | best_iter 141 | train 12991 | w=0.5
+  [ML 2022-08-31] valid IC 0.1227 | OOS IC 0.0303 | best_iter 171 | train 13555 | w=0.5
+  [ML 2022-09-30] valid IC 0.0972 | OOS IC 0.0873 | best_iter 239 | train 14098 | w=0.5
+  [ML 2022-10-31] valid IC 0.0564 | OOS IC -0.0642 | best_iter 3 | train 14647 | w=0.5
+  [ML 2022-11-30] valid IC 0.0843 | OOS IC -0.0020 | best_iter 97 | train 15193 | w=0.5
+  [ML 2022-12-30] valid IC 0.0847 | OOS IC 0.0407 | best_iter 122 | train 15681 | w=0.5
+  [ML 2023-01-31] valid IC 0.0676 | OOS IC 0.1096 | best_iter 59 | train 16190 | w=0.5
+  [ML 2023-02-28] valid IC 0.0840 | OOS IC 0.0332 | best_iter 50 | train 16690 | w=0.5
+  [ML 2023-03-31] valid IC 0.0628 | OOS IC 0.0292 | best_iter 18 | train 17185 | w=0.5
+  [ML 2023-04-28] valid IC 0.0547 | OOS IC -0.0536 | best_iter 4 | train 17656 | w=0.5
+  [ML 2023-05-31] valid IC 0.0231 | OOS IC 0.0998 | best_iter 1 | train 18131 | w=0.0
+  [ML 2023-06-30] valid IC 0.0666 | OOS IC 0.1395 | best_iter 1 | train 18643 | w=0.15
+  [ML 2023-07-31] valid IC 0.1031 | OOS IC -0.0622 | best_iter 4 | train 19139 | w=0.5
+  [ML 2023-08-31] valid IC 0.0595 | OOS IC 0.1417 | best_iter 9 | train 19621 | w=0.15
+  [ML 2023-09-28] valid IC 0.1002 | OOS IC 0.1959 | best_iter 38 | train 20146 | w=0.5
+  [ML 2023-10-31] valid IC 0.1142 | OOS IC 0.1701 | best_iter 77 | train 20662 | w=0.5
+  [ML 2023-11-30] valid IC 0.1534 | OOS IC 0.0147 | best_iter 104 | train 21175 | w=0.5
+  [ML 2023-12-29] valid IC 0.1283 | OOS IC -0.0201 | best_iter 67 | train 21667 | w=0.5
+  [ML 2024-01-31] valid IC 0.0819 | OOS IC -0.2364 | best_iter 99 | train 22166 | w=0.5
+  [ML 2024-02-29] valid IC 0.0581 | OOS IC 0.3446 | best_iter 49 | train 22670 | w=0.5
+  [ML 2024-03-29] valid IC 0.0876 | OOS IC 0.0849 | best_iter 46 | train 23185 | w=0.5
+  [ML 2024-04-30] valid IC 0.0591 | OOS IC 0.0485 | best_iter 90 | train 23688 | w=0.5
+  [ML 2024-05-31] valid IC 0.0328 | OOS IC -0.0366 | best_iter 73 | train 24191 | w=0.5
+  [ML 2024-06-28] valid IC 0.0289 | OOS IC 0.0867 | best_iter 89 | train 24705 | w=0.5
+  [ML 2024-07-31] valid IC 0.0789 | OOS IC 0.0153 | best_iter 39 | train 25223 | w=0.5
+  [ML 2024-08-30] valid IC 0.0964 | OOS IC 0.1970 | best_iter 94 | train 25747 | w=0.5
+  [ML 2024-09-30] valid IC 0.0764 | OOS IC 0.1407 | best_iter 191 | train 26282 | w=0.5
+  [ML 2024-10-31] valid IC 0.0812 | OOS IC 0.2601 | best_iter 61 | train 26805 | w=0.5
+  [ML 2024-11-29] valid IC 0.1036 | OOS IC 0.1789 | best_iter 47 | train 27335 | w=0.5
+  [ML 2024-12-31] valid IC 0.1132 | OOS IC -0.0914 | best_iter 13 | train 27867 | w=0.5
+  [ML 2025-01-27] valid IC 0.0728 | OOS IC 0.0309 | best_iter 6 | train 28373 | w=0.5
+  [ML 2025-02-28] valid IC 0.0109 | OOS IC 0.1720 | best_iter 2 | train 28837 | w=0.0
+  [ML 2025-03-31] valid IC 0.1279 | OOS IC 0.1854 | best_iter 9 | train 29309 | w=0.5
+  [ML 2025-04-30] valid IC 0.1413 | OOS IC 0.1347 | best_iter 32 | train 29815 | w=0.5
+  [ML 2025-05-30] valid IC 0.1025 | OOS IC 0.1565 | best_iter 15 | train 30357 | w=0.5
+  [ML 2025-06-30] valid IC 0.0915 | OOS IC 0.0521 | best_iter 1 | train 30898 | w=0.3
+  [ML 2025-07-31] valid IC 0.1395 | OOS IC -0.0540 | best_iter 1 | train 31438 | w=0.5
+  [ML 2025-08-29] valid IC 0.0865 | OOS IC 0.1141 | best_iter 1 | train 31970 | w=0.3
+  [ML 2025-09-30] valid IC 0.0938 | OOS IC 0.0705 | best_iter 1 | train 32508 | w=0.5
+  [ML 2025-10-31] valid IC 0.0856 | OOS IC 0.1610 | best_iter 1 | train 33048 | w=0.5
+  [ML 2025-11-28] valid IC 0.1275 | OOS IC -0.1082 | best_iter 1 | train 33588 | w=0.5
+  [ML 2025-12-31] valid IC 0.0738 | OOS IC 0.1130 | best_iter 1 | train 34095 | w=0.5
+  [ML 2026-01-30] valid IC 0.1245 | OOS IC 0.1688 | best_iter 7 | train 34606 | w=0.5
+  [ML 2026-02-27] valid IC 0.1625 | OOS IC 0.1239 | best_iter 131 | train 35119 | w=0.5
+  [ML 2026-03-31] valid IC 0.1408 | OOS IC 0.1058 | best_iter 228 | train 35632 | w=0.5
+  [ML 2026-04-30] valid IC 0.1215 | OOS IC -0.1223 | best_iter 138 | train 36144 | w=0.5
+  [ML 2026-05-29] valid IC 0.0611 | OOS IC -0.1702 | best_iter 50 | train 36654 | w=0.5
+  [ML 2026-06-30] valid IC 0.0509 | OOS IC 0.1818 | best_iter 16 | train 37166 | w=0.5
+  [ML 2026-07-31] valid IC 0.0400 | OOS IC 0.1150 | best_iter 52 | train 37672 | w=0.5
+  [ML 2026-08-31] valid IC 0.0382 | OOS IC nan | best_iter 74 | train 38187 | w=0.5
+
+[CHECK] OOS月数 79 | valid IC均值 0.0679 | OOS IC均值 0.0587 | OOS IC>0占比 73% | w选择分布 {0.5: 61, 0.0: 11, 0.15: 4, 0.3: 4}
+
+====================================================================================================
+  G×ML 叠加实验 (区间 2020-02-03 ~ 2026-09-11, 成本后, Top30+缓冲12-25)
+====================================================================================================
+G0 规则对照       年化  19.90% 波动  24.52% Sharpe  0.81 回撤  -39.8% Calmar  0.50 换手  24.3% 成本x2  18.53% RankIC 0.0404
+    分年: 2020:+22%  2021:+27%  2022:+6%  2023:+28%  2024:+11%  2025:+48%  2026:-5%
+M1 纯模型        年化  16.96% 波动  26.16% Sharpe  0.65 回撤  -45.3% Calmar  0.37 换手  79.2% 成本x2  12.57% RankIC 0.0587
+    分年: 2020:+40%  2021:+11%  2022:-14%  2023:+8%  2024:+18%  2025:+55%  2026:+6%
+M2 打分融合       年化  19.21% 波动  25.77% Sharpe  0.75 回撤  -42.3% Calmar  0.45 换手  57.5% 成本x2  15.95% RankIC 0.0644
+    分年: 2020:+26%  2021:+31%  2022:+4%  2023:+9%  2024:+23%  2025:+46%  2026:-4%
+M3 双腿70/30    年化  19.26% 波动  24.24% Sharpe  0.79 回撤  -39.3% Calmar  0.49 换手  40.1% 成本x2  16.99% RankIC nan
+    分年: 2020:+27%  2021:+23%  2022:-0%  2023:+22%  2024:+14%  2025:+50%  2026:-2%
+M4 模型排雷       年化  22.76% 波动  24.11% Sharpe  0.94 回撤  -37.5% Calmar  0.61 换手  37.1% 成本x2  20.60% RankIC 0.0404
+    分年: 2020:+23%  2021:+43%  2022:+3%  2023:+28%  2024:+21%  2025:+44%  2026:-4%
+
+====================================================================================================
+  图1口径 (2020-02-03~2026-09-11)
+====================================================================================================
+策略                          年化收益      年化波动    Sharpe      最大回撤    Calmar        IC    RankIC       换手率      交易次数
+G0 规则对照                  19.90%    24.52%      0.81   -39.81%      0.50    0.0371    0.0404    24.30%       533
+M1 纯模型                   16.96%    26.16%      0.65   -45.32%      0.37    0.0491    0.0587    79.17%      1895
+M2 打分融合                  19.21%    25.77%      0.75   -42.27%      0.45    0.0529    0.0644    57.52%      1359
+M3 双腿70/30               19.26%    24.24%      0.79   -39.32%      0.49      n/a       n/a     40.10%      2189
+M4 模型排雷                  22.76%    24.11%      0.94   -37.50%      0.61    0.0371    0.0404    37.14%       854
+
+  月度收益相关:
+            G0 规则对照  M1 纯模型  M2 打分融合  M3 双腿70/30  M4 模型排雷
+G0 规则对照       1.000   0.846    0.963       0.986    0.978
+M1 纯模型        0.846   1.000    0.889       0.924    0.850
+M2 打分融合       0.963   0.889    1.000       0.973    0.968
+M3 双腿70/30    0.986   0.924    0.973       1.000    0.971
+M4 模型排雷       0.978   0.850    0.968       0.971    1.000
+
+  特征重要性 (gain, 全样本展示用, 非OOS):
+ret_3m      14.6
+vol_60      11.5
+ret_1m       9.0
+amt_chg      7.9
+corr_pv      6.9
+mom_12_1     6.7
+ret_6m       6.1
+amt_log      6.0
+dd_high      5.8
+vol_120      5.7
+mv_log       5.7
+g_np         4.9
+g_fcf        3.0
+cc           3.0
+mv_pct       2.9

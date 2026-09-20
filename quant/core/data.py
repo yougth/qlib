@@ -36,7 +36,7 @@ def init_qlib():
     print(f"[qlib] 数据源: {provider}", flush=True)
 
 
-def get_calendar(start="2014-01-01", end="2026-07-23"):
+def get_calendar(start="2014-01-01", end=None):
     cal = D.calendar(start_time=start, end_time=end)
     print(f"[CHECK] 交易日历: {cal[0].date()} ~ {cal[-1].date()} ({len(cal)}天)", flush=True)
     if cal[-1] < pd.Timestamp("2026-07-01"):

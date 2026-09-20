@@ -1,0 +1,13 @@
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+[+] LOF列表 (382, 13) → /Users/11164591/Documents/Qoder目录/qlib/new_quant/data/lof_list.csv
+[LOF] 抓取成交额前80只: ['sz161129', 'sh501018', 'sz161226', 'sz162411', 'sz160723', 'sz161128', 'sz160644', 'sh501025']...
+  [10/80] ok=10
+  [20/80] ok=20
+  [30/80] ok=30
+  [40/80] ok=40
+  [50/80] ok=50
+  [60/80] ok=60
+  [70/80] ok=70
+  [80/80] ok=80
+[DONE] LOF抓取完成 80/80

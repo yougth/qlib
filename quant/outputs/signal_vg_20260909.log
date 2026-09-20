@@ -1,0 +1,68 @@
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+[660:MainThread](2026-09-10 11:02:24,489) INFO - qlib.Initialization - [config.py:473] - default_conf: client.
+[660:MainThread](2026-09-10 11:02:24,813) INFO - qlib.Initialization - [__init__.py:82] - qlib successfully initialized based on client settings.
+[660:MainThread](2026-09-10 11:02:24,813) INFO - qlib.Initialization - [__init__.py:84] - data_path={'__DEFAULT_FREQ': PosixPath('/Users/11164591/Documents/Qoder目录/qlib/data_cache/qlib_cn_tencent')}
+[qlib] 数据源: /Users/11164591/Documents/Qoder目录/qlib/data_cache/qlib_cn_tencent
+[CHECK] 交易日历: 2014-01-02 ~ 2026-09-10 (3087天)
+[WARN] 信号日 2026-09-09 不是 2026-09 的最后交易日 (该月末≈2026-09-30) —— 策略口径是月末调仓, 非月末执行会偏离回测。
+       确认这是补跑/试算再继续。
+[CHECK] 合并港股FCF: +1878行, 88只
+[CHECK] 合并港股利润: +1877行, 88只
+[CHECK] fcf_pit合并后: (95518, 6), 5542只, 1996~2026 | profit_pit: (57552, 4), 5536只, 1996~2026
+
+==========================================================================
+[signal] VG Top10 (value+盈利) | 信号日 2026-09-09 | 池 382 只 | 资金 50,000 元
+==========================================================================
+[CHECK] 合并港股估值: +233821行, 83只
+[CHECK] 估值缓存(合并后): 3206日 × 561股, 2013-05-24~2026-09-10
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+    [流动性] 中位数20日均成交额=6.97亿, 一字涨停1条, 停牌1875条
+[CHECK] 沪深300基准(csi300_cache): 2019-01-02 ~ 2026-09-10 (1867天)
+[cand] 可交易候选 291 只
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+
+【一、下单清单】信号日 2026-09-09 收盘价计价, 次一交易日执行
+      代码   名称  腿    价格  手数   股数       金额    占比
+SH601601 中国太保 VG 33.43   2  200 6,686.00 13.4%
+SH601336 新华保险 VG 59.93   1  100 5,993.00 12.0%
+SH600507 方大特钢 VG  4.29  12 1200 5,148.00 10.3%
+SH601665 齐鲁银行 VG  7.13   7  700 4,991.00 10.0%
+SZ000719 中原传媒 VG 12.20   4  400 4,880.00  9.8%
+SH600839 四川长虹 VG  6.92   7  700 4,844.00  9.7%
+SH600262 北方股份 VG 15.91   3  300 4,773.00  9.5%
+SH603816 顾家家居 VG 23.51   2  200 4,702.00  9.4%
+SZ000028 国药一致 VG 20.30   2  200 4,060.00  8.1%
+SZ002039 黔源电力 VG 19.46   2  200 3,892.00  7.8%
+
+【二、资金使用】
+  总资金 50,000 | 实投 49,969 (99.9%) | 现金余 31 (0.1%)
+  VG 腿: 实投 49,969 / 目标 50,000 (99.9%)
+  持仓 10 只 (下单 10 笔, 重合已合并) | 等权最大偏离 33.7%
+
+【三、调仓指令】未提供当前持仓 (--held), 视为首次建仓: 全部 10 只买入
+
+[archive] 已存档 → live/signals/2026-09-09/VG/
+[next] 下次运行: --held live/signals/2026-09-09/VG/positions_after.json

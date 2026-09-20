@@ -1,0 +1,5 @@
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+[update] 3150 个 parquet, 增量到 2026-09-10
+  [WAF] 第1次拦截 (HTTP 501), 全局退避 5s
+  [WAF] 第5次拦截 (HTTP 501), 全局退避 80s

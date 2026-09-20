@@ -14,7 +14,7 @@ from qlib.utils import init_instance_by_config
 from qlib.data.dataset.handler import DataHandlerLP
 
 from . import config
-from .features import load_fund_features
+from .features import load_fund_features, load_asset_growth_feature
 
 DEFAULT_LABEL = ["Ref($close, -20) / $close - 1"]
 
@@ -75,10 +75,28 @@ def build_dataset(win, universe, fcf_df, profit_df, cal, label=None, inject_fund
         X_va = pd.concat([X_va, fund.reindex(X_va.index).fillna(0)], axis=1).astype(np.float32)
         test_X = pd.concat([test_X, fund.reindex(test_X.index).fillna(0)], axis=1).astype(np.float32)
         del fund
+        # CMA: 总资产增速因子 (FF五因子里唯一没用的一块: 花钱纪律)
+        cma = load_asset_growth_feature(universe, cal, ts, xe)
+        X_tr = pd.concat([X_tr, cma.reindex(X_tr.index).fillna(0)], axis=1).astype(np.float32)
+        X_va = pd.concat([X_va, cma.reindex(X_va.index).fillna(0)], axis=1).astype(np.float32)
+        test_X = pd.concat([test_X, cma.reindex(test_X.index).fillna(0)], axis=1).astype(np.float32)
+        del cma
     else:
         X_tr = X_tr.astype(np.float32)
         X_va = X_va.astype(np.float32)
         test_X = test_X.astype(np.float32)
+
+    # ---- 市场标识注入: is_hk (港股=1, A股=0) ----
+    # 让模型显式感知跨市场差异, 而非隐式从行情特征猜测
+    # 逐 instrument 判定: index 第二层以 'hk' 开头
+    def _market_col(df):
+        inst = df.index.get_level_values(1)
+        return pd.Series((inst.str.startswith("hk")).astype(np.float32), index=df.index, name="is_hk")
+
+    if config.INJECT_MARKET:
+        X_tr = pd.concat([X_tr, _market_col(X_tr)], axis=1)
+        X_va = pd.concat([X_va, _market_col(X_va)], axis=1)
+        test_X = pd.concat([test_X, _market_col(test_X)], axis=1)
 
     nan_pct = X_tr.isna().values.mean() * 100
     print(f"  特征矩阵: train {X_tr.shape}, valid {X_va.shape}, test {test_X.shape}, "

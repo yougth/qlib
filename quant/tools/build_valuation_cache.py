@@ -29,7 +29,7 @@ import urllib.request
 
 QUANT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA_DIR = os.environ.get("QUANT_DATA_DIR") or os.path.join(QUANT_DIR, "..", "..")
-QLIB_DATA = os.path.join(QUANT_DIR, "data_cache", "qlib_cn_tencent")
+QLIB_DATA = os.path.join(os.path.dirname(QUANT_DIR), "data_cache", "qlib_cn_tencent")
 
 PERSHARE_CACHE = os.path.join(DATA_DIR, "pershare_cache_pit.csv")
 VAL_CACHE = os.path.join(DATA_DIR, "valuation_cache.csv")
@@ -37,7 +37,7 @@ FCF_CACHE = os.path.join(DATA_DIR, "fcf_cache_pit.csv")
 PROFIT_CACHE = os.path.join(DATA_DIR, "profit_cache_pit.csv")
 
 SINA_HEADERS = {"Referer": "https://finance.sina.com.cn", "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)"}
-FETCH_YEARS = list(range(2016, 2026))   # 2016-2025
+FETCH_YEARS = list(range(2016, 2027))   # 2016-2026 (补当年季报, 供 PIT 估值延伸)
 POOL_RANGE = range(2019, 2027)          # 信号年 2019-2026
 SLEEP_BETWEEN = 0.4                     # 秒, urllib 不被限流
 
@@ -129,40 +129,46 @@ def phase_fetch():
     codes = get_pool_union()
     print(f"[Phase 1] 池成员并集: {len(codes)} 只, 每只 {len(FETCH_YEARS)} 页", flush=True)
 
-    # 加载已完成
-    done = set()
+    # 加载已完成 (code, year) 粒度: 已有该年任意季报行则视为该年完成
+    have = set()
     if os.path.exists(PERSHARE_CACHE):
         df = pd.read_csv(PERSHARE_CACHE, sep='\t', dtype={"code": str})
-        done = set(df["code"].str.zfill(6).unique())
-    print(f"  已完成: {len(done)} 只", flush=True)
+        df["code"] = df["code"].str.zfill(6)
+        df["year"] = df["report_date"].astype(str).str[:4]
+        have = set(zip(df["code"], df["year"]))
+    # 空结果记录: 退市/无该年数据的 code 不必每次重抓
+    attempted_path = PERSHARE_CACHE + ".attempted"
+    if os.path.exists(attempted_path):
+        with open(attempted_path) as f:
+            for line in f:
+                line = line.strip()
+                if line:
+                    have.add(tuple(line.split(",")))
+    todo = [(c, str(y)) for c in codes for y in FETCH_YEARS if (c, str(y)) not in have]
+    print(f"  已有: {len(have)} (code,year) 组合, 待抓: {len(todo)} 页", flush=True)
 
     buf = []
+    empty_years = []
     t0 = time.time()
     n_fail = 0
+    attempted_f = open(attempted_path, "a")
 
-    for idx, code in enumerate(codes):
-        if code in done:
-            continue
-
-        code_rows = []
-        for yr in FETCH_YEARS:
-            data = fetch_guide(code, yr)
-            if data:
-                for d, v in data.items():
-                    row = {"code": code, "report_date": d}
-                    row.update(v)
-                    code_rows.append(row)
-            time.sleep(SLEEP_BETWEEN)
-
-        if code_rows:
-            buf.extend(code_rows)
-            done.add(code)
+    for idx, (code, ystr) in enumerate(todo):
+        data = fetch_guide(code, ystr)
+        if data:
+            for d, v in data.items():
+                row = {"code": code, "report_date": d}
+                row.update(v)
+                buf.append(row)
         else:
+            empty_years.append(f"{code},{ystr}")
+        attempted_f.write(f"{code},{ystr}\n")
+        if not data:
             n_fail += 1
-            print(f"  [FAIL] {code}: 0 rows", flush=True)
 
-        # 每 20 只 flush
-        if (idx + 1) % 20 == 0 or idx == len(codes) - 1:
+        # 每 20 页 flush
+        if (idx + 1) % 20 == 0 or idx == len(todo) - 1:
+            attempted_f.flush()
             if buf:
                 df = pd.DataFrame(buf)
                 if not os.path.exists(PERSHARE_CACHE):
@@ -171,11 +177,10 @@ def phase_fetch():
                     df.to_csv(PERSHARE_CACHE, sep='\t', index=False, mode='a', header=False)
                 buf = []
             elapsed = time.time() - t0
-            n_done = len(done)
-            rate = n_done / elapsed if elapsed > 0 else 0
-            eta = (len(codes) - n_done) / rate if rate > 0 else 0
-            print(f"  [{idx+1}/{len(codes)}] ok={n_done} fail={n_fail} "
-                  f"{elapsed:.0f}s ETA {eta:.0f}s", flush=True)
+            rate = (idx + 1) / elapsed if elapsed > 0 else 0
+            eta = (len(todo) - idx - 1) / rate if rate > 0 else 0
+            print(f"  [{idx+1}/{len(todo)}] empty={n_fail} {elapsed:.0f}s ETA {eta:.0f}s", flush=True)
+    attempted_f.close()
 
     # 汇总
     if os.path.exists(PERSHARE_CACHE):
@@ -187,38 +192,51 @@ def phase_fetch():
 # ============================================================
 #  Phase 2: Build valuation_cache.csv
 # ============================================================
-def _pit_year(date_str):
-    """信号日 → 可用年报年份. 5月1日前用 Y-2, 之后用 Y-1."""
-    d = date_str.replace('-', '') if '-' in date_str else date_str
-    y = int(d[:4]); m = int(d[4:6])
-    return y - 1 if m >= 5 else y - 2
+def _pit_quarter(date_str):
+    """信号日 → 最新可用季报 (year, q_end)
+    PIT 季报披露规则 (保守取截止日次日):
+    - Q1(03-31): 4月30日截止 → 5月1日起可用
+    - H1(06-30): 8月31日截止 → 9月1日起可用
+    - Q3(09-30): 10月31日截止 → 11月1日起可用
+    - Annual(12-31): 次年4月30日截止 → 次年5月1日起可用
+    """
+    d = date_str.replace('-', '')
+    y, m = int(d[:4]), int(d[4:6])
+    if m >= 11: return (y, "09-30")      # Nov-Dec: Q3 Y
+    if m >= 9:  return (y, "06-30")      # Sep-Oct: H1 Y
+    if m >= 5:  return (y, "03-31")      # May-Aug: Q1 Y
+    return (y - 1, "09-30")              # Jan-Apr: Q3 Y-1
+
+def _sps(d):
+    """每股营收 = 每股收益 / 销售净利率"""
+    if d and d.get("eps") is not None and d.get("npm") and d["npm"] != 0:
+        return d["eps"] / (d["npm"] / 100.0)
+    return None
 
 def phase_build():
-    print("[Phase 2] 构建 valuation_cache.csv", flush=True)
+    print("[Phase 2] 构建 valuation_cache.csv (滚动TTM)", flush=True)
 
     # 日历
     cal = open(os.path.join(QLIB_DATA, "calendars", "day.txt")).read().strip().split()
     print(f"  日历: {len(cal)} 天 {cal[0]}~{cal[-1]}", flush=True)
 
-    # 加载每股指标 (只取 Q4 = 年报)
+    # 加载全部季报数据
     ps_df = pd.read_csv(PERSHARE_CACHE, sep='\t', dtype={"code": str})
     ps_df["code"] = ps_df["code"].str.zfill(6)
     ps_df["report_date"] = ps_df["report_date"].astype(str)
-    # 取 12-31 行
-    annual = ps_df[ps_df["report_date"].str.endswith("12-31")].copy()
-    annual["year"] = annual["report_date"].str[:4].astype(int)
-    # 建 {code: {year: {eps, bps, ocfps, npm}}}
+    # 建 {code: {"2016-03-31": {eps, bps, ocfps, npm}, ...}}
     pershare = {}
-    for code, g in annual.groupby("code"):
-        pershare[code] = {}
-        for _, row in g.iterrows():
-            pershare[code][int(row["year"])] = {
-                "eps": row.get("eps"),
-                "bps": row.get("bps"),
-                "ocfps": row.get("ocfps"),
-                "npm": row.get("npm"),
-            }
-    print(f"  每股指标(年报): {len(pershare)} 只", flush=True)
+    for _, row in ps_df.iterrows():
+        c = row["code"]
+        if c not in pershare:
+            pershare[c] = {}
+        pershare[c][row["report_date"]] = {
+            "eps": row.get("eps"),
+            "bps": row.get("bps"),
+            "ocfps": row.get("ocfps"),
+            "npm": row.get("npm"),
+        }
+    print(f"  每股指标(季报): {len(pershare)} 只, {ps_df['report_date'].nunique()} 个报告期", flush=True)
 
     # 股票池
     codes = get_pool_union()
@@ -244,8 +262,8 @@ def phase_build():
             close = np.concatenate([np.full(pad, np.nan), close])
             factor = np.concatenate([np.full(pad, np.nan), factor])
 
-        ps_yr = pershare.get(code6, {})
-        if not ps_yr:
+        ps_q = pershare.get(code6, {})
+        if not ps_q:
             n_skip += 1
             continue
 
@@ -255,22 +273,47 @@ def phase_build():
                 continue
             real_price = close[i] / factor[i]
 
-            fy = _pit_year(date_str)
-            d = ps_yr.get(fy)
-            if not d:
+            # PIT: 确定最新可用季报
+            yr, q_end = _pit_quarter(date_str)
+            cur_key = f"{yr}-{q_end}"
+            cur = ps_q.get(cur_key)
+            if not cur:
                 continue
 
-            eps = d.get("eps"); bps = d.get("bps")
-            ocfps = d.get("ocfps"); npm = d.get("npm")
+            # TTM = cur_cum - same_quarter_last_year_cum + last_annual
+            prev = ps_q.get(f"{yr-1}-{q_end}")
+            ann = ps_q.get(f"{yr-1}-12-31")
 
-            pe = real_price / eps if eps and eps != 0 else np.nan
-            pb = real_price / bps if bps and bps != 0 else np.nan
-            pcf = real_price / ocfps if ocfps and ocfps != 0 else np.nan
-            # PS = PE / (npm/100) = PE * 100 / npm
-            if np.isfinite(pe) and npm and npm != 0:
-                ps = pe * 100.0 / npm
+            if q_end == "12-31":
+                # 年报本身就是 TTM
+                ttm_eps = cur.get("eps")
+                ttm_ocfps = cur.get("ocfps")
+            elif prev and ann:
+                ttm_eps = (cur["eps"] or 0) - (prev["eps"] or 0) + (ann["eps"] or 0)
+                ttm_ocfps = (cur["ocfps"] or 0) - (prev["ocfps"] or 0) + (ann["ocfps"] or 0)
+            elif ann:
+                ttm_eps = ann.get("eps")
+                ttm_ocfps = ann.get("ocfps")
             else:
-                ps = np.nan
+                continue
+
+            # BPS: 时点值, 直接用最新季报
+            bps = cur.get("bps")
+
+            # TTM SPS = cur_SPS - prev_SPS + ann_SPS
+            if q_end == "12-31":
+                ttm_sps = _sps(cur)
+            elif prev and ann:
+                c_s = _sps(cur); p_s = _sps(prev); a_s = _sps(ann)
+                ttm_sps = (c_s - p_s + a_s) if (c_s and p_s and a_s) else None
+            else:
+                ttm_sps = _sps(ann) if ann else None
+
+            # 估值
+            pe = real_price / ttm_eps if ttm_eps and ttm_eps != 0 else np.nan
+            pb = real_price / bps if bps and bps != 0 else np.nan
+            pcf = real_price / ttm_ocfps if ttm_ocfps and ttm_ocfps != 0 else np.nan
+            ps = real_price / ttm_sps if ttm_sps and ttm_sps != 0 else np.nan
 
             if any(np.isfinite([pe, pb, ps, pcf])):
                 code_rows.append({
@@ -300,10 +343,11 @@ def phase_build():
     if len(mt) > 0:
         r = mt.iloc[0]
         print(f"  验证 茅台 {r['date']}: PE={r['pe_ttm']} PB={r['pb']} PS={r['ps_ttm']} PCF={r['pcf']}", flush=True)
-        r2 = mt[mt["date"] == "2020-01-02"]
-        if len(r2) > 0:
-            r2 = r2.iloc[0]
-            print(f"  验证 茅台 2020-01-02: PE={r2['pe_ttm']} PB={r2['pb']} PS={r2['ps_ttm']} PCF={r2['pcf']}", flush=True)
+        for d in ["2020-01-02", "2024-06-03"]:
+            r2 = mt[mt["date"] == d]
+            if len(r2) > 0:
+                r2 = r2.iloc[0]
+                print(f"  验证 茅台 {d}: PE={r2['pe_ttm']} PB={r2['pb']} PS={r2['ps_ttm']} PCF={r2['pcf']}", flush=True)
 
 # ============================================================
 if __name__ == "__main__":

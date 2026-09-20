@@ -1,0 +1,35 @@
+{
+  "signal_date": "2026-07-23",
+  "strategy": "VG",
+  "strategy_label": "VG Top10 (value+盈利)",
+  "capital": 50000.0,
+  "year": 2027,
+  "config_hash_ablate_sumd": true,
+  "summary": {
+    "capital": 50000.0,
+    "invested": 49833.00068283081,
+    "cash_left": 166.99931716918945,
+    "cash_pct": 0.003339986343383789,
+    "n_positions": 10,
+    "n_orders": 10,
+    "sleeve_invested": {
+      "VG": 49833.00068283081
+    },
+    "sleeve_target": {
+      "VG": 50000.0
+    },
+    "max_weight_dev": 0.3437999725341797
+  },
+  "skipped": [],
+  "turnover": {
+    "turnover": 0.5,
+    "traded_amount": 49833.00068283081,
+    "est_cost": 99.66600136566163
+  },
+  "sleeves": {
+    "VG": {
+      "weight": 1.0,
+      "topk": 10
+    }
+  }
+}

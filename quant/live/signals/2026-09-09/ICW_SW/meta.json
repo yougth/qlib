@@ -1,0 +1,71 @@
+{
+  "signal_date": "2026-09-09",
+  "strategy": "ICW_SW",
+  "strategy_label": "ICW双周+熊市切VGH (消融版)",
+  "capital": 50000.0,
+  "year": 2027,
+  "config_hash_ablate_sumd": true,
+  "summary": {
+    "capital": 50000.0,
+    "invested": 48913.999589920044,
+    "cash_left": 1086.000410079956,
+    "cash_pct": 0.021720008201599122,
+    "n_positions": 10,
+    "n_orders": 10,
+    "sleeve_invested": {
+      "ICW": 14325.999559402466,
+      "VGH": 34588.00003051758
+    },
+    "sleeve_target": {
+      "ICW": 15000.0,
+      "VGH": 35000.0
+    },
+    "max_weight_dev": 0.3702000427246094
+  },
+  "skipped": [
+    {
+      "sleeve": "VGH",
+      "instrument": "hk09988",
+      "reason": "一手10980元 > 目标5000×1.5"
+    }
+  ],
+  "turnover": {
+    "turnover": 0.5,
+    "traded_amount": 48913.999589920044,
+    "est_cost": 97.82799917984009
+  },
+  "regime": "熊市",
+  "is_bull": false,
+  "sleeves": {
+    "ICW": {
+      "weight": 0.3,
+      "topk": 3
+    },
+    "VGH": {
+      "weight": 0.7,
+      "topk": 7
+    }
+  },
+  "valid_ics": {
+    "XGBoost": 0.08787424351245433,
+    "LightGBM": 0.052642941378457125,
+    "DoubleEnsemble": 0.08480170142889797
+  },
+  "manifests": {
+    "XGBoost": {
+      "frozen_at": "2026-09-09 10:43:09",
+      "config_hash": "4f1498689925db75",
+      "git_commit": "e1717b41"
+    },
+    "LightGBM": {
+      "frozen_at": "2026-09-09 10:45:31",
+      "config_hash": "c81b951a81c07fb5",
+      "git_commit": "e1717b41"
+    },
+    "DoubleEnsemble": {
+      "frozen_at": "2026-09-09 11:01:42",
+      "config_hash": "1666cb43c2f5509b",
+      "git_commit": "e1717b41"
+    }
+  }
+}

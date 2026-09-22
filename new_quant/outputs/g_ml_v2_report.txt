@@ -1,0 +1,283 @@
+/Users/11164591/.matplotlib is not a writable directory
+Matplotlib created a temporary cache directory at /var/folders/g3/k9jmnbnx6xv37wjjzpv4mxjswf966k/T/matplotlib-p1_sgkwj because there was an issue with the default path (/Users/11164591/.matplotlib); it is highly recommended to set the MPLCONFIGDIR environment variable to a writable directory, in particular to speed up the import of Matplotlib and to better support multiprocessing.
+[CHECK] 交易日历: 2017-11-27 ~ 2026-09-11 (2136天)
+[CHECK] 面板: 3135 只A股 | 疑似退市/停更(last_date<末-30d): 140 只 | 中位20日均额 1.02亿 | 一字涨停 6123 条
+[CHECK] profit补丁: 增补 12437 条 (主缓存优先) | 2013年覆盖 3298 只 (原250只均为退市股管道数据, 予以保留)
+[CHECK] 财务表: 5439 只A股 | 年份 1996~2025 | 剔除非A股前缀行 369
+[CHECK] 市值面板: 1120 只 | 2016-09-18 ~ 2026-09-17 | 采样点/只中位 3651
+====================================================================================================
+  特征层增强实验 (M4-14统一回测)
+====================================================================================================
+基线: 15基特征+绝对标签 | OOS IC均值 0.0587
+基线 M4-14                年化  23.76% 波动  24.18% Sharpe  0.98 回撤  -37.2% Calmar  0.64 换手  41.3%
+
+====================================================================================================
+  规则权重扫描 (M4-14, 复用现有preds, 仅改规则分)
+====================================================================================================
+w_mv=0.5 M4-14          年化  20.44% 波动  23.44% Sharpe  0.87 回撤  -34.0% Calmar  0.60 换手  38.1%
+w_mv=0.5 G0-Top30       年化  18.79% 波动  23.90% Sharpe  0.79 回撤  -35.8% Calmar  0.53 换手  22.8%
+w_mv=0.6 M4-14          年化  23.76% 波动  24.18% Sharpe  0.98 回撤  -37.2% Calmar  0.64 换手  41.3%
+w_mv=0.6 G0-Top30       年化  19.90% 波动  24.52% Sharpe  0.81 回撤  -39.8% Calmar  0.50 换手  24.3%
+w_mv=0.8 M4-14          年化  23.24% 波动  25.91% Sharpe  0.90 回撤  -42.9% Calmar  0.54 换手  43.0%
+w_mv=0.8 G0-Top30       年化  23.88% 波动  25.98% Sharpe  0.92 回撤  -41.9% Calmar  0.57 换手  28.0%
+
+[1] 构建回购事件特征 (PIT: 公告日≤t, 近12个月)...
+    候选池平均回购覆盖率 13.7%
+
+[a] V2a +回购特征(绝对标签): 构建特征...
+  [ML 2020-01-23] valid IC 0.0285 | OOS IC 0.0061 | best_iter 21 | train 1557 | w=0.5
+  [ML 2020-02-28] valid IC 0.0233 | OOS IC 0.1346 | best_iter 26 | train 1814 | w=0.5
+  [ML 2020-03-31] valid IC 0.0525 | OOS IC 0.1881 | best_iter 108 | train 2072 | w=0.5
+  [ML 2020-04-30] valid IC 0.0800 | OOS IC 0.1317 | best_iter 156 | train 2356 | w=0.5
+  [ML 2020-05-29] valid IC 0.0926 | OOS IC 0.1145 | best_iter 114 | train 2624 | w=0.5
+  [ML 2020-06-30] valid IC 0.0658 | OOS IC -0.0009 | best_iter 7 | train 2873 | w=0.5
+  [ML 2020-07-31] valid IC 0.1526 | OOS IC 0.0511 | best_iter 127 | train 3151 | w=0.5
+  [ML 2020-08-31] valid IC 0.1204 | OOS IC -0.2100 | best_iter 80 | train 3451 | w=0.5
+  [ML 2020-09-30] valid IC 0.0569 | OOS IC 0.0864 | best_iter 20 | train 3763 | w=0.5
+  [ML 2020-10-30] valid IC 0.0462 | OOS IC -0.1498 | best_iter 29 | train 4078 | w=0.5
+  [ML 2020-11-30] valid IC -0.0132 | OOS IC 0.1077 | best_iter 18 | train 4374 | w=0.0
+  [ML 2020-12-31] valid IC -0.0349 | OOS IC 0.0658 | best_iter 1 | train 4723 | w=0.0
+  [ML 2021-01-29] valid IC 0.0047 | OOS IC -0.1418 | best_iter 1 | train 5096 | w=0.5
+  [ML 2021-02-26] valid IC -0.0144 | OOS IC -0.0950 | best_iter 1 | train 5501 | w=0.0
+  [ML 2021-03-31] valid IC -0.0007 | OOS IC -0.0868 | best_iter 1 | train 5903 | w=0.0
+  [ML 2021-04-30] valid IC 0.0061 | OOS IC 0.0561 | best_iter 1 | train 6287 | w=0.5
+  [ML 2021-05-31] valid IC -0.0025 | OOS IC 0.0126 | best_iter 1 | train 6651 | w=0.5
+  [ML 2021-06-30] valid IC -0.0175 | OOS IC -0.0380 | best_iter 2 | train 7030 | w=0.0
+  [ML 2021-07-30] valid IC -0.0494 | OOS IC 0.1350 | best_iter 1 | train 7401 | w=0.0
+  [ML 2021-08-31] valid IC -0.0048 | OOS IC 0.1758 | best_iter 2 | train 7763 | w=0.0
+  [ML 2021-09-30] valid IC -0.0097 | OOS IC 0.0582 | best_iter 6 | train 8126 | w=0.0
+  [ML 2021-10-29] valid IC 0.0553 | OOS IC 0.0821 | best_iter 30 | train 8503 | w=0.5
+  [ML 2021-11-30] valid IC 0.0577 | OOS IC 0.0121 | best_iter 36 | train 8890 | w=0.5
+  [ML 2021-12-31] valid IC 0.0829 | OOS IC 0.0047 | best_iter 64 | train 9390 | w=0.5
+  [ML 2022-01-28] valid IC 0.0954 | OOS IC 0.0258 | best_iter 112 | train 9896 | w=0.5
+  [ML 2022-02-28] valid IC 0.0763 | OOS IC -0.0109 | best_iter 113 | train 10392 | w=0.5
+  [ML 2022-03-31] valid IC 0.0809 | OOS IC -0.0148 | best_iter 118 | train 10905 | w=0.3
+  [ML 2022-04-29] valid IC 0.0224 | OOS IC 0.2834 | best_iter 75 | train 11433 | w=0.15
+  [ML 2022-05-31] valid IC 0.0200 | OOS IC 0.0455 | best_iter 101 | train 11925 | w=0.0
+  [ML 2022-06-30] valid IC 0.0553 | OOS IC -0.0232 | best_iter 143 | train 12439 | w=0.3
+  [ML 2022-07-29] valid IC 0.0881 | OOS IC 0.1428 | best_iter 73 | train 12991 | w=0.5
+  [ML 2022-08-31] valid IC 0.1145 | OOS IC 0.0527 | best_iter 170 | train 13555 | w=0.5
+  [ML 2022-09-30] valid IC 0.0939 | OOS IC 0.0717 | best_iter 232 | train 14098 | w=0.5
+  [ML 2022-10-31] valid IC 0.0235 | OOS IC -0.1577 | best_iter 6 | train 14647 | w=0.15
+  [ML 2022-11-30] valid IC 0.0808 | OOS IC 0.0054 | best_iter 100 | train 15193 | w=0.5
+  [ML 2022-12-30] valid IC 0.0845 | OOS IC 0.0364 | best_iter 111 | train 15681 | w=0.5
+  [ML 2023-01-31] valid IC 0.0750 | OOS IC 0.1232 | best_iter 77 | train 16190 | w=0.5
+  [ML 2023-02-28] valid IC 0.0759 | OOS IC 0.0493 | best_iter 45 | train 16690 | w=0.5
+  [ML 2023-03-31] valid IC 0.0859 | OOS IC 0.0329 | best_iter 21 | train 17185 | w=0.5
+  [ML 2023-04-28] valid IC 0.0887 | OOS IC 0.0219 | best_iter 21 | train 17656 | w=0.5
+  [ML 2023-05-31] valid IC 0.0573 | OOS IC 0.1069 | best_iter 2 | train 18131 | w=0.3
+  [ML 2023-06-30] valid IC 0.0798 | OOS IC 0.2239 | best_iter 2 | train 18643 | w=0.15
+  [ML 2023-07-31] valid IC 0.0499 | OOS IC -0.0973 | best_iter 2 | train 19139 | w=0.15
+  [ML 2023-08-31] valid IC 0.0763 | OOS IC 0.0443 | best_iter 1 | train 19621 | w=0.3
+  [ML 2023-09-28] valid IC 0.0865 | OOS IC 0.1860 | best_iter 38 | train 20146 | w=0.3
+  [ML 2023-10-31] valid IC 0.1159 | OOS IC 0.1561 | best_iter 64 | train 20662 | w=0.5
+  [ML 2023-11-30] valid IC 0.1444 | OOS IC 0.0204 | best_iter 102 | train 21175 | w=0.5
+  [ML 2023-12-29] valid IC 0.1191 | OOS IC -0.0447 | best_iter 61 | train 21667 | w=0.5
+  [ML 2024-01-31] valid IC 0.0767 | OOS IC -0.2252 | best_iter 85 | train 22166 | w=0.5
+  [ML 2024-02-29] valid IC 0.0502 | OOS IC 0.3622 | best_iter 44 | train 22670 | w=0.5
+  [ML 2024-03-29] valid IC 0.0850 | OOS IC 0.0920 | best_iter 58 | train 23185 | w=0.5
+  [ML 2024-04-30] valid IC 0.0645 | OOS IC 0.0540 | best_iter 79 | train 23688 | w=0.5
+  [ML 2024-05-31] valid IC 0.0250 | OOS IC -0.0358 | best_iter 68 | train 24191 | w=0.5
+  [ML 2024-06-28] valid IC 0.0173 | OOS IC 0.0841 | best_iter 53 | train 24705 | w=0.5
+  [ML 2024-07-31] valid IC 0.0786 | OOS IC -0.0062 | best_iter 35 | train 25223 | w=0.5
+  [ML 2024-08-30] valid IC 0.1041 | OOS IC 0.1694 | best_iter 103 | train 25747 | w=0.5
+  [ML 2024-09-30] valid IC 0.0670 | OOS IC 0.1732 | best_iter 138 | train 26282 | w=0.5
+  [ML 2024-10-31] valid IC 0.0785 | OOS IC 0.2116 | best_iter 85 | train 26805 | w=0.5
+  [ML 2024-11-29] valid IC 0.1005 | OOS IC 0.1968 | best_iter 66 | train 27335 | w=0.5
+  [ML 2024-12-31] valid IC 0.1248 | OOS IC -0.1141 | best_iter 59 | train 27867 | w=0.5
+  [ML 2025-01-27] valid IC 0.0770 | OOS IC 0.0880 | best_iter 5 | train 28373 | w=0.5
+  [ML 2025-02-28] valid IC 0.0873 | OOS IC 0.0074 | best_iter 1 | train 28837 | w=0.5
+  [ML 2025-03-31] valid IC 0.1471 | OOS IC 0.2008 | best_iter 8 | train 29309 | w=0.5
+  [ML 2025-04-30] valid IC 0.1347 | OOS IC 0.1806 | best_iter 36 | train 29815 | w=0.5
+  [ML 2025-05-30] valid IC 0.1127 | OOS IC 0.1637 | best_iter 14 | train 30357 | w=0.5
+  [ML 2025-06-30] valid IC 0.1209 | OOS IC 0.0608 | best_iter 8 | train 30898 | w=0.3
+  [ML 2025-07-31] valid IC 0.0795 | OOS IC -0.0928 | best_iter 1 | train 31438 | w=0.3
+  [ML 2025-08-29] valid IC 0.0544 | OOS IC 0.0481 | best_iter 1 | train 31970 | w=0.3
+  [ML 2025-09-30] valid IC 0.0605 | OOS IC 0.1020 | best_iter 1 | train 32508 | w=0.5
+  [ML 2025-10-31] valid IC 0.1398 | OOS IC 0.2472 | best_iter 1 | train 33048 | w=0.5
+  [ML 2025-11-28] valid IC 0.1137 | OOS IC -0.0579 | best_iter 1 | train 33588 | w=0.5
+  [ML 2025-12-31] valid IC 0.0532 | OOS IC 0.1478 | best_iter 1 | train 34095 | w=0.5
+  [ML 2026-01-30] valid IC 0.1037 | OOS IC 0.1170 | best_iter 10 | train 34606 | w=0.5
+  [ML 2026-02-27] valid IC 0.1619 | OOS IC 0.1418 | best_iter 117 | train 35119 | w=0.5
+  [ML 2026-03-31] valid IC 0.1423 | OOS IC 0.1253 | best_iter 234 | train 35632 | w=0.5
+  [ML 2026-04-30] valid IC 0.1349 | OOS IC -0.1203 | best_iter 144 | train 36144 | w=0.5
+  [ML 2026-05-29] valid IC 0.0716 | OOS IC -0.1818 | best_iter 74 | train 36654 | w=0.5
+  [ML 2026-06-30] valid IC 0.0398 | OOS IC 0.1269 | best_iter 7 | train 37166 | w=0.5
+  [ML 2026-07-31] valid IC 0.0405 | OOS IC 0.1361 | best_iter 44 | train 37672 | w=0.5
+  [ML 2026-08-31] valid IC 0.0573 | OOS IC nan | best_iter 84 | train 38187 | w=0.5
+    OOS IC均值 0.0555 | >0占比 73%
+V2a +回购特征(绝对标签)         年化  22.72% 波动  24.32% Sharpe  0.93 回撤  -39.7% Calmar  0.57 换手  42.4%
+
+[b] V2b 超额标签: 构建特征...
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/numpy/lib/_nanfunctions_impl.py:1231: RuntimeWarning: Mean of empty slice
+  return np.nanmean(a, axis, out=out, keepdims=keepdims)
+  [ML 2020-01-23] valid IC 0.0565 | OOS IC 0.1095 | best_iter 85 | train 1557 | w=0.5
+  [ML 2020-02-28] valid IC 0.0654 | OOS IC 0.0543 | best_iter 29 | train 1814 | w=0.5
+  [ML 2020-03-31] valid IC 0.0813 | OOS IC 0.1833 | best_iter 76 | train 2072 | w=0.5
+  [ML 2020-04-30] valid IC 0.0974 | OOS IC 0.1008 | best_iter 85 | train 2356 | w=0.5
+  [ML 2020-05-29] valid IC 0.1419 | OOS IC 0.1914 | best_iter 64 | train 2624 | w=0.5
+  [ML 2020-06-30] valid IC 0.1468 | OOS IC 0.0921 | best_iter 127 | train 2873 | w=0.5
+  [ML 2020-07-31] valid IC 0.1583 | OOS IC 0.0155 | best_iter 65 | train 3151 | w=0.5
+  [ML 2020-08-31] valid IC 0.0901 | OOS IC -0.1937 | best_iter 18 | train 3451 | w=0.5
+  [ML 2020-09-30] valid IC 0.0866 | OOS IC 0.1303 | best_iter 17 | train 3763 | w=0.5
+  [ML 2020-10-30] valid IC 0.0536 | OOS IC -0.2189 | best_iter 15 | train 4078 | w=0.5
+  [ML 2020-11-30] valid IC 0.0273 | OOS IC 0.1787 | best_iter 3 | train 4374 | w=0.5
+  [ML 2020-12-31] valid IC -0.0446 | OOS IC 0.0320 | best_iter 1 | train 4723 | w=0.0
+  [ML 2021-01-29] valid IC 0.0480 | OOS IC -0.1757 | best_iter 19 | train 5096 | w=0.5
+  [ML 2021-02-26] valid IC 0.0095 | OOS IC -0.1055 | best_iter 14 | train 5501 | w=0.5
+  [ML 2021-03-31] valid IC 0.0142 | OOS IC 0.0161 | best_iter 23 | train 5903 | w=0.5
+  [ML 2021-04-30] valid IC 0.0074 | OOS IC -0.1475 | best_iter 16 | train 6287 | w=0.5
+  [ML 2021-05-31] valid IC -0.0037 | OOS IC -0.0009 | best_iter 3 | train 6651 | w=0.5
+  [ML 2021-06-30] valid IC -0.0295 | OOS IC -0.1042 | best_iter 1 | train 7030 | w=0.0
+  [ML 2021-07-30] valid IC -0.0687 | OOS IC 0.0452 | best_iter 1 | train 7401 | w=0.0
+  [ML 2021-08-31] valid IC -0.0410 | OOS IC 0.1583 | best_iter 1 | train 7763 | w=0.0
+  [ML 2021-09-30] valid IC 0.0145 | OOS IC 0.0001 | best_iter 1 | train 8126 | w=0.3
+  [ML 2021-10-29] valid IC 0.0354 | OOS IC 0.0008 | best_iter 36 | train 8503 | w=0.3
+  [ML 2021-11-30] valid IC 0.0807 | OOS IC 0.1367 | best_iter 79 | train 8890 | w=0.5
+  [ML 2021-12-31] valid IC 0.0796 | OOS IC 0.1258 | best_iter 72 | train 9390 | w=0.5
+  [ML 2022-01-28] valid IC 0.1125 | OOS IC 0.1570 | best_iter 124 | train 9896 | w=0.5
+  [ML 2022-02-28] valid IC 0.0876 | OOS IC 0.1345 | best_iter 89 | train 10392 | w=0.5
+  [ML 2022-03-31] valid IC 0.1121 | OOS IC 0.0533 | best_iter 72 | train 10905 | w=0.3
+  [ML 2022-04-29] valid IC 0.0953 | OOS IC 0.2970 | best_iter 103 | train 11433 | w=0.5
+  [ML 2022-05-31] valid IC 0.0980 | OOS IC -0.0667 | best_iter 82 | train 11925 | w=0.3
+  [ML 2022-06-30] valid IC 0.1191 | OOS IC 0.0224 | best_iter 118 | train 12439 | w=0.5
+  [ML 2022-07-29] valid IC 0.1294 | OOS IC 0.1393 | best_iter 65 | train 12991 | w=0.5
+  [ML 2022-08-31] valid IC 0.1320 | OOS IC 0.0247 | best_iter 93 | train 13555 | w=0.5
+  [ML 2022-09-30] valid IC 0.0954 | OOS IC 0.0510 | best_iter 66 | train 14098 | w=0.5
+  [ML 2022-10-31] valid IC 0.0836 | OOS IC 0.0547 | best_iter 44 | train 14647 | w=0.5
+  [ML 2022-11-30] valid IC 0.0817 | OOS IC -0.0295 | best_iter 40 | train 15193 | w=0.5
+  [ML 2022-12-30] valid IC 0.0951 | OOS IC 0.1569 | best_iter 83 | train 15681 | w=0.5
+  [ML 2023-01-31] valid IC 0.0913 | OOS IC 0.1149 | best_iter 79 | train 16190 | w=0.5
+  [ML 2023-02-28] valid IC 0.0774 | OOS IC 0.0403 | best_iter 60 | train 16690 | w=0.5
+  [ML 2023-03-31] valid IC 0.0672 | OOS IC 0.0703 | best_iter 65 | train 17185 | w=0.5
+  [ML 2023-04-28] valid IC 0.0772 | OOS IC 0.1038 | best_iter 33 | train 17656 | w=0.5
+  [ML 2023-05-31] valid IC 0.0660 | OOS IC 0.0672 | best_iter 1 | train 18131 | w=0.15
+  [ML 2023-06-30] valid IC 0.0895 | OOS IC 0.1295 | best_iter 1 | train 18643 | w=0.15
+  [ML 2023-07-31] valid IC 0.1157 | OOS IC 0.0053 | best_iter 9 | train 19139 | w=0.5
+  [ML 2023-08-31] valid IC 0.0384 | OOS IC 0.1129 | best_iter 1 | train 19621 | w=0.0
+  [ML 2023-09-28] valid IC 0.1017 | OOS IC 0.1401 | best_iter 17 | train 20146 | w=0.3
+  [ML 2023-10-31] valid IC 0.1160 | OOS IC 0.1956 | best_iter 21 | train 20662 | w=0.5
+  [ML 2023-11-30] valid IC 0.1307 | OOS IC 0.0363 | best_iter 62 | train 21175 | w=0.5
+  [ML 2023-12-29] valid IC 0.1140 | OOS IC -0.0926 | best_iter 32 | train 21667 | w=0.5
+  [ML 2024-01-31] valid IC 0.0855 | OOS IC -0.2215 | best_iter 15 | train 22166 | w=0.5
+  [ML 2024-02-29] valid IC 0.0190 | OOS IC 0.3640 | best_iter 1 | train 22670 | w=0.5
+  [ML 2024-03-29] valid IC 0.0814 | OOS IC 0.1533 | best_iter 13 | train 23185 | w=0.5
+  [ML 2024-04-30] valid IC 0.0835 | OOS IC 0.0774 | best_iter 29 | train 23688 | w=0.5
+  [ML 2024-05-31] valid IC 0.0427 | OOS IC 0.0197 | best_iter 15 | train 24191 | w=0.5
+  [ML 2024-06-28] valid IC 0.0387 | OOS IC 0.0658 | best_iter 15 | train 24705 | w=0.5
+  [ML 2024-07-31] valid IC 0.1049 | OOS IC 0.0889 | best_iter 40 | train 25223 | w=0.5
+  [ML 2024-08-30] valid IC 0.1277 | OOS IC 0.0688 | best_iter 234 | train 25747 | w=0.5
+  [ML 2024-09-30] valid IC 0.0781 | OOS IC 0.0783 | best_iter 64 | train 26282 | w=0.5
+  [ML 2024-10-31] valid IC 0.0340 | OOS IC 0.2651 | best_iter 3 | train 26805 | w=0.3
+  [ML 2024-11-29] valid IC 0.0861 | OOS IC 0.1223 | best_iter 27 | train 27335 | w=0.5
+  [ML 2024-12-31] valid IC 0.0837 | OOS IC -0.0752 | best_iter 21 | train 27867 | w=0.5
+  [ML 2025-01-27] valid IC 0.0638 | OOS IC -0.0066 | best_iter 6 | train 28373 | w=0.3
+  [ML 2025-02-28] valid IC 0.0496 | OOS IC 0.2407 | best_iter 4 | train 28837 | w=0.15
+  [ML 2025-03-31] valid IC 0.1240 | OOS IC 0.1703 | best_iter 25 | train 29309 | w=0.5
+  [ML 2025-04-30] valid IC 0.1435 | OOS IC 0.1276 | best_iter 50 | train 29815 | w=0.5
+  [ML 2025-05-30] valid IC 0.1044 | OOS IC 0.2202 | best_iter 23 | train 30357 | w=0.5
+  [ML 2025-06-30] valid IC 0.1362 | OOS IC 0.0614 | best_iter 46 | train 30898 | w=0.3
+  [ML 2025-07-31] valid IC 0.1642 | OOS IC -0.1054 | best_iter 68 | train 31438 | w=0.5
+  [ML 2025-08-29] valid IC 0.1242 | OOS IC 0.1334 | best_iter 39 | train 31970 | w=0.5
+  [ML 2025-09-30] valid IC 0.1181 | OOS IC 0.3321 | best_iter 37 | train 32508 | w=0.5
+  [ML 2025-10-31] valid IC 0.1466 | OOS IC 0.2131 | best_iter 41 | train 33048 | w=0.5
+  [ML 2025-11-28] valid IC 0.1579 | OOS IC -0.0268 | best_iter 140 | train 33588 | w=0.5
+  [ML 2025-12-31] valid IC 0.1119 | OOS IC 0.2471 | best_iter 59 | train 34095 | w=0.5
+  [ML 2026-01-30] valid IC 0.1356 | OOS IC 0.1936 | best_iter 189 | train 34606 | w=0.5
+  [ML 2026-02-27] valid IC 0.1733 | OOS IC 0.0450 | best_iter 131 | train 35119 | w=0.5
+  [ML 2026-03-31] valid IC 0.1358 | OOS IC 0.1124 | best_iter 258 | train 35632 | w=0.5
+  [ML 2026-04-30] valid IC 0.1144 | OOS IC -0.1707 | best_iter 57 | train 36144 | w=0.5
+  [ML 2026-05-29] valid IC 0.0762 | OOS IC -0.0804 | best_iter 2 | train 36654 | w=0.5
+  [ML 2026-06-30] valid IC 0.0256 | OOS IC 0.0179 | best_iter 1 | train 37166 | w=0.5
+  [ML 2026-07-31] valid IC 0.0036 | OOS IC 0.1675 | best_iter 14 | train 37672 | w=0.5
+  [ML 2026-08-31] valid IC 0.0259 | OOS IC nan | best_iter 13 | train 38187 | w=0.5
+    OOS IC均值 0.0689 | >0占比 78%
+V2b 超额标签                年化  22.16% 波动  23.82% Sharpe  0.93 回撤  -38.9% Calmar  0.57 换手  41.2%
+
+[c] V2c 回购+超额标签: 构建特征...
+/Users/11164591/Library/Python/3.9/lib/python/site-packages/numpy/lib/_nanfunctions_impl.py:1231: RuntimeWarning: Mean of empty slice
+  return np.nanmean(a, axis, out=out, keepdims=keepdims)
+  [ML 2020-01-23] valid IC 0.0711 | OOS IC 0.1518 | best_iter 60 | train 1557 | w=0.5
+  [ML 2020-02-28] valid IC 0.0614 | OOS IC 0.0946 | best_iter 32 | train 1814 | w=0.5
+  [ML 2020-03-31] valid IC 0.0749 | OOS IC 0.1820 | best_iter 102 | train 2072 | w=0.5
+  [ML 2020-04-30] valid IC 0.0942 | OOS IC 0.1208 | best_iter 70 | train 2356 | w=0.5
+  [ML 2020-05-29] valid IC 0.1292 | OOS IC 0.1674 | best_iter 82 | train 2624 | w=0.5
+  [ML 2020-06-30] valid IC 0.1565 | OOS IC 0.1121 | best_iter 144 | train 2873 | w=0.5
+  [ML 2020-07-31] valid IC 0.1616 | OOS IC 0.0160 | best_iter 72 | train 3151 | w=0.5
+  [ML 2020-08-31] valid IC 0.0884 | OOS IC -0.2388 | best_iter 17 | train 3451 | w=0.5
+  [ML 2020-09-30] valid IC 0.0714 | OOS IC 0.1335 | best_iter 12 | train 3763 | w=0.5
+  [ML 2020-10-30] valid IC 0.0706 | OOS IC -0.1781 | best_iter 20 | train 4078 | w=0.5
+  [ML 2020-11-30] valid IC 0.0007 | OOS IC 0.1947 | best_iter 3 | train 4374 | w=0.0
+  [ML 2020-12-31] valid IC -0.0179 | OOS IC 0.1357 | best_iter 3 | train 4723 | w=0.0
+  [ML 2021-01-29] valid IC 0.0528 | OOS IC -0.1526 | best_iter 18 | train 5096 | w=0.5
+  [ML 2021-02-26] valid IC 0.0084 | OOS IC -0.0463 | best_iter 18 | train 5501 | w=0.5
+  [ML 2021-03-31] valid IC 0.0396 | OOS IC 0.0250 | best_iter 18 | train 5903 | w=0.5
+  [ML 2021-04-30] valid IC -0.0151 | OOS IC -0.1861 | best_iter 14 | train 6287 | w=0.0
+  [ML 2021-05-31] valid IC -0.0448 | OOS IC 0.0422 | best_iter 5 | train 6651 | w=0.0
+  [ML 2021-06-30] valid IC -0.0288 | OOS IC -0.0037 | best_iter 2 | train 7030 | w=0.0
+  [ML 2021-07-30] valid IC -0.0521 | OOS IC 0.0901 | best_iter 1 | train 7401 | w=0.0
+  [ML 2021-08-31] valid IC -0.0242 | OOS IC 0.1334 | best_iter 1 | train 7763 | w=0.0
+  [ML 2021-09-30] valid IC 0.0158 | OOS IC 0.0450 | best_iter 1 | train 8126 | w=0.0
+  [ML 2021-10-29] valid IC 0.0398 | OOS IC 0.0379 | best_iter 40 | train 8503 | w=0.3
+  [ML 2021-11-30] valid IC 0.0856 | OOS IC 0.1413 | best_iter 54 | train 8890 | w=0.5
+  [ML 2021-12-31] valid IC 0.0959 | OOS IC 0.1002 | best_iter 126 | train 9390 | w=0.5
+  [ML 2022-01-28] valid IC 0.1124 | OOS IC 0.1426 | best_iter 143 | train 9896 | w=0.5
+  [ML 2022-02-28] valid IC 0.0910 | OOS IC 0.1406 | best_iter 116 | train 10392 | w=0.5
+  [ML 2022-03-31] valid IC 0.1170 | OOS IC 0.0425 | best_iter 115 | train 10905 | w=0.5
+  [ML 2022-04-29] valid IC 0.0972 | OOS IC 0.3212 | best_iter 101 | train 11433 | w=0.5
+  [ML 2022-05-31] valid IC 0.1029 | OOS IC -0.0393 | best_iter 74 | train 11925 | w=0.5
+  [ML 2022-06-30] valid IC 0.1155 | OOS IC 0.0876 | best_iter 102 | train 12439 | w=0.5
+  [ML 2022-07-29] valid IC 0.1206 | OOS IC 0.1405 | best_iter 69 | train 12991 | w=0.5
+  [ML 2022-08-31] valid IC 0.1261 | OOS IC 0.0557 | best_iter 84 | train 13555 | w=0.5
+  [ML 2022-09-30] valid IC 0.0994 | OOS IC 0.0313 | best_iter 84 | train 14098 | w=0.5
+  [ML 2022-10-31] valid IC 0.0799 | OOS IC 0.0357 | best_iter 64 | train 14647 | w=0.5
+  [ML 2022-11-30] valid IC 0.0770 | OOS IC -0.0336 | best_iter 48 | train 15193 | w=0.5
+  [ML 2022-12-30] valid IC 0.0989 | OOS IC 0.1353 | best_iter 90 | train 15681 | w=0.5
+  [ML 2023-01-31] valid IC 0.0786 | OOS IC 0.1281 | best_iter 115 | train 16190 | w=0.5
+  [ML 2023-02-28] valid IC 0.0678 | OOS IC 0.0241 | best_iter 74 | train 16690 | w=0.5
+  [ML 2023-03-31] valid IC 0.0672 | OOS IC 0.0852 | best_iter 33 | train 17185 | w=0.5
+  [ML 2023-04-28] valid IC 0.0874 | OOS IC 0.1257 | best_iter 33 | train 17656 | w=0.5
+  [ML 2023-05-31] valid IC 0.0685 | OOS IC 0.1020 | best_iter 1 | train 18131 | w=0.15
+  [ML 2023-06-30] valid IC 0.1108 | OOS IC 0.1176 | best_iter 5 | train 18643 | w=0.3
+  [ML 2023-07-31] valid IC 0.0990 | OOS IC 0.0461 | best_iter 5 | train 19139 | w=0.3
+  [ML 2023-08-31] valid IC 0.0761 | OOS IC 0.1224 | best_iter 5 | train 19621 | w=0.15
+  [ML 2023-09-28] valid IC 0.0869 | OOS IC 0.1361 | best_iter 6 | train 20146 | w=0.3
+  [ML 2023-10-31] valid IC 0.1052 | OOS IC 0.2287 | best_iter 39 | train 20662 | w=0.3
+  [ML 2023-11-30] valid IC 0.1235 | OOS IC 0.0235 | best_iter 44 | train 21175 | w=0.5
+  [ML 2023-12-29] valid IC 0.1091 | OOS IC -0.1066 | best_iter 32 | train 21667 | w=0.5
+  [ML 2024-01-31] valid IC 0.0671 | OOS IC -0.2204 | best_iter 5 | train 22166 | w=0.5
+  [ML 2024-02-29] valid IC 0.0210 | OOS IC 0.3002 | best_iter 1 | train 22670 | w=0.5
+  [ML 2024-03-29] valid IC 0.0804 | OOS IC 0.1298 | best_iter 13 | train 23185 | w=0.5
+  [ML 2024-04-30] valid IC 0.0736 | OOS IC 0.0742 | best_iter 28 | train 23688 | w=0.5
+  [ML 2024-05-31] valid IC 0.0407 | OOS IC 0.0196 | best_iter 32 | train 24191 | w=0.5
+  [ML 2024-06-28] valid IC 0.0347 | OOS IC 0.0753 | best_iter 40 | train 24705 | w=0.5
+  [ML 2024-07-31] valid IC 0.1021 | OOS IC 0.0606 | best_iter 66 | train 25223 | w=0.5
+  [ML 2024-08-30] valid IC 0.1282 | OOS IC 0.0233 | best_iter 73 | train 25747 | w=0.5
+  [ML 2024-09-30] valid IC 0.0740 | OOS IC 0.1114 | best_iter 67 | train 26282 | w=0.5
+  [ML 2024-10-31] valid IC 0.0329 | OOS IC 0.2791 | best_iter 2 | train 26805 | w=0.3
+  [ML 2024-11-29] valid IC 0.0948 | OOS IC 0.1090 | best_iter 24 | train 27335 | w=0.5
+  [ML 2024-12-31] valid IC 0.0873 | OOS IC -0.0514 | best_iter 22 | train 27867 | w=0.5
+  [ML 2025-01-27] valid IC 0.0591 | OOS IC 0.0550 | best_iter 5 | train 28373 | w=0.5
+  [ML 2025-02-28] valid IC 0.0338 | OOS IC 0.1927 | best_iter 3 | train 28837 | w=0.0
+  [ML 2025-03-31] valid IC 0.1267 | OOS IC 0.1630 | best_iter 9 | train 29309 | w=0.5
+  [ML 2025-04-30] valid IC 0.1414 | OOS IC 0.1201 | best_iter 50 | train 29815 | w=0.5
+  [ML 2025-05-30] valid IC 0.1080 | OOS IC 0.2235 | best_iter 21 | train 30357 | w=0.5
+  [ML 2025-06-30] valid IC 0.1268 | OOS IC 0.0714 | best_iter 45 | train 30898 | w=0.3
+  [ML 2025-07-31] valid IC 0.1588 | OOS IC -0.0760 | best_iter 45 | train 31438 | w=0.5
+  [ML 2025-08-29] valid IC 0.1300 | OOS IC 0.1178 | best_iter 30 | train 31970 | w=0.5
+  [ML 2025-09-30] valid IC 0.1170 | OOS IC 0.3185 | best_iter 30 | train 32508 | w=0.5
+  [ML 2025-10-31] valid IC 0.1562 | OOS IC 0.2209 | best_iter 61 | train 33048 | w=0.5
+  [ML 2025-11-28] valid IC 0.1587 | OOS IC -0.0386 | best_iter 149 | train 33588 | w=0.5
+  [ML 2025-12-31] valid IC 0.0958 | OOS IC 0.2692 | best_iter 10 | train 34095 | w=0.5
+  [ML 2026-01-30] valid IC 0.1391 | OOS IC 0.1824 | best_iter 63 | train 34606 | w=0.5
+  [ML 2026-02-27] valid IC 0.1675 | OOS IC 0.0272 | best_iter 143 | train 35119 | w=0.5
+  [ML 2026-03-31] valid IC 0.1427 | OOS IC 0.0913 | best_iter 145 | train 35632 | w=0.5
+  [ML 2026-04-30] valid IC 0.1215 | OOS IC -0.1878 | best_iter 60 | train 36144 | w=0.5
+  [ML 2026-05-29] valid IC 0.0085 | OOS IC -0.1631 | best_iter 1 | train 36654 | w=0.15
+  [ML 2026-06-30] valid IC -0.0056 | OOS IC 0.0936 | best_iter 1 | train 37166 | w=0.5
+  [ML 2026-07-31] valid IC -0.0207 | OOS IC 0.2268 | best_iter 1 | train 37672 | w=0.5
+  [ML 2026-08-31] valid IC 0.0178 | OOS IC nan | best_iter 3 | train 38187 | w=0.5
+    OOS IC均值 0.0763 | >0占比 81%
+V2c 回购+超额标签             年化  22.50% 波动  24.04% Sharpe  0.94 回撤  -39.8% Calmar  0.56 换手  39.7%
+
+[+] 完成

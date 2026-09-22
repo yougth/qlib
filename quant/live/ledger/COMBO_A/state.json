@@ -1,0 +1,32 @@
+{
+  "combo": "COMBO_A",
+  "label": "A进攻-数字王(ICW60/M440)",
+  "weights": {
+    "ICW_SW": 0.6,
+    "M4": 0.4
+  },
+  "nav_init": 100000,
+  "start_date": "2026-09-18",
+  "leg_nav_at_start": {
+    "ICW_SW": 48611.52,
+    "M4": 499027.39
+  },
+  "nav_history": [
+    {
+      "date": "2026-09-18",
+      "nav": 100000.0,
+      "ret_pct": 0.0
+    },
+    {
+      "date": "2026-09-21",
+      "nav": 101008.66,
+      "ret_pct": 1.01
+    },
+    {
+      "date": "2026-09-22",
+      "nav": 100939.89,
+      "ret_pct": 0.94,
+      "intraday": true
+    }
+  ]
+}

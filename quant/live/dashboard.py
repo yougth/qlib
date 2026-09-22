@@ -11,13 +11,31 @@ from plotly.subplots import make_subplots
 
 # 路径
 QUANT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+QLIB_DIR = os.path.dirname(QUANT_DIR)
+NEW_DIR = os.path.join(QLIB_DIR, "new_quant")
 LEDGER_DIR = os.path.join(QUANT_DIR, "live", "ledger")
 SIG_DIR = os.path.join(QUANT_DIR, "live", "signals")
-STRATS = ["ICW_SW", "VG", "VGH"]
+ETF_DIR = os.path.join(NEW_DIR, "data", "etf")
+LOF_DIR = os.path.join(NEW_DIR, "data", "lof")
+PT_SIG_DIR = os.path.join(NEW_DIR, "outputs", "pt_signals")
+TENCENT_DIR = os.path.join(QLIB_DIR, "data_cache", "tencent")
+# 单元清单: 旧三腿 (paper_trade.py 维护) + 新三腿 (experiments/live_pt.py 维护) + 三组合 (combo_track.py 加权)
+OLD_LEGS = ["ICW_SW", "VG", "VGH"]
+NEW_LEGS = ["M4", "LOF", "TREND"]
+COMBOS = ["COMBO_A", "COMBO_B", "COMBO_C"]
+LEGS6 = OLD_LEGS + NEW_LEGS
+STRATS = LEGS6 + COMBOS
+IS_COMBO = set(COMBOS)
 STRAT_LABELS = {
     "ICW_SW": "ICW双周+熊市切VGH（消融版）",
     "VG": "VG Top10（纯规则价值+盈利）",
     "VGH": "VGH Top10（纯规则结构化剥离）",
+    "M4": "M4排雷质量动量(~30只等权)",
+    "LOF": "LOF折价Top10等权",
+    "TREND": "跨资产趋势ETF(逆波动率)",
+    "COMBO_A": "【组合】A进攻-数字王(ICW60/M440)",
+    "COMBO_B": "【组合】B进攻+LOF(ICW54/M436/LOF10)",
+    "COMBO_C": "【组合】C风平x1.33(六腿风险平价+融资垫)",
 }
 
 # ─────────────── 股票名称映射 ───────────────
@@ -65,7 +83,6 @@ def get_stock_name(code):
 
 
 # ─────────────── 实时价格 + 雪球链接 ───────────────
-TENCENT_DIR = os.path.join(os.path.dirname(QUANT_DIR), "data_cache", "tencent")
 
 def xueqiu_url(inst):
     """雪球个股页: A股带市场前缀大写(SH600519), 港股/B股去掉前两位(00700)"""
@@ -75,13 +92,18 @@ def xueqiu_url(inst):
     return f"https://xueqiu.com/S/{u}"
 
 
-def _parquet_last_close(inst):
-    """parquet 源最新真实收盘价 (close/factor), 无数据返回 None"""
-    p = os.path.join(TENCENT_DIR, f"{inst.lower()}.parquet")
-    if not os.path.exists(p):
-        return None, None
+def _src_last_close(unit, inst):
+    """行情源最新真实收盘价: TREND→ETF parquet, LOF→场内CSV, 其他→tencent parquet"""
     try:
-        df = pd.read_parquet(p, columns=["date", "close", "factor"])
+        if unit == "TREND":
+            df = pd.read_parquet(os.path.join(ETF_DIR, f"{inst.lower()}.parquet"),
+                                 columns=["date", "close", "factor"])
+        elif unit == "LOF":
+            df = pd.read_csv(os.path.join(LOF_DIR, f"{inst[2:]}_px.csv"),
+                             usecols=["date", "close"]).assign(factor=1.0)
+        else:
+            df = pd.read_parquet(os.path.join(TENCENT_DIR, f"{inst.lower()}.parquet"),
+                                 columns=["date", "close", "factor"])
         if len(df) == 0:
             return None, None
         row = df.iloc[-1]
@@ -94,8 +116,8 @@ def _parquet_last_close(inst):
 
 
 @st.cache_data(ttl=30)
-def load_live_prices(insts):
-    """当天最新价: 优先腾讯实时报价(盘中), 失败/无数据回退 parquet 最新收盘。
+def load_live_prices(unit, insts):
+    """当天最新价: 优先腾讯实时报价(盘中), 失败/无数据回退行情源最新收盘。
 
     返回 {inst: (价格, 来源标签)}。
     """
@@ -138,11 +160,11 @@ def load_live_prices(insts):
                     got.add(sym)
         except Exception:
             pass
-    # 2) 回退: parquet 最新收盘 (A股实时失败的兜底; 港股无 parquet 则缺价)
+    # 2) 回退: 行情源最新收盘 (实时失败的兜底; 港股无源数据则缺价)
     for inst in insts:
         if inst in got:
             continue
-        px, dt = _parquet_last_close(inst)
+        px, dt = _src_last_close(unit, inst)
         if px is not None:
             out[inst] = (px, f"{dt}收盘" if dt else "收盘")
     return out
@@ -151,37 +173,54 @@ def load_live_prices(insts):
 # ─────────────── 页面加载自动同步 (刷新页面 = 数据全链路刷新) ───────────────
 
 def ensure_fresh_data():
-    """与 daily_mark.sh 同链路: 补持仓行情 → 补齐漏掉的交易日盯市 → 今日盯市。
-
-    返回 (状态文本, 是否有新净值写入)。
-    """
-    quant_dir = QUANT_DIR
-    env = {**os.environ, "PYTHONPATH": quant_dir}
+    """与 daily_mark.sh 同链路: 补持仓行情(股票/ETF/LOF) → 六腿补历史漏记+今日盯市
+    → 组合加权。返回 (状态文本, 是否有新净值写入)。"""
+    env = {**os.environ, "PYTHONPATH": QUANT_DIR}
+    env_nq = {**os.environ, "PYTHONPATH": NEW_DIR}
     notes, new_data = [], False
     try:
-        # 1) 汇总持仓代码与各策略最新净值日期
-        syms, last_dates = set(), {}
+        # 1) 汇总持仓代码与各腿最新净值日期
+        syms, etf_syms, lof_syms, last_dates = set(), set(), set(), {}
         for strat in STRATS:
             p = os.path.join(LEDGER_DIR, strat, "state.json")
             if not os.path.exists(p):
                 continue
             with open(p) as f:
                 st_ = json.load(f)
-            syms.update(s for s in st_.get("positions", {})
-                        if not s.lower().startswith("hk"))
+            for s in st_.get("positions", {}):
+                if s.lower().startswith("hk"):
+                    continue
+                if strat == "TREND":
+                    etf_syms.add(s)
+                elif strat == "LOF":
+                    lof_syms.add(s)
+                else:
+                    syms.add(s)
             hist = st_.get("nav_history", [])
-            last_dates[strat] = hist[-1]["date"] if hist else None
-        # 2) 只更新持仓行情 (秒级)
+            if strat in LEGS6:
+                last_dates[strat] = hist[-1]["date"] if hist else None
+        # 2) 行情刷新: 股票(baostock增量) + ETF(腾讯增量) + LOF(新浪覆盖)
         if syms:
             sym_file = os.path.join("/tmp", "dash_held_syms.txt")
             with open(sym_file, "w") as fp:
                 fp.write("\n".join(sorted(s.lower() for s in syms)))
             r = subprocess.run([sys.executable, "tools/update_ohlcv_bs.py",
                                 "--syms", f"@{sym_file}"],
-                               cwd=quant_dir, env=env,
+                               cwd=QUANT_DIR, env=env,
                                capture_output=True, text=True, timeout=300)
-            notes.append("行情已更新" if r.returncode == 0 else "行情更新失败")
-        # 3) 交易日历 (取任一持仓 parquet 的 date 列)
+            notes.append("股票行情已更新" if r.returncode == 0 else "股票行情更新失败")
+        if etf_syms:
+            r = subprocess.run([sys.executable, "tools/fetch_etf_ohlcv.py", "--update"],
+                               cwd=NEW_DIR, env=env_nq,
+                               capture_output=True, text=True, timeout=300)
+            notes.append("ETF行情已更新" if r.returncode == 0 else "ETF行情更新失败")
+        if lof_syms:
+            r = subprocess.run([sys.executable, "tools/fetch_lof.py", "--update"]
+                               + sorted(lof_syms),
+                               cwd=NEW_DIR, env=env_nq,
+                               capture_output=True, text=True, timeout=600)
+            notes.append("LOF行情已更新" if r.returncode == 0 else "LOF行情更新失败")
+        # 3) 交易日历 (取任一股票 parquet 的 date 列)
         cal = []
         if syms:
             p0 = os.path.join(TENCENT_DIR, f"{sorted(syms)[0].lower()}.parquet")
@@ -189,22 +228,42 @@ def ensure_fresh_data():
                 cal = [d.strftime("%Y-%m-%d")
                        for d in pd.read_parquet(p0, columns=["date"])["date"]]
         today = pd.Timestamp.today().strftime("%Y-%m-%d")
-        # 4) 逐策略: 补历史漏记 + 今日盯市 (今日无收盘数据时自动回退实时价)
-        for strat in STRATS:
+        # 4) 旧三腿盯市: 补历史漏记 + 今日 (今日无收盘数据时自动回退实时价)
+        for strat in OLD_LEGS:
             if strat not in last_dates:
                 continue
             last = last_dates[strat]
             for d in [x for x in cal if (last is None or x > last) and x < today]:
                 subprocess.run([sys.executable, "live/paper_trade.py",
                                 "--strategy", strat, "--mark", d],
-                               cwd=quant_dir, env=env,
+                               cwd=QUANT_DIR, env=env,
                                capture_output=True, text=True, timeout=120)
             if (last or "1970-01-01") < today:
                 subprocess.run([sys.executable, "live/paper_trade.py",
                                 "--strategy", strat, "--mark"],
-                               cwd=quant_dir, env=env,
+                               cwd=QUANT_DIR, env=env,
                                capture_output=True, text=True, timeout=120)
-        # 5) 是否有新净值写入
+        # 5) 新三腿盯市: 同链路 (experiments.live_pt)
+        for leg in NEW_LEGS:
+            if leg not in last_dates:
+                continue
+            last = last_dates[leg]
+            for d in [x for x in cal if (last is None or x > last) and x < today]:
+                subprocess.run([sys.executable, "-m", "experiments.live_pt",
+                                "--leg", leg, "--mark", d],
+                               cwd=NEW_DIR, env=env_nq,
+                               capture_output=True, text=True, timeout=120)
+            if (last or "1970-01-01") < today:
+                subprocess.run([sys.executable, "-m", "experiments.live_pt",
+                                "--leg", leg, "--mark"],
+                               cwd=NEW_DIR, env=env_nq,
+                               capture_output=True, text=True, timeout=120)
+        # 6) 组合加权 (必须在六腿盯市之后)
+        r = subprocess.run([sys.executable, "live/combo_track.py", "--mark"],
+                           cwd=QUANT_DIR, env=env,
+                           capture_output=True, text=True, timeout=120)
+        notes.append("组合已更新" if r.returncode == 0 else "组合更新失败")
+        # 7) 是否有新净值写入
         for strat, last in last_dates.items():
             p = os.path.join(LEDGER_DIR, strat, "state.json")
             with open(p) as f:
@@ -277,12 +336,22 @@ def load_signals(strat):
             out.append(meta)
     return out
 
+@st.cache_data(ttl=60)
+def load_pt_signal(leg):
+    """新三腿最新目标持仓信号 (new_quant/outputs/pt_signals/{leg}_latest.json)"""
+    p = os.path.join(PT_SIG_DIR, f"{leg}_latest.json")
+    if not os.path.exists(p):
+        return None
+    with open(p) as f:
+        return json.load(f)
+
 state = load_state(sel)
 trades = load_trades(sel)
 signals = load_signals(sel)
 
 if state is None:
-    st.error(f"台账为空，请先运行 `paper_trade.py --fill`")
+    st.error("台账为空：腿请先建仓（旧三腿 `paper_trade.py --fill` / 新三腿 "
+             "`experiments/live_pt.py --fill`），组合请 `combo_track.py --init`")
     st.stop()
 
 # ─────────────── 顶部指标卡 ───────────────
@@ -296,8 +365,13 @@ col1.metric("初始资金", f"{nav_init:,.0f} 元")
 last_intraday = nav_hist[-1].get("intraday") if nav_hist else False
 last_date = nav_hist[-1]["date"] if nav_hist else ""
 col2.metric("当前净值", f"{last_nav:,.0f} 元", f"{last_ret:+.2f}%")
-col3.metric("现金余额", f"{state.get('cash', 0):,.0f} 元")
-col4.metric("持仓数", f"{len(state.get('positions', {}))} 只")
+if sel in IS_COMBO:
+    wsum = sum(state.get("weights", {}).values())
+    col3.metric("权重和", f"{wsum:.2f}" + (" (含融资垫)" if wsum > 1.05 else ""))
+    col4.metric("组成腿数", f"{len(state.get('weights', {}))} 条")
+else:
+    col3.metric("现金余额", f"{state.get('cash', 0):,.0f} 元")
+    col4.metric("持仓数", f"{len(state.get('positions', {}))} 只")
 if last_date:
     tag = " (盘中实时, 晚间自动更新为收盘价)" if last_intraday else " (收盘价)"
     st.caption(f"净值最新记录: {last_date}{tag}")
@@ -322,17 +396,33 @@ if nav_hist:
 else:
     st.info("暂无净值历史，等待下次调仓")
 
-# ─────────────── 当前持仓 ───────────────
-st.subheader("当前持仓")
+# ─────────────── 当前持仓 / 组合构成 ───────────────
 positions = state.get("positions", {})
+if sel in IS_COMBO:
+    st.subheader("组合构成（腿权重 × 腿日收益加权）")
+    leg_rows = []
+    for leg, w in state.get("weights", {}).items():
+        leg_state = load_state(leg)
+        if leg_state is None or not leg_state.get("nav_history"):
+            leg_rows.append({"腿": leg, "权重": f"{w:.2%}", "腿最新净值": "-",
+                             "腿累计": "-", "腿最新日期": "-"})
+            continue
+        lh = leg_state["nav_history"][-1]
+        leg_rows.append({"腿": leg, "权重": f"{w:.2%}", "腿最新净值": f"{lh['nav']:,.0f}",
+                         "腿累计": f"{lh['ret_pct']:+.2f}%", "腿最新日期": lh["date"]})
+    st.dataframe(pd.DataFrame(leg_rows), use_container_width=True, hide_index=True)
+    st.caption("组合净值 = Σ 腿权重 × 腿日收益 (日频加权, 与 six_leg_combo 回测同口径); "
+               "基点仅记账锚点, 组合层不做独立交易, 明细见各腿页")
+    st.stop()  # 组合层无持仓/交易/信号明细
+st.subheader("当前持仓")
 if positions:
-    live_map = load_live_prices(list(positions.keys()))
+    live_map = load_live_prices(sel, list(positions.keys()))
     pos_rows = []
     total_mv = 0.0
     for inst, pos in sorted(positions.items(), key=lambda x: -x[1]["shares"] * x[1]["avg_cost"]):
         shares = pos["shares"]
         cost = pos["avg_cost"]
-        px, tag = live_map.get(inst, (cost, "成本"))
+        px, tag = live_map.get(inst, (state.get("last_px", {}).get(inst, cost), "台账"))
         mv = shares * px
         total_mv += mv
         pnl = (px - cost) * shares
@@ -423,7 +513,19 @@ else:
 
 # ─────────────── 信号历史 ───────────────
 st.subheader("信号历史")
-if signals:
+if sel in NEW_LEGS:
+    sig = load_pt_signal(sel)
+    if sig:
+        w = sig.get("weights", {})
+        st.dataframe(pd.DataFrame([{
+            "信号期": sig.get("signal_asof"), "标的数": len(w),
+            "权重和": f"{sum(w.values()):.4f}",
+            "费用率(往返)": f"{sig.get('fee_rt', 0):.3%}"}]),
+            use_container_width=True, hide_index=True)
+        st.caption(f"信号文件: `{os.path.join(PT_SIG_DIR, sel + '_latest.json')}`")
+    else:
+        st.info("暂无信号文件")
+elif signals:
     sig_rows = []
     for meta in signals:
         sig_dt = meta.get("signal_date", "")
